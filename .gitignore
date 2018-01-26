@@ -1,6 +1,2 @@
-bin
-CMakeFiles
-data
-*cmake
-CMakeCache.txt
+build
 
