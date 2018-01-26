@@ -79,7 +79,7 @@ int main(int argc, char* argv[]){
   double delta_time = .01;
   size_t num_steps = integrate(rhs,
 			       ini_state, 0., time_stop, delta_time,
-			       DataLog(state, time));
+			       log);
 
   ofstream data_file;
   data_file.open((ROOT_DIR+"data/integrate.dat").c_str());
