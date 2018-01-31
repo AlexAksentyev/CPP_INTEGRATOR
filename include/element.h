@@ -10,9 +10,17 @@
 
 #include <vector>
 #include <string>
+#include <eigen3/Eigen/Dense>
+#include <math.h>
+#include <boost/shared_ptr.hpp>
 
-typedef std::vector<double> state_type;
+using state_type = Eigen::VectorXf;
+using state_type_ptr = boost::shared_ptr<state_type>;
 
+
+
+class Element;
+using Element_ptr = boost::shared_ptr<Element>;
 
 class Element{
 
@@ -20,8 +28,8 @@ class Element{
   double length_;
   std::string name_;
   
-  double E_field_ [3] = {0, 0, 0};
-  double B_field_ [3] = {0, 0, 0};
+  Eigen::Vector3f E_field_;
+  Eigen::Vector3f B_field_;
   
 
  public:
@@ -30,7 +38,15 @@ class Element{
   double length(){return length_;}
   std::string name(){return name_;}
 
-  void print_fields();
+  void print_fields(); // for testing purposes
+
+  Eigen::MatrixXf EField(state_type state_vector);
+  Eigen::MatrixXf BField(state_type state_vector);
+
+  void front_kick(state_type state_vector);
+  void rear_kick(state_type state_vector);
+
+  
  
 };
 
