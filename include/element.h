@@ -1,6 +1,10 @@
 // defined classes: Field, Tilt, Element
 // Element contains the E-, B-field definitions.
 
+// TODO:
+//   * add members: tilt, bool_skip (possibly)
+//   * add a print method to print the characteristics of an element
+
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
@@ -25,7 +29,8 @@ class Element{
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
-  
+
+  void print_fields();
  
 };
 

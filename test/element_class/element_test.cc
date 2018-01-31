@@ -23,6 +23,9 @@ int main(int argc, char** argv){
        << e.length() << endl
        << e.name() << endl;
 
+
+  e.print_fields();
+
   return 0;
 }
 
