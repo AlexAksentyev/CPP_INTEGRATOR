@@ -28,7 +28,9 @@ class Particle{
   double G();
 
   double kinetic_energy(double relative_delta_energy=0);
+  void set_kinetic_energy(double value);
   double gamma(double relative_delta_energy=0);
+  void set_gamma(double value);
   double beta(double relative_delta_energy=0);
   double Pc(double relative_delta_energy=0);
   

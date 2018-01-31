@@ -1,9 +1,10 @@
 #include "particle.h"
 
+using namespace std;
+
 Particle::Particle(double mass0, double gamma, double G)
   : mass0_(mass0), gamma_(gamma), G_(G){
 
-  std::cout << "in constructor" << std::endl;
   mass0_kg_ = mass0_*EZERO*1e6/(CLIGHT*CLIGHT);
   kin_nrg_0_ = mass0_*(gamma_ - 1);
 }
@@ -16,9 +17,31 @@ double Particle::kinetic_energy(double relative_dK){
   return kin_nrg_0_*(1 + relative_dK);
 }
 
+void Particle::set_kinetic_energy(double value){
+  // sanity check
+  if (value < 0){
+    cout << "Negative energy!" << endl;
+    return;
+  }
+
+  kin_nrg_0_ = value;
+  gamma_ = 1 + value/mass0_;
+}
+
 double Particle::gamma (double relative_dK){
   double kin_nrg = kinetic_energy(relative_dK);
   return kin_nrg/mass0_ + 1;
+}
+
+void Particle::set_gamma(double value){
+  // sanity check
+  if(value < 0){
+    cout << "Negative gamma!" << endl;
+    return;
+  }
+
+  gamma_ = value;
+  kin_nrg_0_ = mass0_*(value - 1);
 }
 
 double Particle::beta(double relative_dK){
