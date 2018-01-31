@@ -18,9 +18,9 @@ int main(int argc, char** argv){
   Particle p0;
   p0.print();
  
-  double gamma, beta;
-  p0.GammaBeta(gamma, beta, 1e-2);
-  cout << "GammaBeta:" << endl;
+  double gamma = p0.gamma(1e-2);
+  double beta = p0.beta(1e-2);
+  cout << "gamma, beta:" << endl;
   cout << gamma << "\t" << beta << endl;
   double Pc = p0.Pc(1e-2);
   double freq = p0.revolution_freq(100);
