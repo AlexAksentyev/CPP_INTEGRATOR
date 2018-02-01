@@ -38,6 +38,10 @@ int main(int argc, char** argv)
        << field
        << endl;
 
+  cout << "M : \n"
+       << t.rotation()
+       <<endl;
+
   cout << "M*f : \n"
        << t*field
        << endl;
