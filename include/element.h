@@ -65,7 +65,7 @@ public:
   void front_kick(state_type state_matrix);
   void rear_kick(state_type state_matrix);
 
-  
+  void print();
  
 };
 

@@ -44,6 +44,12 @@ void Element::front_kick(state_type state_matrix){
 
 void Element::rear_kick(state_type state_matrix){/* same here */}
 
+void Element::print(){
+  cout << "curvature: " << curve_ << endl
+       << "length: " << length_ << endl
+       << "name: " << name_  << endl;
+}
+
 using namespace Eigen;
 
 Vector3d Tilt::axis(char name){
