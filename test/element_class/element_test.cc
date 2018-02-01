@@ -4,27 +4,39 @@
 #include "element.h"
 #include <string>
 
+#include <eigen3/Eigen/Dense>
+
 using namespace std;
 
 int main(int argc, char** argv){
 
-  if (argc < 4){
-    cout << "Insufficient arguments!" << endl;
+  if (argc < 2){
+    cout << "Insufficient arguments!"
+	 << "(need number of particles)"
+	 << endl;
     return 1;
   }
 
-  double crv = atof(argv[1]);
-  double len = atof(argv[2]);
-  std::string nam = argv[3];
+  int num_states = atoi(argv[1]);
   
-  Element e(crv, len, nam);
+  Element e(0, 25);
 
-  cout << e.curve() << endl
-       << e.length() << endl
-       << e.name() << endl;
+  state_type state(num_states, VAR_NUM);
 
+  for(int i=0; i<num_states; i++)
+    for(int j=0; j<VAR_NUM; j++)
+      state(i,j) = i+1;
+
+
+  cout << "state: \n"
+       << state
+       << endl;
+  
+  e.vectorize_fields(state);
 
   e.print_fields();
+
+  e.print_vectorized_fields();
 
   return 0;
 }

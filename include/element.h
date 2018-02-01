@@ -14,13 +14,7 @@
 #include <math.h>
 #include <boost/shared_ptr.hpp>
 
-using state_type = Eigen::VectorXf;
-using state_type_ptr = boost::shared_ptr<state_type>;
-
-
-
-class Element;
-using Element_ptr = boost::shared_ptr<Element>;
+#include "right_hand_side.h"
 
 class Element{
 
@@ -28,27 +22,49 @@ class Element{
   double length_;
   std::string name_;
   
-  Eigen::Vector3f E_field_;
-  Eigen::Vector3f B_field_;
+  Eigen::Vector3d E_field_base_;
+  Eigen::Vector3d B_field_base_;
+  Eigen::Matrix<double, 3, Eigen::Dynamic> E_field_vectorized_;
+  Eigen::Matrix<double, 3, Eigen::Dynamic> B_field_vectorized_;
+
+  
   
 
  public:
+
+  void vectorize_fields(state_type state_matrix); // public for now, might move
+  
   Element(double curve, double length, std::string name="Element");
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
 
   void print_fields(); // for testing purposes
+  void print_vectorized_fields(); // testing
 
-  Eigen::MatrixXf EField(state_type state_vector);
-  Eigen::MatrixXf BField(state_type state_vector);
+  Eigen::MatrixXf EField(state_type state_matrix);
+  Eigen::MatrixXf BField(state_type state_matrix);
 
-  void front_kick(state_type state_vector);
-  void rear_kick(state_type state_vector);
+  void front_kick(state_type state_matrix);
+  void rear_kick(state_type state_matrix);
 
   
  
 };
+
+
+struct Tilt{
+
+  Eigen::Matrix3d matrix_;
+
+  Tilt() : matrix_(Eigen::Identity(3,3)){}
+
+  void operator() (std::vector<char> order,
+		   std::vector<double> degree_angle,
+		   bool append=false);
+  
+  
+}
 
 
 #endif
