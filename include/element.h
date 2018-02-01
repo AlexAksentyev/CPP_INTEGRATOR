@@ -45,9 +45,6 @@ class Element{
   Eigen::Matrix<double, 3, Eigen::Dynamic> E_field_vectorized_;
   Eigen::Matrix<double, 3, Eigen::Dynamic> B_field_vectorized_;
 
-  
-  
-
 public:
 
   Tilt tilt_;

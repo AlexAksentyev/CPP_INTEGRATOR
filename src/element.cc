@@ -37,6 +37,13 @@ void Element::print_vectorized_fields(){
        << endl;
 }
 
+void Element::front_kick(state_type state_matrix){
+  // depends on the element;
+  // for magnetic ones it does nothing
+}
+
+void Element::rear_kick(state_type state_matrix){/* same here */}
+
 using namespace Eigen;
 
 Vector3d Tilt::axis(char name){
