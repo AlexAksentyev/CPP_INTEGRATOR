@@ -6,7 +6,8 @@ using namespace std;
 
 Element::Element(double curve, double length, std::string name)
   : curve_(curve), length_(length), name_(name),
-    E_field_base_(0,0,0), B_field_base_(0,0,0){
+    E_field_base_(0,0,0), B_field_base_(0,0,0),
+    tilt_(){
   
 }
 
@@ -36,3 +37,9 @@ void Element::print_vectorized_fields(){
        << endl;
 }
 
+// unfinished
+void Tilt::operator() (std::vector<char> order,
+		       std::vector<double> degree_angle,
+		       bool append){
+  
+}

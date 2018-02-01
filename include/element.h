@@ -16,6 +16,21 @@
 
 #include "right_hand_side.h"
 
+
+struct Tilt{
+
+  Eigen::Matrix3d matrix_;
+
+  Tilt() : matrix_(Eigen::Matrix3d::Identity(3, 3)){}
+
+  void operator() (std::vector<char> order,
+		   std::vector<double> degree_angle,
+		   bool append=false);
+  
+  
+};
+
+
 class Element{
 
   double curve_;
@@ -31,6 +46,8 @@ class Element{
   
 
  public:
+
+  Tilt tilt_;
 
   void vectorize_fields(state_type state_matrix); // public for now, might move
   
@@ -51,20 +68,6 @@ class Element{
   
  
 };
-
-
-struct Tilt{
-
-  Eigen::Matrix3d matrix_;
-
-  Tilt() : matrix_(Eigen::Identity(3,3)){}
-
-  void operator() (std::vector<char> order,
-		   std::vector<double> degree_angle,
-		   bool append=false);
-  
-  
-}
 
 
 #endif

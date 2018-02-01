@@ -38,6 +38,9 @@ int main(int argc, char** argv){
 
   e.print_vectorized_fields();
 
+  cout << "Tilt matrix : \n"
+       << e.tilt_.matrix_ << endl;
+
   return 0;
 }
 
