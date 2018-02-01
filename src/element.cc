@@ -17,10 +17,6 @@ void Element::vectorize_fields(state_type state_matrix){
   B_field_vectorized_ = B_field_base_.replicate(1, state_num);
 }
 
-// void Element::set_E_field(){
-  
-// }
-
 void Element::print_fields(){
   cout << "(Ex, Ey, Es) : \n"
        << E_field_base_
@@ -43,7 +39,7 @@ void Element::print_vectorized_fields(){
 
 using namespace Eigen;
 
-Vector3d axis(char name){
+Vector3d Tilt::axis(char name){
   switch(toupper(name)){
   case 'X': return Vector3d::UnitX();
   case 'Y': return Vector3d::UnitY();

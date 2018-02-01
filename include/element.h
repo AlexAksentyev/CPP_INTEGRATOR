@@ -18,8 +18,11 @@
 
 #include "right_hand_side.h"
 
-struct Tilt{
+class Tilt{
 
+  Eigen::Vector3d axis(char name);
+  
+public:
   Eigen::Affine3d transform_;
 
   Tilt() : transform_(Eigen::Matrix3d::Identity(3, 3)){}
@@ -45,7 +48,7 @@ class Element{
   
   
 
- public:
+public:
 
   Tilt tilt_;
 
@@ -56,8 +59,6 @@ class Element{
   double length(){return length_;}
   std::string name(){return name_;}
 
-  
-  // void set_E_field(double, double, double);
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 
