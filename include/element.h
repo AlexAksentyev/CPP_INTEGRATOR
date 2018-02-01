@@ -10,22 +10,22 @@
 
 #include <vector>
 #include <string>
-#include <eigen3/Eigen/Dense>
 #include <math.h>
 #include <boost/shared_ptr.hpp>
+#include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Geometry>
+
 
 #include "right_hand_side.h"
 
-
 struct Tilt{
 
-  Eigen::Matrix3d matrix_;
+  Eigen::Affine3d transform_;
 
-  Tilt() : matrix_(Eigen::Matrix3d::Identity(3, 3)){}
+  Tilt() : transform_(Eigen::Matrix3d::Identity(3, 3)){}
 
-  void operator() (std::vector<char> order,
-		   std::vector<double> degree_angle,
-		   bool append=false);
+  void operator() (std::vector<std::pair<char, double>> axis_degangle,
+  		   bool append=false);
   
   
 };
@@ -56,6 +56,8 @@ class Element{
   double length(){return length_;}
   std::string name(){return name_;}
 
+  
+  // void set_E_field(double, double, double);
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 

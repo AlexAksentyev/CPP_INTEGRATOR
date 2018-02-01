@@ -17,6 +17,10 @@ void Element::vectorize_fields(state_type state_matrix){
   B_field_vectorized_ = B_field_base_.replicate(1, state_num);
 }
 
+// void Element::set_E_field(){
+  
+// }
+
 void Element::print_fields(){
   cout << "(Ex, Ey, Es) : \n"
        << E_field_base_
@@ -37,9 +41,38 @@ void Element::print_vectorized_fields(){
        << endl;
 }
 
-// unfinished
-void Tilt::operator() (std::vector<char> order,
-		       std::vector<double> degree_angle,
+using namespace Eigen;
+
+Vector3d axis(char name){
+  switch(toupper(name)){
+  case 'X': return Vector3d::UnitX();
+  case 'Y': return Vector3d::UnitY();
+  case 'Z': return Vector3d::UnitZ();
+  default: cout << "Wrong axis!" << endl;
+  }
+}
+
+void Tilt::operator() (vector<pair<char, double>> axis_degangle,
 		       bool append){
+
+  Affine3d result;
+  if(append)
+    result = transform_;
+  else
+    result.setIdentity();
+
+  Vector3d unit_axis;
+  double radangle;
+  for(vector<pair<char, double>>::iterator
+	it = axis_degangle.begin();
+      it != axis_degangle.end();
+      ++it){
+    unit_axis = axis((*it).first);
+    radangle = M_PI/180*(*it).second;
+    Affine3d t(AngleAxisd(radangle, unit_axis));
+    result = t*result;
+  }
+
+  transform_ = result;
   
 }
