@@ -42,12 +42,14 @@ int main(int argc, char** argv)
        << t.rotation()
        <<endl;
 
-  cout << "M*f : \n"
-       << t*field
+  t *= t;
+  
+  cout << "M*M : \n"
+       << t.rotation()
        << endl;
 
-  cout << "M*f_vec : \n"
-       << t*vec_field
+    cout << "M*M*f : \n"
+       << t*field
        << endl;
 
   
