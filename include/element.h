@@ -2,7 +2,7 @@
 // Element contains the E-, B-field definitions.
 
 // TODO:
-//   * add members: tilt, bool_skip (possibly)
+//   * add members: bool_skip (possibly)
 //   * add a print method to print the characteristics of an element
 
 #ifndef ELEMENT_H
