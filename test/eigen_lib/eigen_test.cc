@@ -7,45 +7,29 @@
 using namespace Eigen;
 using namespace std;
 
+using state_type = Matrix<double, Dynamic, 3>;
+
+void modify(state_type& state){
+  state.col(1) += 1*VectorXd::Ones(state.rows());
+}
+
+
 int main(int argc, char** argv)
 {
-  if (argc < 3){
-    cout << "Insufficient arguments\n";
+  if (argc < 2)
     return 1;
-  }
 
-  double angle = atof(argv[1])*M_PI/180.;
-  double cosA = cos(angle);
-  double sinA = sin(angle);
+  int num_states = atoi(argv[1]);
 
-  int num_states = atoi(argv[2]);
+  state_type state(num_states, 3);
+
+  for(int i=0; i<num_states; i++)
+    state.row(i) << 1, 2, 3;
+
+  cout << "state : \n" << state << endl << endl;
+
+  modify(state);
   
-  Matrix3d tilt_M(3, 3);
-  tilt_M <<
-    cosA, 0, -sinA,
-    0,    1, 0,
-    sinA, 0, cosA;
-
-   cout << "here\n\n";
+  cout << "state : \n" << state << endl << endl;
   
-   Vector3d field(1, 0, 0);
-   Matrix<double, 3, Dynamic> vec_field(3, num_states);
-   vec_field = field.replicate(1, num_states);
-
-  cout << "field: \n";
-  cout << vec_field  << endl;
-
-  cout << "tilt matrix: \n";
-  cout << tilt_M << endl << endl;
-
-  cout << "tilted field: \n";
-  cout << tilt_M * vec_field << endl << endl;
-
-  cout << "tilt matrix third column : \n"
-       << tilt_M.col(2)
-       << endl;
-
-  cout << "tilt matrix first row : \n"
-       << tilt_M.row(0)
-       << endl;
 }
