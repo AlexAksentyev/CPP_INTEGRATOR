@@ -43,7 +43,7 @@ int main(int argc, char** argv){
     for(int j=0; j<VAR_NUM; j++)
       state(i,j) = j;
 
-  WienFilterStraight element(13e-2, 5e-2, deu, 120e5, 0.0834);
+  MQuad element(13e-2, 10);
   element.vectorize_fields(state);
 
   element.print();
@@ -62,7 +62,7 @@ int main(int argc, char** argv){
        << state
        <<endl << endl;
   
-  //element.front_kick(state);
+  element.front_kick(state);
 
   cout << "state after kick : \n"
        << state

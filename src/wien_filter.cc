@@ -12,10 +12,10 @@ WienFilterStraight::WienFilterStraight(double length, double h_gap,
   B_field_base_(1) = B_vert;
 }
 
-void WienFilterStraight::front_kick(state_type_ptr state){
-  state->col(8) -= kick_voltage_*1e-6/ref_kinetic_energy_*Eigen::VectorXd::Ones(state->rows()); // changes dK of state
+void WienFilterStraight::front_kick(state_type& state){
+  state.col(8) -= kick_voltage_*1e-6/ref_kinetic_energy_*Eigen::VectorXd::Ones(state.rows()); // changes dK of state
 }
 
-void WienFilterStraight::rear_kick(state_type_ptr state){
-  state->col(8) += kick_voltage_*1e-6/ref_kinetic_energy_*Eigen::VectorXd::Ones(state->rows());
+void WienFilterStraight::rear_kick(state_type& state){
+  state.col(8) += kick_voltage_*1e-6/ref_kinetic_energy_*Eigen::VectorXd::Ones(state.rows());
 }
