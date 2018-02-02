@@ -42,7 +42,7 @@ int main(int argc, char** argv)
        << t.rotation()
        <<endl;
 
-  t *= t;
+  t = t*t;
   
   cout << "M*M : \n"
        << t.rotation()

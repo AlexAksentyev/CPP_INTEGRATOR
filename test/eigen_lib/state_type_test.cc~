@@ -40,12 +40,4 @@ int main(int argc, char** argv)
 
   cout << "tilted field: \n";
   cout << tilt_M * vec_field << endl << endl;
-
-  cout << "tilt matrix third column : \n"
-       << tilt_M.col(2)
-       << endl;
-
-  cout << "tilt matrix first row : \n"
-       << tilt_M.row(0)
-       << endl;
 }
