@@ -31,11 +31,23 @@ int main(int argc, char** argv){
   state_type state(num_states, VAR_NUM);
   for(int i=0; i<num_states; i++)
     for(int j=0; j<VAR_NUM; j++)
-      state(i,j) = i+1;
+      state(i,j) = j;
 
-  MQuad qf(25e-2, 8.6);
+  MQuad qf(25e-2, 10);
 
   qf.print();
+
+  qf.tilt_(ax_an);
+
+  cout << "state : \n"
+       << state
+       << endl;
+
+  qf.vectorize_fields(state);
+
+  cout << "B-Field: \n"
+       << qf.BField(state)
+       << endl;
   
   return 0;
 }

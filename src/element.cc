@@ -12,7 +12,10 @@ Element::Element(double curve, double length, std::string name)
 }
 
 void Element::vectorize_fields(state_type state_matrix){
+  // when the initial state ensemble is known, run
+  // this function before tracking proper
   int state_num = state_matrix.rows();
+  
   E_field_vectorized_ = E_field_base_.replicate(1, state_num);
   B_field_vectorized_ = B_field_base_.replicate(1, state_num);
 }

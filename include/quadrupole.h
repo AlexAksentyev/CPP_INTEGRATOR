@@ -11,5 +11,7 @@ public:
   MQuad(double length, double gradient, std::string name="MQuad")
     : Element(0, length, name), grad_(gradient) {}
 
+  vectorized_field_type BField(state_type state_matrix);
+
   void print();
 };

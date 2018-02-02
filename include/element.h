@@ -18,6 +18,8 @@
 
 #include "right_hand_side.h"
 
+using vectorized_field_type = Eigen::Matrix<double, 3, Eigen::Dynamic>;
+
 class Tilt{
 
   Eigen::Vector3d axis(char name);
@@ -29,11 +31,9 @@ public:
 
   void operator() (std::vector<std::pair<char, double>> axis_degangle,
   		   bool append=false);
-  
+
   
 };
-
-using vectorized_field_type = Eigen::Matrix<double, 3, Eigen::Dynamic>;
 
 class Element{
 
@@ -43,6 +43,8 @@ class Element{
   
   Eigen::Vector3d E_field_base_;
   Eigen::Vector3d B_field_base_;
+
+protected:
   vectorized_field_type E_field_vectorized_;
   vectorized_field_type B_field_vectorized_;
 
@@ -53,6 +55,7 @@ public:
   void vectorize_fields(state_type state_matrix); // public for now, might move
   
   Element(double curve, double length, std::string name="Element");
+
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
