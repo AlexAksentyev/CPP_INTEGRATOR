@@ -5,6 +5,7 @@
 #include "quadrupole.h"
 #include "drift_space.h"
 #include "dipole.h"
+#include "sextupole.h"
 #include <string>
 
 #include <eigen3/Eigen/Dense>
@@ -41,7 +42,7 @@ int main(int argc, char** argv){
     for(int j=0; j<VAR_NUM; j++)
       state(i,j) = j;
 
-  MSolenoid element(205e-3, 3.4);
+  MSext element(205e-3, 3.4);
   element.vectorize_fields(state);
 
   element.print();
