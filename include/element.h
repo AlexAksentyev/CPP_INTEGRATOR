@@ -64,8 +64,8 @@ public:
   vectorized_field_type EField(state_type state_matrix);
   vectorized_field_type BField(state_type state_matrix);
 
-  void front_kick(state_type state_matrix);
-  void rear_kick(state_type state_matrix);
+  void front_kick(state_type_ptr state_matrix);
+  void rear_kick(state_type_ptr state_matrix);
 
   void print();
  

@@ -7,7 +7,8 @@ set(SRC_DIR "${ROOT_DIR}/src")
 include_directories("${ROOT_DIR}/include" "/usr/local/boost_1_66_0")
 
 set(SOURCES element_test.cc "${SRC_DIR}/quadrupole.cc" "${SRC_DIR}/element.cc"
- "${SRC_DIR}/dipole.cc" "${SRC_DIR}/particle.cc" "${SRC_DIR}/sextupole.cc")
+ "${SRC_DIR}/dipole.cc" "${SRC_DIR}/particle.cc" "${SRC_DIR}/sextupole.cc"
+ "${SRC_DIR}/wien_filter.cc")
 
 set(CMAKE_CXX_STANDARD 11)
 

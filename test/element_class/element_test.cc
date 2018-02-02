@@ -6,6 +6,7 @@
 #include "drift_space.h"
 #include "dipole.h"
 #include "sextupole.h"
+#include "wien_filter.h"
 #include <string>
 
 #include <eigen3/Eigen/Dense>
@@ -42,7 +43,7 @@ int main(int argc, char** argv){
     for(int j=0; j<VAR_NUM; j++)
       state(i,j) = j;
 
-  MSext element(205e-3, 3.4);
+  WienFilterStraight element(13e-2, 5e-2, deu, 120e5, 0.0834);
   element.vectorize_fields(state);
 
   element.print();
@@ -52,11 +53,20 @@ int main(int argc, char** argv){
        << endl;
 
   element.tilt_(ax_an);
-  element.vectorize_fields(state);
 
   cout << "tilted field : \n"
        << element.BField(state)
-       << endl;
+       << endl << endl;
+
+  cout << "state before kick : \n"
+       << state
+       <<endl << endl;
+  
+  //element.front_kick(state);
+
+  cout << "state after kick : \n"
+       << state
+       << endl << endl;
 
   return 0;
 }

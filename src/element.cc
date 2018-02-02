@@ -47,12 +47,12 @@ vectorized_field_type Element::BField(state_type state_matrix){
   return tilt_.transform_*B_field_vectorized_;
 }
 
-void Element::front_kick(state_type state_matrix){
+void Element::front_kick(state_type_ptr state_matrix){
   // depends on the element;
   // for magnetic ones it does nothing
 }
 
-void Element::rear_kick(state_type state_matrix){/* same here */}
+void Element::rear_kick(state_type_ptr state_matrix){/* same here */}
 
 void Element::print(){
   cout << "curvature: " << curve_ << endl
