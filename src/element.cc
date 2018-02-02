@@ -41,12 +41,10 @@ void Element::print_vectorized_fields(){
 }
 
 vectorized_field_type Element::EField(state_type state_matrix){
-  return E_field_vectorized_; // don't tilt because the default
-  // field is 0 anyway;
-  // tilting is added in derived elements
+  return tilt_.transform_*E_field_vectorized_;
 }
 vectorized_field_type Element::BField(state_type state_matrix){
-  return B_field_vectorized_; // same here
+  return tilt_.transform_*B_field_vectorized_;
 }
 
 void Element::front_kick(state_type state_matrix){

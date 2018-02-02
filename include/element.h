@@ -3,7 +3,6 @@
 
 // TODO:
 //   * add members: bool_skip (possibly)
-//   * add a print method to print the characteristics of an element
 
 #ifndef ELEMENT_H
 #define ELEMENT_H
@@ -40,11 +39,10 @@ class Element{
   double curve_;
   double length_;
   std::string name_;
-  
-  Eigen::Vector3d E_field_base_;
-  Eigen::Vector3d B_field_base_;
 
 protected:
+  Eigen::Vector3d E_field_base_;
+  Eigen::Vector3d B_field_base_;
   vectorized_field_type E_field_vectorized_;
   vectorized_field_type B_field_vectorized_;
 
