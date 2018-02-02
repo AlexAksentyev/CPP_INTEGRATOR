@@ -33,6 +33,7 @@ public:
   
 };
 
+using vectorized_field_type = Eigen::Matrix<double, 3, Eigen::Dynamic>;
 
 class Element{
 
@@ -42,8 +43,8 @@ class Element{
   
   Eigen::Vector3d E_field_base_;
   Eigen::Vector3d B_field_base_;
-  Eigen::Matrix<double, 3, Eigen::Dynamic> E_field_vectorized_;
-  Eigen::Matrix<double, 3, Eigen::Dynamic> B_field_vectorized_;
+  vectorized_field_type E_field_vectorized_;
+  vectorized_field_type B_field_vectorized_;
 
 public:
 
@@ -59,8 +60,8 @@ public:
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 
-  Eigen::MatrixXf EField(state_type state_matrix);
-  Eigen::MatrixXf BField(state_type state_matrix);
+  vectorized_field_type EField(state_type state_matrix);
+  vectorized_field_type BField(state_type state_matrix);
 
   void front_kick(state_type state_matrix);
   void rear_kick(state_type state_matrix);
