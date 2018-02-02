@@ -12,8 +12,7 @@
 #include "particle.h"
 #include <boost/shared_ptr.hpp>
 
-static const int VAR_NUM = 3; // 3 for testing purposes,
-                              // otherwise 12
+static const int VAR_NUM = 12;
 // variable names
 /*   x, y, s, */
 /*   t, Theta, H, */
