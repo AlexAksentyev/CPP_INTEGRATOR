@@ -25,7 +25,6 @@ using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 using state_type_ptr = boost::shared_ptr<state_type>;
 
 using Element_ptr = boost::shared_ptr<Element>;
-using Particle_ptr = boost::shared_ptr<Particle>;
 
 class RightHandSide{
   Element_ptr element_;

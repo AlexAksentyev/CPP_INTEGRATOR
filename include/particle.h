@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <boost/shared_ptr.hpp>
 
 const double CLIGHT = 2.99792458e8; // m/s
 const double EZERO = 1.602176462e-19; // Coulomb
@@ -40,6 +41,7 @@ class Particle{
   
 };
 
+using Particle_ptr = boost::shared_ptr<Particle>;
 
 
 #endif
