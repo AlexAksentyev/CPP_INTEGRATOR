@@ -1,3 +1,7 @@
+#ifndef QUADRUPOLE_H
+#define QUADRUPOLE_H
+
+
 #include "element.h"
 
 
@@ -15,3 +19,5 @@ public:
 
   void print();
 };
+
+#endif
