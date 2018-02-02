@@ -13,9 +13,11 @@ WienFilterStraight::WienFilterStraight(double length, double h_gap,
 }
 
 void WienFilterStraight::front_kick(state_type& state){
-  state.col(8) -= kick_voltage_*1e-6/ref_kinetic_energy_*Eigen::VectorXd::Ones(state.rows()); // changes dK of state
+  for(int i=0; i<state.rows(); i++)
+    state(i, 8) -= kick_voltage_*1e-6/ref_kinetic_energy_; // changes dK of state
 }
 
 void WienFilterStraight::rear_kick(state_type& state){
-  state.col(8) += kick_voltage_*1e-6/ref_kinetic_energy_*Eigen::VectorXd::Ones(state.rows());
+ for(int i=0; i<state.rows(); i++)
+    state(i, 8) += kick_voltage_*1e-6/ref_kinetic_energy_; // changes dK of state
 }
