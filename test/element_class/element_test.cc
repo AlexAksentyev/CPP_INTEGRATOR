@@ -41,21 +41,20 @@ int main(int argc, char** argv){
     for(int j=0; j<VAR_NUM; j++)
       state(i,j) = j;
 
-  MQuad qf(25e-2, 10);
-  MDipole d(303e-3,deu, 1.4);
-  d.vectorize_fields(state);
+  MSolenoid element(205e-3, 3.4);
+  element.vectorize_fields(state);
 
-  d.print();
+  element.print();
 
-  cout << "d-element B-field : \n"
-       << d.BField(state)
+  cout << "element B-field : \n"
+       << element.BField(state)
        << endl;
 
-  d.tilt_(ax_an);
-  d.vectorize_fields(state);
+  element.tilt_(ax_an);
+  element.vectorize_fields(state);
 
   cout << "tilted field : \n"
-       << d.BField(state)
+       << element.BField(state)
        << endl;
 
   return 0;

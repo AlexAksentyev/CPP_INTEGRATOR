@@ -8,3 +8,8 @@ MDipole::MDipole(double length, Particle_ptr reference_particle,
 
   B_field_base_(1) = By;
 }
+
+MSolenoid::MSolenoid(double length, double Bs, std::string name)
+  : Element(0, length, name){
+  B_field_base_(2) = Bs;
+}
