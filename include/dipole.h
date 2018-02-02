@@ -11,12 +11,12 @@
 class MDipole : public Element {
 public:
   MDipole(double length, Particle_ptr reference_particle,
-	  double By, std::string name="MDip");
+	  double B_vert, std::string name="MDip");
 };
 
 class MSolenoid : public Element {
 public:
-  MSolenoid(double length, double Bs, std::string name="MSol");
+  MSolenoid(double length, double B_longitudinal, std::string name="MSol");
 };
 
 #endif
