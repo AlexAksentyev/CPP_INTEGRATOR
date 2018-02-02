@@ -1,7 +1,10 @@
 
 
 #include <iostream>
-#include "element.h"
+#include "particle.h"
+#include "quadrupole.h"
+#include "drift_space.h"
+#include "dipole.h"
 #include <string>
 
 #include <eigen3/Eigen/Dense>
@@ -9,7 +12,7 @@
 
 int main(int argc, char** argv){
   using namespace std;
-
+  // checking argument presence
   if (argc < 3){
     cout << "Insufficient arguments!"
 	 << "(give pairs direction-angle)"
@@ -17,6 +20,7 @@ int main(int argc, char** argv){
     return 1;
   }
 
+  // checking argument correctness
   if(remainder(argc-1, 2) != 0){
     cout << "Unfinished pair!" << endl;
     return 2;
@@ -27,39 +31,33 @@ int main(int argc, char** argv){
     ax_an.push_back(make_pair(*argv[i], atof(argv[i+1])));
   }
 
+  // creating the particle
+  Particle_ptr deu(new Particle());
+
+  // creating the state ensemble
   int num_states = 2;
-  
-  Element e(0, 25);
-
   state_type state(num_states, VAR_NUM);
-
   for(int i=0; i<num_states; i++)
     for(int j=0; j<VAR_NUM; j++)
-      state(i,j) = i+1;
+      state(i,j) = j;
 
+  MQuad qf(25e-2, 10);
+  MDipole d(303e-3,deu, 1.4);
+  d.vectorize_fields(state);
 
-  cout << "state: \n"
-       << state
-       << endl;
-  
-  e.vectorize_fields(state);
+  d.print();
 
-  cout << "Tilt matrix : \n"
-       << e.tilt_.transform_.rotation() << endl;
-
-  cout << "M*(0,0,1) : \n"
-       << e.tilt_.transform_*Eigen::Vector3d::UnitZ()
+  cout << "d-element B-field : \n"
+       << d.BField(state)
        << endl;
 
-  e.tilt_(ax_an);
+  d.tilt_(ax_an);
+  d.vectorize_fields(state);
 
-  cout << "Tilt matrix after tilt : \n"
-       << e.tilt_.transform_.rotation() << endl;
-
-  cout << "M*(0,0,1) : \n"
-       << e.tilt_.transform_*Eigen::Vector3d::UnitZ()
+  cout << "tilted field : \n"
+       << d.BField(state)
        << endl;
-  
+
   return 0;
 }
 
