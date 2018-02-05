@@ -4,11 +4,15 @@ project(element_test)
 set(ROOT_DIR "/home/alexa/REPOS/CPP_INTEGRATOR")
 set(SRC_DIR "${ROOT_DIR}/src")
 
-include_directories("${ROOT_DIR}/include" "/usr/local/boost_1_66_0")
+include_directories("${ROOT_DIR}/include" "/usr/local/boost_1_66_0"
+  "/usr/local/eigen3"
+)
 
-set(SOURCES element_test.cc "${SRC_DIR}/quadrupole.cc" "${SRC_DIR}/element.cc"
- "${SRC_DIR}/dipole.cc" "${SRC_DIR}/particle.cc" "${SRC_DIR}/sextupole.cc"
- "${SRC_DIR}/wien_filter.cc")
+set(SOURCES element_test.cc "${SRC_DIR}/element.cc" 
+  "${SRC_DIR}/particle.cc" "${SRC_DIR}/right_hand_side.cc"
+# "${SRC_DIR}/dipole.cc" "${SRC_DIR}/quadrupole.cc" 
+# "${SRC_DIR}/sextupole.cc" "${SRC_DIR}/wien_filter.cc"
+ )
 
 set(CMAKE_CXX_STANDARD 11)
 

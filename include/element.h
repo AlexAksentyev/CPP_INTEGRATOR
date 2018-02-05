@@ -34,7 +34,7 @@ public:
   
 };
 
-class Element{
+class Element : public RightHandSide{
 
   double curve_;
   double length_;
@@ -52,7 +52,7 @@ public:
 
   void vectorize_fields(state_type state_matrix); // public for now, might move
   
-  Element(double curve, double length, std::string name="Element");
+  Element(double curve, double length, Particle& particle, std::string name="Element");
 
   double curve(){return curve_;}
   double length(){return length_;}

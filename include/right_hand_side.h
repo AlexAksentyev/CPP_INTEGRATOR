@@ -8,9 +8,8 @@
 #define RIGHT_HAND_SIDE_H
 
 #include <vector>
-#include "element.h"
 #include "particle.h"
-#include <boost/shared_ptr.hpp>
+#include <eigen3/Eigen/Dense>
 
 static const int VAR_NUM = 12;
 // variable names
@@ -19,18 +18,13 @@ static const int VAR_NUM = 12;
 /*   px, py, dK, */
 /*   Sx, Sy, Sz */ 
 
-class Element;
 using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
-using state_type_ptr = boost::shared_ptr<state_type>;
-
-using Element_ptr = boost::shared_ptr<Element>;
 
 class RightHandSide{
-  Element_ptr element_;
-  Particle_ptr particle_;
+  Particle& particle_;
 	
 public:
-  RightHandSide(Element_ptr host, Particle_ptr reference);
+  RightHandSide(Particle& reference_particle);
   void operator() (const state_type &x , state_type &dxdt, const double /* t*/);
 };
 

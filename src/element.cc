@@ -4,8 +4,9 @@
 
 using namespace std;
 
-Element::Element(double curve, double length, std::string name)
-  : curve_(curve), length_(length), name_(name),
+Element::Element(double curve, double length, Particle& particle, std::string name)
+  : RightHandSide(particle),
+    curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
     tilt_(){
   
