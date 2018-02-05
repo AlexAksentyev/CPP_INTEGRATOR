@@ -43,7 +43,7 @@ int main(int argc, char** argv){
     for(int j=0; j<VAR_NUM; j++)
       state(i,j) = j;
 
-  MQuad element(13e-2, 10);
+  WienFilterStraight element(24e-2, 5e-2, deu, 120e5, 0.0834);
   element.vectorize_fields(state);
 
   element.print();
