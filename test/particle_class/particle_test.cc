@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include "particle.h"
 #include <iomanip>
+#include <Eigen/Dense>
+
 
 using namespace std;
+using namespace Eigen;
 
 int main(int argc, char** argv){
   // argument check
@@ -12,21 +15,15 @@ int main(int argc, char** argv){
     return 1;
   }
 
-  double dK = atof(argv[1]);
+  ArrayXd dK(6);
+  for (int i=0; i<6; i++)
+    dK[i] = atof(argv[1])*i;  
   
   Particle p0;
-  
-  cout << "dK: " << dK << endl;
-  
-  double gamma = p0.gamma(dK);
-  double beta = p0.beta(dK);
-  cout << "gamma, beta:" << endl;
-  cout << gamma << "\t" << beta << endl;
-  double Pc = p0.Pc(dK);
-  p0.set_kinetic_energy(p0.kinetic_energy(dK));
-  double freq = p0.revolution_freq(100);
-  cout << "freq: " << setprecision(8) << freq << endl
-       << "Pc: " << Pc << endl;
 
+  ArrayXd vec = p0.Pc(dK);
+  cout << "Vector:\n" << vec << endl;
+  
+ 
   return 0;
 };

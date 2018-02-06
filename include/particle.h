@@ -3,11 +3,10 @@
 
 #include <iostream>
 #include <math.h>
-#include <boost/shared_ptr.hpp>
+#include <Eigen/Dense>
 
 const double CLIGHT = 2.99792458e8; // m/s
 const double EZERO = 1.602176462e-19; // Coulomb
-
 
 class Particle{
   double gamma_;
@@ -29,19 +28,20 @@ class Particle{
   double G();
 
   double kinetic_energy(double relative_delta_energy=0);
+  Eigen::ArrayXd kinetic_energy(Eigen::ArrayXd relative_delta_energy); // no default because dynamic allocation
   void set_kinetic_energy(double value);
   double gamma(double relative_delta_energy=0);
+  Eigen::ArrayXd gamma(Eigen::ArrayXd relative_delta_energy);
   void set_gamma(double value);
   double beta(double relative_delta_energy=0);
+  Eigen::ArrayXd beta(Eigen::ArrayXd relative_delta_energy);
   double Pc(double relative_delta_energy=0);
+  Eigen::ArrayXd Pc(Eigen::ArrayXd relative_delta_energy);
   
   double revolution_freq(double lattice_length);
 
   void print(){std::cout << mass0_ << " " << gamma_ << " " << G_ << std::endl;}
   
 };
-
-using Particle_ptr = boost::shared_ptr<Particle>;
-
 
 #endif
