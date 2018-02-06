@@ -10,9 +10,8 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <boost/shared_ptr.hpp>
-#include <eigen3/Eigen/Dense>
-#include <eigen3/Eigen/Geometry>
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 
 
 #include "right_hand_side.h"
@@ -68,6 +67,8 @@ public:
   void rear_kick(state_type& state_matrix);
 
   void print();
+
+  size_t track_through(state_type ini_states, DataLog& observer);
  
 };
 

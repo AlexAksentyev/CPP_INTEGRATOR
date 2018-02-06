@@ -1,6 +1,8 @@
 
 #include "element.h"
 #include <iostream>
+#include <boost/numeric/odeint.hpp>
+#include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 using namespace std;
 
@@ -59,6 +61,19 @@ void Element::print(){
   cout << "curvature: " << curve_ << endl
        << "length: " << length_ << endl
        << "name: " << name_  << endl;
+}
+
+size_t Element::track_through(state_type ini_states, DataLog& observer){
+  using namespace boost::numeric::odeint;
+  runge_kutta_dopri5<state_type, double,
+		     state_type, double,
+		     vector_space_algebra> stepper;
+  double delta_s = .1;
+  front_kick(ini_states);
+  size_t num_steps = integrate_adaptive(stepper, *this, ini_states, 0., length_, delta_s, observer);
+  rear_kick(ini_states);
+
+  return num_steps;
 }
 
 using namespace Eigen;

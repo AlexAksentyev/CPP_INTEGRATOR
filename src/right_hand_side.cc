@@ -4,9 +4,8 @@ RightHandSide::RightHandSide(Particle& reference) : particle_(reference) {}
 
 
 void RightHandSide::operator() (const state_type &x,
-				state_type &dxdt,
-				const double /* t*/){
-  dxdt.col(0) = x.col(1);
-  dxdt.col(1) = -x.col(0) - x.col(1);
+				state_type &dxds,
+				const double /* s*/){
+  dxds.col(0) = x.col(1);
+  dxds.col(1) = -x.col(0) - particle_.G()*x.col(1);
 }
-
