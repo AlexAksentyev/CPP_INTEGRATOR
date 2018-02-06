@@ -2,7 +2,12 @@
 #include <fstream>
 #include <iostream>
 #include "particle.h"
-#include "element.h"
+#include "drift_space.h"
+#include "dipole.h"
+#include "quadrupole.h"
+#include "sextupole.h"
+#include "wien_filter.h"
+#include "rf_element.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
@@ -19,7 +24,7 @@ int main(int argc, char** argv){
   string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
  
   Particle p(1876, 1.14, G);
-  Element e(0, length, p);
+  ERF e(p, length, length*5);
 
   // creating the state ensemble
   int num_states = 2;

@@ -13,8 +13,10 @@
 class ERF : public Element {
 
 public:
-  ERF(double length, Particle_ptr reference_particle, double acc_length,
-      double E_field=15e5, double phase=1.5*M_PI, int H_number=50, std::string name="RF");
+  ERF(Particle& reference_particle,
+      double length, double acc_length,
+      double E_field=15e5, double phase=1.5*M_PI, int H_number=50,
+      std::string name="RF");
 
 };
 

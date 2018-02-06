@@ -13,7 +13,8 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
-
+#include "particle.h"
+#include "data_log.h"
 #include "right_hand_side.h"
 
 using vectorized_field_type = Eigen::Matrix<double, 3, Eigen::Dynamic>;
@@ -51,7 +52,9 @@ public:
 
   void vectorize_fields(state_type state_matrix); // public for now, might move
   
-  Element(double curve, double length, Particle& particle, std::string name="Element");
+  Element(Particle& particle,
+	  double curve, double length,
+	  std::string name="Element");
 
   double curve(){return curve_;}
   double length(){return length_;}

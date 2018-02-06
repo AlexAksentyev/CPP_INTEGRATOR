@@ -7,8 +7,8 @@ class MSext : public Element {
   double grad_;
 
 public:
-  MSext(double length, double gradient, std::string name="MSext")
-    : Element(0, length, name), grad_(gradient){}
+  MSext(Particle& particle, double length, double gradient, std::string name="MSext")
+    : Element(particle, 0, length, name), grad_(gradient){}
 
   vectorized_field_type BField(state_type state);
 };

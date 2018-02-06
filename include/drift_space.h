@@ -6,8 +6,8 @@
 
 class Drift : public Element {
 public:
-  Drift(double length, std::string name="Drift")
-    : Element(0, length, name) {}
+ Drift(Particle& particle, double length, std::string name="Drift")
+   : Element(particle, 0, length, name) {}
 };
 
 #endif
