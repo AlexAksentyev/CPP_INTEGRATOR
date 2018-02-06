@@ -28,4 +28,21 @@ public:
   void operator() (const state_type &x , state_type &dxds, const double /* s*/);
 };
 
-#endif
+// template<typename T>
+// using Vector = Matrix<T, Dynamic, 1>;
+// template<typename T>
+// class variable_col {
+// public:
+//   Vector<T> data;
+
+//   variable_col(Vector<T> given){
+//     int num = given.rows();
+//     data.setZero(num);    
+//     for (int i=0; i<num; i++)
+//       data[i] = given[i];
+//   }
+  
+// };
+
+
+#endif // RIGHT_HAND_SIDE_H
