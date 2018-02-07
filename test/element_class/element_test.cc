@@ -24,7 +24,7 @@ int main(int argc, char** argv){
   string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
  
   Particle p(1876, 1.14, G);
-  ERF e(p, length, length*5);
+  WienFilterStraight e(p, length, 5e-2, 120e5, .0864);
 
   // creating the state ensemble
   int num_states = 2;

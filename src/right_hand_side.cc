@@ -3,9 +3,22 @@
 RightHandSide::RightHandSide(Particle& reference) : particle_(reference) {}
 
 
-void RightHandSide::operator() (const state_type &x,
-				state_type &dxds,
+void RightHandSide::operator() (const state_type &state,
+				state_type &derivative,
 				const double /* s*/){
-  dxds.col(0) = x.col(1);
-  dxds.col(1) = -x.col(0) - particle_.G()*x.col(1);
+
+  int state_num = state.rows();
+
+
+  double P0c = particle_.Pc();
+  variable_col Px = state.col(6)*P0c;
+  variable_col Py = state.col(7)*P0c;
+  variable_col Pc = particle_.Pc(dK);
+  variable_col Ps = sqrt(Pc*Pc - Px*Px - Py*Py);
+
+  variable_col dK = state.col(8);
+
+  variable_col kin_energy = particle_.kinetic_energy(dK);
+
+  
 }
