@@ -7,8 +7,7 @@
 using namespace std;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
-  : RightHandSide(particle),
-    curve_(curve), length_(length), name_(name),
+  : curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
     tilt_(){
   
@@ -70,7 +69,7 @@ size_t Element::track_through(state_type ini_states, DataLog& observer){
 		     vector_space_algebra> stepper;
   double delta_s = .1;
   front_kick(ini_states);
-  size_t num_steps = integrate_adaptive(stepper, *this, ini_states, 0., length_, delta_s, observer);
+  size_t num_steps = 0; // integrate_adaptive(stepper, *this, ini_states, 0., length_, delta_s, observer);
   rear_kick(ini_states);
 
   return num_steps;

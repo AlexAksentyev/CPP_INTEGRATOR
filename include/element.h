@@ -34,7 +34,7 @@ public:
   
 };
 
-class Element : public RightHandSide{
+class Element {
 
   double curve_;
   double length_;
