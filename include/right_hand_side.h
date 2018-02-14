@@ -9,6 +9,7 @@
 
 #include <vector>
 #include "particle.h"
+//#include "element.h"
 #include <Eigen/Dense>
 
 static const int VAR_NUM = 12;
@@ -21,11 +22,13 @@ static const int VAR_NUM = 12;
 using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 using variable_col = Eigen::ArrayXd;
 
+class Element;
 class RightHandSide{
   Particle& particle_;
+  Element& host_;
 	
 public:
-  RightHandSide(Particle& reference_particle);
+  RightHandSide(Particle& reference_particle, Element& host_element);
   void operator() (const state_type &x , state_type &dxds, const double /* s*/);
 };
 

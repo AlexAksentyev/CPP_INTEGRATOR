@@ -2,12 +2,12 @@
 #include <fstream>
 #include <iostream>
 #include "particle.h"
-#include "drift_space.h"
-#include "dipole.h"
-#include "quadrupole.h"
-#include "sextupole.h"
+// #include "drift_space.h"
+// #include "dipole.h"
+// #include "quadrupole.h"
+// #include "sextupole.h"
 #include "wien_filter.h"
-#include "rf_element.h"
+// #include "rf_element.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>

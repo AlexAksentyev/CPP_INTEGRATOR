@@ -1,6 +1,7 @@
 #include "right_hand_side.h"
 
-RightHandSide::RightHandSide(Particle& reference) : particle_(reference) {}
+RightHandSide::RightHandSide(Particle& reference, Element& host)
+  : particle_(reference), host_(host) {}
 
 
 void RightHandSide::operator() (const state_type &state,
