@@ -1,11 +1,12 @@
 #include "wien_filter.h"
 
 
-WienFilterStraight::WienFilterStraight(double length, double h_gap,
-				       Particle_ptr reference_particle,
-				       double E_hor, double B_vert, std::string name)
-  : Element(0, length, name), h_gap_(h_gap),
-    ref_kinetic_energy_(reference_particle->kinetic_energy()),
+WienFilterStraight::WienFilterStraight(Particle& reference_particle,
+				       double length, double h_gap,
+				       double E_hor, double B_vert,
+				       std::string name)
+  : Element(reference_particle, 0, length, name), h_gap_(h_gap),
+    ref_kinetic_energy_(reference_particle.kinetic_energy()),
     kick_voltage_(h_gap*E_hor){
 
   E_field_base_(0) = E_hor;

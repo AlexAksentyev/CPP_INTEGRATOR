@@ -9,9 +9,14 @@ include_directories("${ROOT_DIR}/include"
 "${INCLUDE_DIR}/boost/1.66.0"
 "${INCLUDE_DIR}/eigen/3.3.4")
 
-set(SOURCES element_test.cc "${SRC_DIR}/quadrupole.cc" "${SRC_DIR}/element.cc"
- "${SRC_DIR}/dipole.cc" "${SRC_DIR}/particle.cc" "${SRC_DIR}/sextupole.cc"
- "${SRC_DIR}/wien_filter.cc")
+set(SOURCES element_test.cc "${SRC_DIR}/element.cc" 
+  "${SRC_DIR}/particle.cc" "${SRC_DIR}/right_hand_side.cc"
+ "${SRC_DIR}/dipole.cc" "${SRC_DIR}/quadrupole.cc" 
+ "${SRC_DIR}/sextupole.cc" 
+ "${SRC_DIR}/wien_filter.cc"
+ "${SRC_DIR}/rf_element.cc"
+ "${SRC_DIR}/data_log.cc"
+ )
 
 set(CMAKE_CXX_STANDARD 11)
 

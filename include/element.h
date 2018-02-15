@@ -10,11 +10,11 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <boost/shared_ptr.hpp>
-#include <eigen3/Eigen/Dense>
-#include <eigen3/Eigen/Geometry>
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 
-
+#include "particle.h"
+#include "data_log.h"
 #include "right_hand_side.h"
 
 using vectorized_field_type = Eigen::Matrix<double, 3, Eigen::Dynamic>;
@@ -34,11 +34,12 @@ public:
   
 };
 
-class Element{
+class Element {
 
   double curve_;
   double length_;
   std::string name_;
+  Particle& particle_; // will need to be removed after I remove pass_through
 
 protected:
   Eigen::Vector3d E_field_base_;
@@ -52,22 +53,27 @@ public:
 
   void vectorize_fields(state_type state_matrix); // public for now, might move
   
-  Element(double curve, double length, std::string name="Element");
+  Element(Particle& particle,
+	  double curve, double length,
+	  std::string name="Element");
 
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
+  Particle& particle(){return particle_;} // will be removed with pass_through
 
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 
-  vectorized_field_type EField(state_type state_matrix);
-  vectorized_field_type BField(state_type state_matrix);
+  virtual vectorized_field_type EField(state_type state_matrix);
+  virtual vectorized_field_type BField(state_type state_matrix);
 
-  void front_kick(state_type& state_matrix);
-  void rear_kick(state_type& state_matrix);
+  virtual void front_kick(state_type& state_matrix);
+  virtual void rear_kick(state_type& state_matrix);
 
   void print();
+
+  size_t track_through(state_type ini_states, DataLog& observer);
  
 };
 

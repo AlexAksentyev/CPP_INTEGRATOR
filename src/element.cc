@@ -1,11 +1,14 @@
 
 #include "element.h"
 #include <iostream>
+#include <boost/numeric/odeint.hpp>
+#include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 using namespace std;
 
-Element::Element(double curve, double length, std::string name)
-  : curve_(curve), length_(length), name_(name),
+Element::Element(Particle& particle, double curve, double length, std::string name)
+  : particle_(particle),
+    curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
     tilt_(){
   
@@ -58,6 +61,21 @@ void Element::print(){
   cout << "curvature: " << curve_ << endl
        << "length: " << length_ << endl
        << "name: " << name_  << endl;
+}
+
+size_t Element::track_through(state_type ini_states, DataLog& observer){
+  this->vectorize_fields(ini_states); // remove this later when have class Lattice
+  using namespace boost::numeric::odeint;
+  runge_kutta_dopri5<state_type, double,
+		     state_type, double,
+		     vector_space_algebra> stepper;
+  RightHandSide rhs(this->particle(), *this);
+  double delta_s = .1;
+  front_kick(ini_states);
+  size_t num_steps = integrate_adaptive(stepper, rhs, ini_states, 0., length_, delta_s, observer);
+  rear_kick(ini_states);
+
+  return num_steps;
 }
 
 using namespace Eigen;
