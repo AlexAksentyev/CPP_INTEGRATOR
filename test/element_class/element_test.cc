@@ -1,6 +1,7 @@
 
 #include <fstream>
 #include <iostream>
+#include "right_hand_side.h"
 #include "particle.h"
 // #include "drift_space.h"
 #include "dipole.h"
@@ -48,16 +49,21 @@ int main(int argc, char** argv){
   int col_width = 10;
   data_file << fixed << setprecision(4);
   data_file << right
-  	    << setw(col_width) << "#time"
-  	    << setw(col_width) << "x"
-  	    << setw(col_width) << "v"
-  	    << endl;
+  	    << setw(col_width) << "#time";
+  for (int j=0; j<VAR_NUM; j++)
+    data_file << setw(col_width) << VAR_NAME[j];
+  
+  data_file << endl;
+  
   for (size_t i=0; i<num_steps; i++){
     data_file << right
-  	      << setw(col_width) << s[i]
-  	      << setw(col_width) << x[i](0,0)
-  	      << setw(col_width) << x[i](0,1)
-  	      << endl;
+	      << setw(col_width) << s[i];
+
+    for (int j=0; j<VAR_NUM; j++)
+      data_file << setw(col_width) << x[i](0,j);
+
+    data_file << endl;
+  	      
   }
 
   data_file.close();

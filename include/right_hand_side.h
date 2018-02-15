@@ -9,8 +9,13 @@
 
 #include <vector>
 #include <Eigen/Dense>
+#include <string>
 
 static const int VAR_NUM = 12;
+static const std::string VAR_NAME[] = {"x", "y", "s",
+				       "t", "Theta", "H",
+				       "px", "py", "dK",
+				       "Sx", "Sy", "Sz"};
 // variable names
 /*   x, y, s, */        // 0,  1,  2
 /*   t, Theta, H, */    // 3,  4,  5
