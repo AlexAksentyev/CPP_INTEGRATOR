@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.9)
 project(element_test)
 
-set(ROOT_DIR "/home/alexa/REPOS/CPP_INTEGRATOR")
+set(ROOT_DIR "/Users/alexaksentyev/REPOS/CPP_INTEGRATOR")
 set(SRC_DIR "${ROOT_DIR}/src")
+set(INCLUDE_DIR "/usr/local/Cellar")
 
-include_directories("${ROOT_DIR}/include" "/usr/local/boost_1_66_0")
+include_directories("${ROOT_DIR}/include"
+"${INCLUDE_DIR}/boost/1.66.0"
+"${INCLUDE_DIR}/eigen/3.3.4")
 
 set(SOURCES element_test.cc "${SRC_DIR}/quadrupole.cc" "${SRC_DIR}/element.cc"
  "${SRC_DIR}/dipole.cc" "${SRC_DIR}/particle.cc" "${SRC_DIR}/sextupole.cc"
