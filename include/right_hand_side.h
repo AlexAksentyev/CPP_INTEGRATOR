@@ -8,24 +8,25 @@
 #define RIGHT_HAND_SIDE_H
 
 #include <vector>
-#include "particle.h"
 #include <Eigen/Dense>
 
 static const int VAR_NUM = 12;
 // variable names
-/*   x, y, s, */
-/*   t, Theta, H, */
-/*   px, py, dK, */
-/*   Sx, Sy, Sz */ 
+/*   x, y, s, */        // 0,  1,  2
+/*   t, Theta, H, */    // 3,  4,  5
+/*   px, py, dK, */     // 6,  7,  8
+/*   Sx, Sy, Sz */      // 9,  10, 11
 
 using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
-// using variable_col = Eigen::ArrayXd;
 
+class Particle;
 class Element;
 class DataLog;
 class RightHandSide{
   Particle& particle_;
   Element& host_;
+  double w_freq_; // for now initialized to 0
+  // change when have Lattice and can insert an RF
 	
 public:
   RightHandSide(Particle& reference_particle, Element& host_element);

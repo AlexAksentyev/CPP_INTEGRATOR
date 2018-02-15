@@ -3,8 +3,8 @@
 #include <iostream>
 #include "particle.h"
 // #include "drift_space.h"
-// #include "dipole.h"
-// #include "quadrupole.h"
+#include "dipole.h"
+#include "quadrupole.h"
 // #include "sextupole.h"
 #include "wien_filter.h"
 // #include "rf_element.h"
@@ -24,20 +24,22 @@ int main(int argc, char** argv){
   string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
  
   Particle p(1876, 1.14, G);
-  WienFilterStraight e(p, length, 5e-2, 120e5, .0864);
+  MQuad e(p, length, 8.6);
+  RightHandSide rhs(p, e);
 
   // creating the state ensemble
   int num_states = 2;
   state_type state(num_states, VAR_NUM), deriv(num_states, VAR_NUM);
   state.setZero();
-  state.col(0) = Eigen::VectorXd::Ones(num_states);
-
+  state.col(0) = Eigen::VectorXd::LinSpaced(num_states, -1e-3, 1e-3); // setting x
+  
   // output vectors
   vector<state_type> x;
   vector<double> s;
   DataLog log(x, s);
 
-  size_t num_steps = e.track_through(state, log);
+  e.vectorize_fields(state);
+  size_t num_steps = rhs.integrate(state, log);
 
   cout << num_steps << endl;
 

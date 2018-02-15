@@ -64,6 +64,7 @@ void Element::print(){
 }
 
 size_t Element::track_through(state_type ini_states, DataLog& observer){
+  this->vectorize_fields(ini_states); // remove this later when have class Lattice
   using namespace boost::numeric::odeint;
   runge_kutta_dopri5<state_type, double,
 		     state_type, double,

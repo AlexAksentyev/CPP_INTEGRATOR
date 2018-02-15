@@ -39,7 +39,7 @@ class Element {
   double curve_;
   double length_;
   std::string name_;
-  Particle& particle_;
+  Particle& particle_; // will need to be removed after I remove pass_through
 
 protected:
   Eigen::Vector3d E_field_base_;
@@ -60,16 +60,16 @@ public:
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
-  Particle& particle(){return particle_;}
+  Particle& particle(){return particle_;} // will be removed with pass_through
 
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 
-  vectorized_field_type EField(state_type state_matrix);
-  vectorized_field_type BField(state_type state_matrix);
+  virtual vectorized_field_type EField(state_type state_matrix);
+  virtual vectorized_field_type BField(state_type state_matrix);
 
-  void front_kick(state_type& state_matrix);
-  void rear_kick(state_type& state_matrix);
+  virtual void front_kick(state_type& state_matrix);
+  virtual void rear_kick(state_type& state_matrix);
 
   void print();
 
