@@ -9,7 +9,6 @@
 
 #include <vector>
 #include "particle.h"
-//#include "element.h"
 #include <Eigen/Dense>
 
 static const int VAR_NUM = 12;
@@ -23,6 +22,7 @@ using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 using variable_col = Eigen::ArrayXd;
 
 class Element;
+class DataLog;
 class RightHandSide{
   Particle& particle_;
   Element& host_;
@@ -30,6 +30,7 @@ class RightHandSide{
 public:
   RightHandSide(Particle& reference_particle, Element& host_element);
   void operator() (const state_type &x , state_type &dxds, const double /* s*/);
+  size_t integrate(state_type ini_states, DataLog& observer);
 };
 
 // template<typename T>
