@@ -18,8 +18,8 @@ double Particle::kinetic_energy(double relative_dK){
   return kin_nrg_0_*(1 + relative_dK);
 }
 
-ArrayXd Particle::kinetic_energy(ArrayXd relative_dK){
-  ArrayXd I = ArrayXd::Ones(relative_dK.rows());
+variable_col Particle::kinetic_energy(variable_col relative_dK){
+  variable_col I = variable_col::Ones(relative_dK.rows());
   return kin_nrg_0_*(I + relative_dK);
 }
 
@@ -39,9 +39,9 @@ double Particle::gamma (double relative_dK){
   return kin_nrg/mass0_ + 1;
 }
 
-ArrayXd Particle::gamma (ArrayXd relative_dK){
-  ArrayXd I = ArrayXd::Ones(relative_dK.rows());
-  ArrayXd kin_nrg = kinetic_energy(relative_dK);
+variable_col Particle::gamma (variable_col relative_dK){
+  variable_col I = variable_col::Ones(relative_dK.rows());
+  variable_col kin_nrg = kinetic_energy(relative_dK);
   return kin_nrg/mass0_ + I;
 }
 
@@ -61,9 +61,9 @@ double Particle::beta(double relative_dK){
   return sqrt(g*g - 1)/g;
 }
 
-ArrayXd Particle::beta(ArrayXd relative_dK){
-  ArrayXd I = ArrayXd::Ones(relative_dK.rows());
-  ArrayXd g = gamma(relative_dK);
+variable_col Particle::beta(variable_col relative_dK){
+  variable_col I = variable_col::Ones(relative_dK.rows());
+  variable_col g = gamma(relative_dK);
   return sqrt(g*g - I)/g;
 }
 
@@ -73,10 +73,10 @@ double Particle::Pc(double relative_dK){
   return sqrt(tot_nrg*tot_nrg - mass0_*mass0_);
 }
 
-ArrayXd Particle::Pc(ArrayXd relative_dK){
-  ArrayXd I = ArrayXd::Ones(relative_dK.rows());
-  ArrayXd kin_nrg = kinetic_energy(relative_dK);
-  ArrayXd tot_nrg = mass0_*I + kin_nrg;
+variable_col Particle::Pc(variable_col relative_dK){
+  variable_col I = variable_col::Ones(relative_dK.rows());
+  variable_col kin_nrg = kinetic_energy(relative_dK);
+  variable_col tot_nrg = mass0_*I + kin_nrg;
   return sqrt(tot_nrg*tot_nrg - mass0_*mass0_*I);
 }
 

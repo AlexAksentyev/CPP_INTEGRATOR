@@ -7,4 +7,6 @@ include_directories(../../include "/usr/include/eigen3")
 set(SOURCES particle_test.cc ../../src/particle.cc)
 
 
+set(CMAKE_CXX_STANDARD 11)
+
 add_executable(particle_test ${SOURCES})

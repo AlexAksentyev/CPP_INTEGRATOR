@@ -19,7 +19,7 @@ static const int VAR_NUM = 12;
 /*   Sx, Sy, Sz */ 
 
 using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
-using variable_col = Eigen::ArrayXd;
+// using variable_col = Eigen::ArrayXd;
 
 class Element;
 class DataLog;

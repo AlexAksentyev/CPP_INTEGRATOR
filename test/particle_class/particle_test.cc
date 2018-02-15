@@ -6,7 +6,6 @@
 
 
 using namespace std;
-using namespace Eigen;
 
 int main(int argc, char** argv){
   // argument check
@@ -15,13 +14,13 @@ int main(int argc, char** argv){
     return 1;
   }
 
-  ArrayXd dK(6);
+  variable_col dK(6);
   for (int i=0; i<6; i++)
     dK[i] = atof(argv[1])*i;  
   
   Particle p0;
 
-  ArrayXd vec = p0.Pc(dK);
+  variable_col vec = p0.Pc(dK);
   cout << "Vector:\n" << vec << endl;
   
  
