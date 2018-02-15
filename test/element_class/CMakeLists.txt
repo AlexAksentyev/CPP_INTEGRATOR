@@ -14,6 +14,7 @@ set(SOURCES element_test.cc "${SRC_DIR}/element.cc"
  "${SRC_DIR}/sextupole.cc" 
  "${SRC_DIR}/wien_filter.cc"
  "${SRC_DIR}/rf_element.cc"
+ "${SRC_DIR}/data_log.cc"
  )
 
 set(CMAKE_CXX_STANDARD 11)
