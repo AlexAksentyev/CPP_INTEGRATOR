@@ -27,7 +27,6 @@ endif(UNIX)
 set(SOURCES 
   "${SRC_DIR}/main.cc" 
   "${SRC_DIR}/particle.cc" 
-  "${SRC_DIR}/right_hand_side.cc"
   "${SRC_DIR}/data_log.cc"
   # elements
   "${SRC_DIR}/elements/element.cc" 
@@ -37,6 +36,7 @@ set(SOURCES
   #"${SRC_DIR}/elements/sextupole.cc" 
   #"${SRC_DIR}/elements/wien_filter.cc"
   #"${SRC_DIR}/elements/rf_element.cc"
+  "${SRC_DIR}/right_hand_side.cc"
   )
 
 set(CMAKE_CXX_STANDARD 11)
