@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 project(cpp_integrator)
 
-
 if(UNIX)
   set(ROOT_DIR "/home/alexa/REPOS/CPP_INTEGRATOR")
 elseif(APPLE)
@@ -14,6 +13,8 @@ include_directories(
   "${ROOT_DIR}/include" 
   "${ROOT_DIR}/include/elements"
   )
+  
+find_package(Boost 1.66.0 COMPONENTS system iostreams REQUIRED)
 # external headers
 if(UNIX)
   include_directories("/usr/local/boost_1_66_0"
@@ -23,6 +24,8 @@ elseif(APPLE)
   include_directories("${CELLAR}/boost/1.66.0/boost"
     "${CELLAR}/eigen/3.3.4/include/eigen3")
 endif(UNIX)
+
+link_directories(/usr/local/boost_1_66_0/stage/lib)
 
 set(SOURCES 
   "${SRC_DIR}/main.cc" 
@@ -41,5 +44,6 @@ set(SOURCES
 
 set(CMAKE_CXX_STANDARD 11)
 
-
 add_executable(cpp_integrator ${SOURCES})
+
+target_link_libraries(cpp_integrator ${Boost_LIBRARIES})

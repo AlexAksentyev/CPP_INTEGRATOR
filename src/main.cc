@@ -13,8 +13,14 @@
 #include <stdlib.h>
 #include <vector>
 
+#include "gnuplot-iostream.h"
+#include <boost/tuple/tuple.hpp>
+
 #include <boost/numeric/odeint.hpp>
 #include "boost/numeric/odeint/external/eigen/eigen.hpp"
+
+
+std::string to_string(double x);
 
 int main(int argc, char** argv){
   using namespace std;
@@ -46,8 +52,11 @@ int main(int argc, char** argv){
 
   log.write_to_file("integrate", ROOT_DIR+"/data");
 
+  Gnuplot gp;
+
+  gp << "plot '-' with points title 'x'\n";
+  gp.send1d(boost::make_tuple(s,x));
+  
+
   return 0;
 }
-
-
-
