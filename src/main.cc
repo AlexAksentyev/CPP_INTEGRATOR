@@ -3,18 +3,13 @@
 #include <iostream>
 #include "right_hand_side.h"
 #include "particle.h"
-// #include "drift_space.h"
-//#include "dipole.h"
 #include "quadrupole.h"
-// #include "sextupole.h"
-//#include "wien_filter.h"
-// #include "rf_element.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
 
-#include "gnuplot-iostream.h"
-#include <boost/tuple/tuple.hpp>
+// #include "gnuplot-iostream.h"
+// #include <boost/tuple/tuple.hpp>
 
 #include <boost/numeric/odeint.hpp>
 #include "boost/numeric/odeint/external/eigen/eigen.hpp"
@@ -27,6 +22,7 @@ int main(int argc, char** argv){
 
   double length = atof(argv[1]);
   double G = atof(argv[2]);
+  int pid = atoi(argv[3]);
 
   string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
  
@@ -35,7 +31,7 @@ int main(int argc, char** argv){
   RightHandSide rhs(p, e);
 
   // creating the state ensemble
-  int num_states = 2;
+  int num_states = 3;
   state_type state(num_states, VAR_NUM), deriv(num_states, VAR_NUM);
   state.setZero();
   state.col(0) = Eigen::VectorXd::LinSpaced(num_states, -1e-3, 1e-3); // setting x
@@ -52,10 +48,12 @@ int main(int argc, char** argv){
 
   log.write_to_file("integrate", ROOT_DIR+"/data");
 
-  Gnuplot gp;
+  log.plot(0, pid);
 
-  gp << "plot '-' with points title 'x'\n";
-  gp.send1d(boost::make_tuple(s,x));
+  // Gnuplot gp;
+
+  // gp << "plot '-' with points title 'x'\n";
+  // gp.send1d(boost::make_tuple(s,x));
   
 
   return 0;
