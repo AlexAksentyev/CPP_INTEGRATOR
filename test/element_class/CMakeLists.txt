@@ -18,14 +18,17 @@ elseif(APPLE)
     "/usr/local/Cellar/eigen/3.3.4/include/eigen3")
 endif(UNIX)
 
-set(SOURCES element_test.cc "${SRC_DIR}/element.cc" 
-  "${SRC_DIR}/particle.cc" "${SRC_DIR}/right_hand_side.cc"
- "${SRC_DIR}/dipole.cc" "${SRC_DIR}/quadrupole.cc" 
- "${SRC_DIR}/sextupole.cc" 
- "${SRC_DIR}/wien_filter.cc"
- "${SRC_DIR}/rf_element.cc"
- "${SRC_DIR}/data_log.cc"
- )
+set(SOURCES element_test.cc 
+  "${SRC_DIR}/particle.cc" 
+  "${SRC_DIR}/right_hand_side.cc"
+  "${SRC_DIR}/data_log.cc"
+  "${SRC_DIR}/elements/element.cc" 
+  "${SRC_DIR}/elements/dipole.cc" 
+  "${SRC_DIR}/elements/quadrupole.cc" 
+  "${SRC_DIR}/elements/sextupole.cc" 
+  "${SRC_DIR}/elements/wien_filter.cc"
+  "${SRC_DIR}/elements/rf_element.cc"
+  )
 
 set(CMAKE_CXX_STANDARD 11)
 
