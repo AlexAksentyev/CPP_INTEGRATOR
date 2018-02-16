@@ -9,7 +9,7 @@ elseif(APPLE)
 endif(UNIX)
 set(SRC_DIR "${ROOT_DIR}/src")
 
-include_directories("${ROOT_DIR}/include")
+include_directories("${ROOT_DIR}/include" "${ROOT_DIR}/include/elements")
 if(UNIX)
   include_directories("/usr/local/boost_1_66_0"
     "/usr/include/eigen3")
