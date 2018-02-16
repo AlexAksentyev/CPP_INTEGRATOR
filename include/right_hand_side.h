@@ -3,6 +3,9 @@
 // has a pointer to the element for the computation of
 // the EM fields
 
+// TODO:
+// * (possibly) define IMAP as unordered_map
+
 
 #ifndef RIGHT_HAND_SIDE_H
 #define RIGHT_HAND_SIDE_H
@@ -16,6 +19,7 @@ static const std::string VAR_NAME[] = {"x", "y", "s",
 				       "t", "Theta", "H",
 				       "px", "py", "dK",
 				       "Sx", "Sy", "Sz"};
+
 // variable names
 /*   x, y, s, */        // 0,  1,  2
 /*   t, Theta, H, */    // 3,  4,  5
