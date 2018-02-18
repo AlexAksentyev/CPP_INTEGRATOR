@@ -1,3 +1,6 @@
+// TODO:
+// * finish StateList
+
 
 #ifndef DATA_LOG_H
 #define DATA_LOG_H
@@ -20,6 +23,16 @@ struct DataLog{
   }
 
   void write_to_file(std::string name, std::string dir = "../data"); // bin is in build, go out
+  void plot(int var_index, int pid);
 };
+
+// TO FINISH
+// object for creating ensembles of initial conditions
+class StateList{
+
+
+};
+
+
 
 #endif // DATA_LOG_H

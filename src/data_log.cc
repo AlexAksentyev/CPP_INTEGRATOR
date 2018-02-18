@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include "gnuplot-iostream.h"
+#include <boost/tuple/tuple.hpp>
+
 
 using namespace std;
 
@@ -37,4 +40,22 @@ void DataLog::write_to_file(string name, string dir){
   }
 
   file_handle.close();
+}
+
+
+void DataLog::plot(int var_index, int pid){
+
+  string var_name = VAR_NAME[var_index];
+
+  vector<double> var_values;
+  for(vector<state_type>::iterator it = system_state_.begin(); it != system_state_.end(); ++it){
+    double value = (*it)(pid, var_index);
+    var_values.push_back(value);
+  }
+  
+  Gnuplot gp;
+
+  gp << "plot '-' with points title '" + var_name + "'\n";
+  gp.send1d(boost::make_tuple(system_position_, var_values));
+  
 }
