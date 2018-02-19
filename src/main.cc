@@ -4,6 +4,10 @@
 #include "right_hand_side.h"
 #include "particle.h"
 #include "quadrupole.h"
+#include "dipole.h"
+#include "sextupole.h"
+#include "wien_filter.h"
+#include "rf_element.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
@@ -27,7 +31,7 @@ int main(int argc, char** argv){
   string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
  
   Particle p(1876, 1.14, G);
-  MQuad e(p, length, 8.6);
+  MSext e(p, length, 8.24);
   RightHandSide rhs(p, e);
 
   // creating the state ensemble
@@ -42,19 +46,13 @@ int main(int argc, char** argv){
   DataLog log(x, s);
 
   e.vectorize_fields(state);
-  size_t num_steps = rhs.integrate(state, log);
+  size_t num_steps = e.track_through(state, log);
 
   cout << num_steps << endl;
 
   log.write_to_file("integrate", ROOT_DIR+"/data");
 
   log.plot(0, pid);
-
-  // Gnuplot gp;
-
-  // gp << "plot '-' with points title 'x'\n";
-  // gp.send1d(boost::make_tuple(s,x));
-  
 
   return 0;
 }
