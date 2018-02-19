@@ -7,7 +7,7 @@
 using namespace std;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
-  : particle_(particle), rhs_(RightHandSide(particle, *this)),
+  : rhs_(RightHandSide(particle, *this)),
     curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
     tilt_(){

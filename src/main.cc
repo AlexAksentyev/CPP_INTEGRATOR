@@ -28,7 +28,7 @@ int main(int argc, char** argv){
   double G = atof(argv[2]);
   int pid = atoi(argv[3]);
 
-  string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
+  string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/";
  
   Particle p(1876, 1.14, G);
   MQuad e(p, length, 8.24);
