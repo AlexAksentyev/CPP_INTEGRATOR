@@ -7,7 +7,7 @@
 using namespace std;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
-  : particle_(particle),
+  : particle_(particle), rhs_(RightHandSide(particle, *this)),
     curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
     tilt_(){
@@ -69,10 +69,9 @@ size_t Element::track_through(state_type ini_states, DataLog& observer){
   runge_kutta_dopri5<state_type, double,
 		     state_type, double,
 		     vector_space_algebra> stepper;
-  RightHandSide rhs(this->particle(), *this);
   double delta_s = .1;
   front_kick(ini_states);
-  size_t num_steps = integrate_adaptive(stepper, rhs, ini_states, 0., length_, delta_s, observer);
+  size_t num_steps = integrate_adaptive(stepper, this->rhs_, ini_states, 0., length_, delta_s, observer);
   rear_kick(ini_states);
 
   return num_steps;

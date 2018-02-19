@@ -40,6 +40,7 @@ class Element {
   double length_;
   std::string name_;
   Particle& particle_; // will need to be removed after I remove pass_through
+  RightHandSide rhs_;
 
 protected:
   Eigen::Vector3d E_field_base_;

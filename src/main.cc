@@ -15,8 +15,8 @@
 // #include "gnuplot-iostream.h"
 // #include <boost/tuple/tuple.hpp>
 
-#include <boost/numeric/odeint.hpp>
-#include "boost/numeric/odeint/external/eigen/eigen.hpp"
+// #include <boost/numeric/odeint.hpp>
+// #include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 
 std::string to_string(double x);
@@ -31,7 +31,7 @@ int main(int argc, char** argv){
   string ROOT_DIR = "/home/alexa/REPOS/CPP_INTEGRATOR/test/element_class";
  
   Particle p(1876, 1.14, G);
-  MSext e(p, length, 8.24);
+  MQuad e(p, length, 8.24);
   RightHandSide rhs(p, e);
 
   // creating the state ensemble
