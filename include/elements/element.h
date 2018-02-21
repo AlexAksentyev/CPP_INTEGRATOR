@@ -39,7 +39,7 @@ class Element {
   double curve_;
   double length_;
   std::string name_;
-  Particle& particle_; // will need to be removed after I remove pass_through
+  RightHandSide rhs_;
 
 protected:
   Eigen::Vector3d E_field_base_;
@@ -60,7 +60,6 @@ public:
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
-  Particle& particle(){return particle_;} // will be removed with pass_through
 
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing

@@ -40,12 +40,11 @@ set(SOURCES
   "${SRC_DIR}/data_log.cc"
   # elements
   "${SRC_DIR}/elements/element.cc" 
-  #"${SRC_DIR}/elements/drift_space.cc" 
   "${SRC_DIR}/elements/dipole.cc" 
   "${SRC_DIR}/elements/quadrupole.cc" 
-  #"${SRC_DIR}/elements/sextupole.cc" 
-  #"${SRC_DIR}/elements/wien_filter.cc"
-  #"${SRC_DIR}/elements/rf_element.cc"
+  "${SRC_DIR}/elements/sextupole.cc" 
+  "${SRC_DIR}/elements/wien_filter.cc"
+  "${SRC_DIR}/elements/rf_element.cc"
   "${SRC_DIR}/right_hand_side.cc"
   )
 
