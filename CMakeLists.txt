@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.9)
 project(cpp_integrator)
 
-if(UNIX)
+message(status " APPLE: " ${APPLE})
+message(status " UNIX: " ${APPLE})
+
+if(APPLE)
+  set(ROOT_DIR "/Users/alexaksentyev/REPOS/CPP_INTEGRATOR")
+else(APPLE)
   set(ROOT_DIR "/home/alexa/REPOS/CPP_INTEGRATOR")
-elseif(APPLE)
-  set(ROOT_DIR "/home/alexaksentyev/REPOS/CPP_INTEGRATOR")
-endif(UNIX)
+endif(APPLE)
 set(SRC_DIR "${ROOT_DIR}/src")
 
 # project headers
@@ -16,16 +19,20 @@ include_directories(
   
 find_package(Boost 1.66.0 COMPONENTS system iostreams REQUIRED)
 # external headers
-if(UNIX)
-  include_directories("/usr/local/boost_1_66_0"
-    "/usr/include/eigen3")
-elseif(APPLE)
+if(APPLE)
   set(CELLAR "/usr/local/Cellar")
   include_directories("${CELLAR}/boost/1.66.0/boost"
-    "${CELLAR}/eigen/3.3.4/include/eigen3")
-endif(UNIX)
+    "/usr/local/include/eigen3")
+else(APPLE)
+  include_directories("/usr/local/boost_1_66_0"
+    "/usr/include/eigen3")
+endif(APPLE)
 
-link_directories(/usr/local/boost_1_66_0/stage/lib)
+if(APPLE)
+   link_directories(/usr/local/Cellar/boost/1.66.0/lib)
+else(APPLE)
+   link_directories(/usr/local/boost_1_66_0/stage/lib)
+endif(APPLE)
 
 set(SOURCES 
   "${SRC_DIR}/main.cc" 
