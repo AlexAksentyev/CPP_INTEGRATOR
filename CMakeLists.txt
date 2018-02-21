@@ -19,7 +19,8 @@ find_package(Boost 1.66.0 COMPONENTS system iostreams REQUIRED)
 if(APPLE)
   set(CELLAR "/usr/local/Cellar")
   include_directories("${CELLAR}/boost/1.66.0/boost"
-    "/usr/local/include/eigen3")
+    "/usr/local/include/eigen3"
+    "$ENV{HOME}/REPOS/gnuplot-iostream")
 else(APPLE)
   include_directories("/usr/local/boost_1_66_0"
     "/usr/include/eigen3")
