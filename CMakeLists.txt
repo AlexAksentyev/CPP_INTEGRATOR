@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 project(cpp_integrator)
 
-message(status " APPLE: " ${APPLE})
-message(status " UNIX: " ${APPLE})
-
 if(APPLE)
   set(ROOT_DIR "/Users/alexaksentyev/REPOS/CPP_INTEGRATOR")
 else(APPLE)
