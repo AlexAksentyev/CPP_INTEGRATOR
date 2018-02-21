@@ -8,12 +8,6 @@
 #include <stdlib.h>
 #include <vector>
 
-#include <boost/numeric/odeint.hpp>
-#include "boost/numeric/odeint/external/eigen/eigen.hpp"
-
-
-std::string to_string(double x);
-
 int main(int argc, char** argv){
   using namespace std;
 
