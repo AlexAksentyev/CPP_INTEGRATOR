@@ -1,5 +1,8 @@
 // defined classes: Field, Tilt, Element
 // Element contains the E-, B-field definitions.
+// TODO:
+//    * data output is performed only inside odeint,
+//      but in python code I output values after odeint + rear_kick
 
 #ifndef ELEMENT_H
 #define ELEMENT_H
@@ -69,7 +72,7 @@ public:
 
   void print();
 
-  size_t track_through(state_type ini_states, DataLog& observer);
+  virtual size_t track_through(state_type& ini_states, DataLog& observer);
  
 };
 
