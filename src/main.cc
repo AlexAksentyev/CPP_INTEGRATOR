@@ -4,6 +4,7 @@
 #include "right_hand_side.h"
 #include "particle.h"
 #include "quadrupole.h"
+#include "wien_filter.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
@@ -16,8 +17,7 @@ int main(int argc, char** argv){
   int pid = atoi(argv[3]);
  
   Particle p(1876, 1.14, G);
-  MQuad e(p, length, 8.6);
-  RightHandSide rhs(p, e);
+  WFCylindrical e(p, length, 5e-2, 120e5, .46);
 
   // creating the state ensemble
   int num_states = 3;
