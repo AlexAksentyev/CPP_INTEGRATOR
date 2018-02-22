@@ -1,11 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(cpp_integrator)
 
-if(APPLE)
-  set(ROOT_DIR "/Users/alexaksentyev/REPOS/CPP_INTEGRATOR")
-else(APPLE)
-  set(ROOT_DIR "/home/alexa/REPOS/CPP_INTEGRATOR")
-endif(APPLE)
+set(ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(SRC_DIR "${ROOT_DIR}/src")
 
 # project headers
@@ -21,15 +17,11 @@ if(APPLE)
   include_directories("${CELLAR}/boost/1.66.0/boost"
     "/usr/local/include/eigen3"
     "$ENV{HOME}/REPOS/gnuplot-iostream")
+  link_directories("${CELLAR}/boost/1.66.0/lib")
 else(APPLE)
   include_directories("/usr/local/boost_1_66_0"
     "/usr/include/eigen3")
-endif(APPLE)
-
-if(APPLE)
-   link_directories(/usr/local/Cellar/boost/1.66.0/lib)
-else(APPLE)
-   link_directories(/usr/local/boost_1_66_0/stage/lib)
+  link_directories(/usr/local/boost_1_66_0/stage/lib)
 endif(APPLE)
 
 set(SOURCES 
