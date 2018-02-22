@@ -78,5 +78,17 @@ public:
  
 };
 
+class Observer : public Element {
+public:
+  Observer(Particle& particle, std::string name="Observer")
+    : Element(particle, 0, 0, name){}
+
+  size_t track_through(state_type& ini_states, DataLog& observer) {
+    observer(ini_states, ini_states(0, 2));
+    return 0;
+  }
+
+};
+
 
 #endif

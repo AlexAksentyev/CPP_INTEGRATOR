@@ -6,6 +6,7 @@
 #include "quadrupole.h"
 //#include "wien_filter.h"
 #include "rf_element.h"
+#include "element.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
@@ -18,8 +19,9 @@ int main(int argc, char** argv){
   int pid = atoi(argv[3]);
  
   Particle p(1876, 1.14, G);
-  ERF e(p, 0, length);
+  //  ERF e(p, 0, length);
   //  MQuad e(p, length, 8.6);
+  Observer e(p);
 
   // creating the state ensemble
   int num_states = 3;
