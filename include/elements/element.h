@@ -45,6 +45,7 @@ protected:
   Eigen::Vector3d E_field_base_;
   Eigen::Vector3d B_field_base_;
   vectorized_field_type E_field_vectorized_;
+  vectorized_field_type E_field_prime_s_vectorized_;
   vectorized_field_type B_field_vectorized_;
 
 public:
@@ -65,6 +66,7 @@ public:
   void print_vectorized_fields(); // testing
 
   virtual vectorized_field_type EField(state_type state_matrix);
+  virtual vectorized_field_type EField_prime_s(state_type state_matrix);
   virtual vectorized_field_type BField(state_type state_matrix);
 
   virtual void front_kick(state_type& state_matrix);

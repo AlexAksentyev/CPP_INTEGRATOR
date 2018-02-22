@@ -3,7 +3,7 @@
 #include <iostream>
 #include "right_hand_side.h"
 #include "particle.h"
-//#include "quadrupole.h"
+#include "quadrupole.h"
 //#include "wien_filter.h"
 #include "rf_element.h"
 #include <string>
@@ -19,6 +19,7 @@ int main(int argc, char** argv){
  
   Particle p(1876, 1.14, G);
   ERF e(p, 0, length);
+  //  MQuad e(p, length, 8.6);
 
   // creating the state ensemble
   int num_states = 3;
@@ -31,19 +32,14 @@ int main(int argc, char** argv){
   vector<double> s;
   DataLog log(x, s);
 
-  e.vectorize_fields(state);
-  size_t num_steps;
-  cout << "state: \n" << state << endl;
-  for(int i=0; i<100; i++)
-    num_steps= e.track_through(state, log);
+  size_t num_steps = e.track_through(state, log);
 
-  cout << "state after: \n" << state << endl;
 
   cout << num_steps << endl;
 
   log.write_to_file("integrate");
 
-  log.plot(x, pid);  
+  log.plot(0, pid);  
 
   return 0;
 }

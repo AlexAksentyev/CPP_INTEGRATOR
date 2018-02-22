@@ -41,16 +41,18 @@ void RightHandSide::operator() (const state_type &state,
   variable_col tp = Hp/v;
 
   vectorized_field_type E_field = host_.EField(state);
-  /* add E_field_prime here */
+  vectorized_field_type E_field_prime_s = host_.EField_prime_s(state);
   vectorized_field_type B_field = host_.BField(state);
 
   variable_col Ex = E_field.row(0), Ey = E_field.row(1), Es = E_field.row(2);
+  variable_col Esp = E_field_prime_s.row(2);
   variable_col Bx = B_field.row(0), By = B_field.row(1), Bs = B_field.row(2);
 
-  variable_col dKp = (Ex*xp + Ey*yp + Es)*1e-6;
+  variable_col s = state.col(2);
+  variable_col dKp = (Ex*xp + Ey*yp + Es + Esp*s)*1e-6;
   // this formula is for static fields (cf Andrey's thesis p 25)
   // for dynamically varying fields (like RF) add the term:
-  // Esp*tp*delta_s
+  // Esp*s
 
   variable_col mass0 = particle_.mass0()*I; // particle rest mass in MeVs
   variable_col mass02 = mass0*mass0;

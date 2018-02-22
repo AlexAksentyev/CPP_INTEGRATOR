@@ -1,3 +1,6 @@
+// TODO:
+//    * remove vectorization from track_through when implemented Lattice class
+
 
 #include "element.h"
 #include <iostream>
@@ -20,6 +23,7 @@ void Element::vectorize_fields(state_type state_matrix){
   int state_num = state_matrix.rows();
   
   E_field_vectorized_ = E_field_base_.replicate(1, state_num);
+  E_field_prime_s_vectorized_ = vectorized_field_type::Zero(3, state_num);
   B_field_vectorized_ = B_field_base_.replicate(1, state_num);
 }
 
@@ -45,6 +49,9 @@ void Element::print_vectorized_fields(){
 
 vectorized_field_type Element::EField(state_type state_matrix){
   return tilt_.transform_*E_field_vectorized_;
+}
+vectorized_field_type Element::EField_prime_s(state_type state_matrix){
+  return tilt_.transform_*E_field_prime_s_vectorized_;
 }
 vectorized_field_type Element::BField(state_type state_matrix){
   return tilt_.transform_*B_field_vectorized_;
