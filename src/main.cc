@@ -3,8 +3,9 @@
 #include <iostream>
 #include "right_hand_side.h"
 #include "particle.h"
-#include "quadrupole.h"
-#include "wien_filter.h"
+//#include "quadrupole.h"
+//#include "wien_filter.h"
+#include "rf_element.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
@@ -17,7 +18,7 @@ int main(int argc, char** argv){
   int pid = atoi(argv[3]);
  
   Particle p(1876, 1.14, G);
-  WFCylindrical e(p, length, 5e-2, 120e5, .46);
+  ERF e(p, 0, length);
 
   // creating the state ensemble
   int num_states = 3;
@@ -31,13 +32,18 @@ int main(int argc, char** argv){
   DataLog log(x, s);
 
   e.vectorize_fields(state);
-  size_t num_steps = e.track_through(state, log);
+  size_t num_steps;
+  cout << "state: \n" << state << endl;
+  for(int i=0; i<100; i++)
+    num_steps= e.track_through(state, log);
+
+  cout << "state after: \n" << state << endl;
 
   cout << num_steps << endl;
 
   log.write_to_file("integrate");
 
-  log.plot(0, pid);  
+  log.plot(x, pid);  
 
   return 0;
 }
