@@ -2,12 +2,10 @@
 #define WIEN_FILTER_H
 
 #include "element.h"
-#include "particle.h"
 #include <eigen3/Eigen/Dense>
 
 
 class WFStraight : public Element {
-  //  double h_gap_;
   double ref_kinetic_energy_;
   double kick_voltage_;
 public:
@@ -25,7 +23,6 @@ class WFCylindrical : public Element {
   double ref_kinetic_energy_;
   double plate_voltage_;
   double R1_, R2_;
-  variable_col kick_voltage(state_type state);
   double kick_voltage(double x);
 public:
   WFCylindrical(Particle& reference_particle,

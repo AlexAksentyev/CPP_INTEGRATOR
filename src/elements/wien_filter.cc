@@ -49,16 +49,6 @@ double WFCylindrical::curv_comp(Particle& reference_particle, double E_hor, doub
   return 1/R;
 }
 
-variable_col WFCylindrical::kick_voltage(state_type state){
-  int size = state.rows();
-  double R0 = 1/curve();
-  double VlogR2R12 = - E_field_base_(0)*R0;
-  variable_col R = R0*variable_col::Ones(size);
-  variable_col x = state.row(0);
-  variable_col V = plate_voltage_*variable_col::Ones(size);
-  return -V + VlogR2R12*log((R+x)/R1_);
-}
-
 double WFCylindrical::kick_voltage(double x){
   double R0 = 1/curve();
   double VlogR2R12 = - E_field_base_(0)*R0;
