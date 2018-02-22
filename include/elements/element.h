@@ -1,9 +1,6 @@
 // defined classes: Field, Tilt, Element
 // Element contains the E-, B-field definitions.
 
-// TODO:
-//   * add members: bool_skip (possibly)
-
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
@@ -52,7 +49,7 @@ public:
   Tilt tilt_;
 
   void vectorize_fields(state_type state_matrix); // public for now, might move
-  
+
   Element(Particle& particle,
 	  double curve, double length,
 	  std::string name="Element");

@@ -2,7 +2,6 @@
 #define PARTICLE_H
 
 #include <iostream>
-#include <math.h>
 #include <Eigen/Dense>
 
 const double CLIGHT = 2.99792458e8; // m/s
