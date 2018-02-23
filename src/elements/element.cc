@@ -84,7 +84,7 @@ size_t Element::track_through(State& ini_states, DataLog& observer){
   runge_kutta_dopri5<State, double,
 		     State, double,
 		     vector_space_algebra> stepper;
-  double delta_s = .1;
+  double delta_s = length_/100;
   front_kick(ini_states);
   size_t num_steps = integrate_adaptive(stepper, this->rhs_, ini_states, 0., length_, delta_s, observer);
   rear_kick(ini_states);
