@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
-project(cpp_integrator)
+set(CODE_NAME test_lattice)
+project(TEST_PROJECCT)
 
 set(ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(SRC_DIR "${ROOT_DIR}/src")
@@ -25,7 +26,7 @@ else(APPLE)
 endif(APPLE)
 
 set(SOURCES 
-  "${SRC_DIR}/main.cc" 
+  "${SRC_DIR}/${CODE_NAME}.cc" 
   "${SRC_DIR}/particle.cc" 
   "${SRC_DIR}/data_log.cc"
   # elements
@@ -40,6 +41,6 @@ set(SOURCES
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(cpp_integrator ${SOURCES})
+add_executable(${CODE_NAME} ${SOURCES})
 
-target_link_libraries(cpp_integrator ${Boost_LIBRARIES})
+target_link_libraries(${CODE_NAME} ${Boost_LIBRARIES})
