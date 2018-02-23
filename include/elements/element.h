@@ -78,7 +78,7 @@ public:
 
   void print();
 
-  virtual size_t track_through(State& ini_states, DataLog& observer);
+  virtual size_t track_through(State& ini_states, DataLog& observer, double start_s=0);
  
 };
 
