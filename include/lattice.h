@@ -13,20 +13,20 @@
 #include <string>
 #include "element.h"
 
-using ElementSequence = std::vector<Element>;
+using ElementVector = std::vector<Element>;
 
-struct rf_t {
+struct RFMeta {
   int index, count;
 };
 
 class Lattice {
-  ElementSequence sequence_; // contains ponters to used elements
+  ElementVector sequence_; // contains ponters to used elements
   double length_;
   size_t count_;
-  rf_t rf_metadata_;
+  RFMeta rf_metadata_;
 public:
   
-  Lattice(ElementSequence element_sequence, std::string name);
+  Lattice(ElementVector element_sequence, std::string name);
 
   size_t count() {return count_;}
   double length() {return length_;}
