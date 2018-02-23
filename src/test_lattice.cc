@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <vector>
 
+#include <boost/ptr_container/ptr_vector.hpp>
 
 int main(int argc, char** argv) {
   using namespace std;
@@ -36,22 +37,30 @@ int main(int argc, char** argv) {
 
   // creating a lattice
   MQuad QF(p, length, 8.6);
-  Drift OD(p, length);
+  Drift OD(p, length/10);
   MQuad QD(p, length, -8.4);
 
-  QF.track_through(state, log);
+  // size_t num_steps = QF.track_through(state, log);
 
-  vector<Element> lattice = {QF, OD, QD};
+  vector<Element*> lattice = {&QF, new Drift(OD), new MQuad(QD)}; // CHANGE FROM DUM POINTERS
 
   cout << lattice.size() << endl;
 
   size_t num_steps = 0;
-  for (vector<Element>::iterator element=lattice.begin();
-       element!=lattice.end();
-       ++element){
-    cout << element->name();
-    num_steps += element->track_through(state, log);
+  double current_s = 0;
+  for(vector<Element*>::iterator element=lattice.begin();
+      element!=lattice.end();
+      ++element){
+    num_steps += (*element)->track_through(state, log, current_s);
+    log.plot(var_id, pid, "lines");
+    cout << current_s << endl;
+    current_s += (*element)->length();
   }
+
+  // num_steps += QF.track_through(state, log);
+  // num_steps += QF.track_through(state, log, length);
+  // num_steps += QF.track_through(state, log, length*2); 
+
 
   log.write_to_file("test_lattice");
 
