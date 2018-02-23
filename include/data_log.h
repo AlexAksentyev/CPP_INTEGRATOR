@@ -23,7 +23,7 @@ struct DataLog{
   }
 
   void write_to_file(std::string name, std::string dir = "../data"); // bin is in build, go out
-  void plot(int var_index, int pid);
+  void plot(int var_index, int pid, std::string line_type="points");
 };
 
 // TO FINISH

@@ -43,7 +43,7 @@ void DataLog::write_to_file(string name, string dir){
 }
 
 
-void DataLog::plot(int var_index, int pid){
+void DataLog::plot(int var_index, int pid, string line_type){
 
   string var_name = VAR_NAME[var_index];
 
@@ -55,7 +55,7 @@ void DataLog::plot(int var_index, int pid){
   
   Gnuplot gp;
 
-  gp << "plot '-' with points title '" + var_name + "'\n";
+  gp << "plot '-' with " << line_type << " title '" + var_name + "'\n";
   gp.send1d(boost::make_tuple(system_position_, var_values));
   
 }
