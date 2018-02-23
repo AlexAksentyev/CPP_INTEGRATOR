@@ -10,12 +10,20 @@
 using namespace std;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
-  : rhs_(RightHandSide(particle, *this)),
+  : rhs_(particle, *this),
     curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
-    tilt_(){
-  
-}
+    tilt_(){}
+
+Element::Element(const Element& to_copy)
+  : rhs_(to_copy.rhs_, *this),
+    curve_(to_copy.curve_), length_(to_copy.length_),
+    name_(to_copy.name_),
+    E_field_base_(to_copy.E_field_base_),
+    B_field_base_(to_copy.B_field_base_),
+    tilt_(to_copy.tilt_),
+    E_field_vectorized_(to_copy.E_field_vectorized_),
+    B_field_vectorized_(to_copy.B_field_vectorized_){}
 
 void Element::vectorize_fields(state_type state_matrix){
   // when the initial state ensemble is known, run

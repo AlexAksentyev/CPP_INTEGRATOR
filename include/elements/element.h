@@ -3,6 +3,7 @@
 // TODO:
 //    * data output is performed only inside odeint,
 //      but in python code I output values after odeint + rear_kick
+//    * copy constructor
 
 #ifndef ELEMENT_H
 #define ELEMENT_H
@@ -58,9 +59,12 @@ public:
 	  double curve, double length,
 	  std::string name="Element");
 
+  Element(const Element& ); // copy constructor
+
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}
+  void rename(std::string new_name){name_ = new_name;}
 
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing

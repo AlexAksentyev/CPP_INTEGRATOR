@@ -36,9 +36,11 @@ class RightHandSide{
   Element& host_;
   double w_freq_; // for now initialized to 0
   // change when have Lattice and can insert an RF
-	
+
 public:
   RightHandSide(Particle& reference_particle, Element& host_element);
+  RightHandSide(const RightHandSide& to_copy, Element& new_host);
+  RightHandSide(const RightHandSide& to_copy);
   void operator() (const state_type &x , state_type &dxds, const double /* s*/);
 };
 

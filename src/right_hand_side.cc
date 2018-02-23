@@ -12,6 +12,16 @@ using namespace std;
 RightHandSide::RightHandSide(Particle& reference, Element& host)
   : particle_(reference), host_(host), w_freq_(0) {}
 
+RightHandSide::RightHandSide(const RightHandSide& to_copy, Element& new_host)
+  : particle_(to_copy.particle_), host_(new_host), w_freq_(to_copy.w_freq_){
+  cout << "Particle reference unchanged" << endl;
+}
+
+RightHandSide::RightHandSide(const RightHandSide& to_copy)
+  : RightHandSide(to_copy, to_copy.host_) {
+  cout << "Particle, Element references unchanged" << endl;
+}
+
 
 void RightHandSide::operator() (const state_type &state,
 				state_type &derivative,
@@ -40,9 +50,17 @@ void RightHandSide::operator() (const state_type &state,
   variable_col v = beta * CLIGHT;
   variable_col tp = Hp/v;
 
+  cout << "here" << endl;
+
   vectorized_field_type E_field = host_.EField(state);
+  cout << "E_field" << endl;
   vectorized_field_type E_field_prime_s = host_.EField_prime_s(state);
+  cout << "E_prime" << endl;
   vectorized_field_type B_field = host_.BField(state);
+
+  cout << "E_field.nrow: " << E_field.rows() << " ncol: " << E_field.cols() << endl;
+
+  cout << "host name: " << host_.name() << endl;
 
   variable_col Ex = E_field.row(0), Ey = E_field.row(1), Es = E_field.row(2);
   variable_col Esp = E_field_prime_s.row(2);
@@ -104,6 +122,8 @@ void RightHandSide::operator() (const state_type &state,
     (sp1*Bx+sp2*Px)*Sy -
     (sp1*By+sp2*Py)*Sx;
 
+  cout << "deriv.nrow: " << derivative.rows() << endl;
+  
   //setting derivatives
   derivative.col(0) = xp; derivative.col(1) = yp; derivative.col(2) = I;
   derivative.col(3) = tp; derivative.col(4) = w_freq_*tp; derivative.col(5) = Hp;
