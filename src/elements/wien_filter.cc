@@ -14,12 +14,12 @@ WFStraight::WFStraight(Particle& reference_particle,
   B_field_base_(1) = B_vert;
 }
 
-void WFStraight::front_kick(state_type& state){
+void WFStraight::front_kick(State& state){
   for(int i=0; i<state.rows(); i++)
     state(i, 8) -= kick_voltage_*1e-6/ref_kinetic_energy_; // changes dK of state
 }
 
-void WFStraight::rear_kick(state_type& state){
+void WFStraight::rear_kick(State& state){
  for(int i=0; i<state.rows(); i++)
     state(i, 8) += kick_voltage_*1e-6/ref_kinetic_energy_; // changes dK of state
 }
@@ -55,19 +55,19 @@ double WFCylindrical::kick_voltage(double x){
   return -plate_voltage_ + VlogR2R12 * log((R0+x)/R1_);
 }
 
-vectorized_field_type WFCylindrical::EField(state_type state){
+VectorizedField WFCylindrical::EField(State state){
   for(int j=0; j<state.rows(); j++)
     E_field_vectorized_(0, j) = E_field_base_(0)/(1 + curve()*state(j, 0)); // E0/(1 + crv*x)
 
   return tilt_.transform_*E_field_vectorized_;
 }
 
-void WFCylindrical::front_kick(state_type& state){
+void WFCylindrical::front_kick(State& state){
   for(int i=0; i<state.rows(); i++)
     state(i, 8) -= kick_voltage(state(i, 0))*1e-6/ref_kinetic_energy_; // changes dK of state
 }
 
-void WFCylindrical::rear_kick(state_type& state){
+void WFCylindrical::rear_kick(State& state){
   for(int i=0; i<state.rows(); i++)
     state(i, 8) += kick_voltage(state(i, 0))*1e-6/ref_kinetic_energy_; // changes dK of state
 }

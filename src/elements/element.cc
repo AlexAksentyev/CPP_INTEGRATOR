@@ -25,13 +25,13 @@ Element::Element(const Element& to_copy)
     E_field_vectorized_(to_copy.E_field_vectorized_),
     B_field_vectorized_(to_copy.B_field_vectorized_){}
 
-void Element::vectorize_fields(state_type state_matrix){
+void Element::vectorize_fields(State state_matrix){
   // when the initial state ensemble is known, run
   // this function before tracking proper
   int state_num = state_matrix.rows();
   
   E_field_vectorized_ = E_field_base_.replicate(1, state_num);
-  E_field_prime_s_vectorized_ = vectorized_field_type::Zero(3, state_num);
+  E_field_prime_s_vectorized_ = VectorizedField::Zero(3, state_num);
   B_field_vectorized_ = B_field_base_.replicate(1, state_num);
 }
 
@@ -55,22 +55,22 @@ void Element::print_vectorized_fields(){
        << endl;
 }
 
-vectorized_field_type Element::EField(state_type state_matrix){
+VectorizedField Element::EField(State state_matrix){
   return tilt_.transform_*E_field_vectorized_;
 }
-vectorized_field_type Element::EField_prime_s(state_type state_matrix){
+VectorizedField Element::EField_prime_s(State state_matrix){
   return tilt_.transform_*E_field_prime_s_vectorized_;
 }
-vectorized_field_type Element::BField(state_type state_matrix){
+VectorizedField Element::BField(State state_matrix){
   return tilt_.transform_*B_field_vectorized_;
 }
 
-void Element::front_kick(state_type& state_matrix){
+void Element::front_kick(State& state_matrix){
   // depends on the element;
   // for magnetic ones it does nothing
 }
 
-void Element::rear_kick(state_type& state_matrix){/* same here */}
+void Element::rear_kick(State& state_matrix){/* same here */}
 
 void Element::print(){
   cout << "curvature: " << curve_ << endl
@@ -78,11 +78,11 @@ void Element::print(){
        << "name: " << name_  << endl;
 }
 
-size_t Element::track_through(state_type& ini_states, DataLog& observer){
+size_t Element::track_through(State& ini_states, DataLog& observer){
   this->vectorize_fields(ini_states); // remove this later when have class Lattice
   using namespace boost::numeric::odeint;
-  runge_kutta_dopri5<state_type, double,
-		     state_type, double,
+  runge_kutta_dopri5<State, double,
+		     State, double,
 		     vector_space_algebra> stepper;
   double delta_s = .1;
   front_kick(ini_states);

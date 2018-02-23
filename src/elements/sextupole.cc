@@ -1,7 +1,7 @@
 #include "sextupole.h"
 
 
-vectorized_field_type MSext::BField(state_type state){
+VectorizedField MSext::BField(State state){
   for(int j=0; j<state.rows(); j++){
     double x = state(j, 0), y = state(j, 1);
     B_field_vectorized_(0, j) = grad_*x*y;

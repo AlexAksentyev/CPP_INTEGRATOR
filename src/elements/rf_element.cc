@@ -15,31 +15,31 @@ ERF::ERF(Particle& reference_particle,
     wave_number_(w_freq_/CLIGHT/reference_particle_.beta()),
     kick_voltage_(ampl_*length){}
 
-vectorized_field_type ERF::EField(state_type state){
+VectorizedField ERF::EField(State state){
   for (int i=0; i<state.rows(); i++)
     E_field_vectorized_(2, i) = ampl_*cos(wave_number_*state(i, 2) + phase_);
 
   return tilt_.transform_*E_field_vectorized_;
 }
 
-vectorized_field_type ERF::EField_prime_s(state_type state){
+VectorizedField ERF::EField_prime_s(State state){
   for (int i=0; i<state.rows(); i++)
     E_field_prime_s_vectorized_(2, i) = -wave_number_*ampl_*sin(wave_number_*state(i, 2) + phase_);
 
   return tilt_.transform_*E_field_prime_s_vectorized_;
 }
 
-void ERF::front_kick(state_type& state){
+void ERF::front_kick(State& state){
   for (int i=0; i<state.rows(); i++)
     state(i, 8) -= kick_voltage_*1e-6/reference_particle_.kinetic_energy();
 }
 
-void ERF::rear_kick(state_type& state){
+void ERF::rear_kick(State& state){
   for (int i=0; i<state.rows(); i++)
     state(i, 8) += kick_voltage_*1e-6/reference_particle_.kinetic_energy();
 }
 
-size_t ERF::track_through(state_type& ini_states, DataLog& observer){// implements advance()
+size_t ERF::track_through(State& ini_states, DataLog& observer){// implements advance()
   this->vectorize_fields(ini_states); // remove this when have class Lattice
   front_kick(ini_states);
   double angle, beta;

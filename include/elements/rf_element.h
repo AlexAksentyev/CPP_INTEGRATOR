@@ -21,13 +21,13 @@ public:
       double E_field=15e5, double phase=0.5*M_PI, int H_number=50,
       std::string name="RF");
 
-  vectorized_field_type EField(state_type state);
-  vectorized_field_type EField_prime_s(state_type state);
+  VectorizedField EField(State state);
+  VectorizedField EField_prime_s(State state);
   
-  void front_kick(state_type& state);
-  void rear_kick(state_type& state);
+  void front_kick(State& state);
+  void rear_kick(State& state);
 
-  size_t track_through(state_type& ini_states, DataLog& observer); // implements advance()
+  size_t track_through(State& ini_states, DataLog& observer); // implements advance()
 };
 
 

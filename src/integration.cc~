@@ -24,13 +24,13 @@ using namespace boost::numeric::odeint;
 // observer to log intermediate states from the integrator
 // will have to implement hdf5 file output later
 struct DataLog{
-  vector<state_type>& system_state_;
+  vector<State>& system_state_;
   vector<double>& system_time_;
   
-  DataLog(vector<state_type>& states, vector<double>& times)
+  DataLog(vector<State>& states, vector<double>& times)
   : system_state_(states), system_time_(times){}
   
-  void operator() (const state_type &state_vec, double t){
+  void operator() (const State &state_vec, double t){
     system_state_.push_back(state_vec);
     system_time_.push_back(t);
   }
@@ -66,10 +66,10 @@ int main(int argc, char* argv[]){
 
   
   RightHandSide rhs(friction_coef);
-  vector<state_type> state;
+  vector<State> state;
   vector<double> time;
   DataLog log(state, time);
-  state_type ini_state(2);
+  State ini_state(2);
   ini_state[0] = 0.;
   ini_state[1] = 1.;
 

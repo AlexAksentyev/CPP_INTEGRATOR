@@ -48,7 +48,7 @@ void DataLog::plot(int var_index, int pid){
   string var_name = VAR_NAME[var_index];
 
   vector<double> var_values;
-  for(vector<state_type>::iterator it = system_state_.begin(); it != system_state_.end(); ++it){
+  for(vector<State>::iterator it = system_state_.begin(); it != system_state_.end(); ++it){
     double value = (*it)(pid, var_index);
     var_values.push_back(value);
   }

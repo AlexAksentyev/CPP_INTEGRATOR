@@ -26,7 +26,7 @@ static const std::string VAR_NAME[] = {"x", "y", "s",
 /*   px, py, dK, */     // 6,  7,  8
 /*   Sx, Sy, Sz */      // 9,  10, 11
 
-using state_type = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
+using State = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 
 class Particle;
 class Element;
@@ -41,7 +41,7 @@ public:
   RightHandSide(Particle& reference_particle, Element& host_element);
   RightHandSide(const RightHandSide& to_copy, Element& new_host);
   RightHandSide(const RightHandSide& to_copy);
-  void operator() (const state_type &x , state_type &dxds, const double /* s*/);
+  void operator() (const State &x , State &dxds, const double /* s*/);
 };
 
 

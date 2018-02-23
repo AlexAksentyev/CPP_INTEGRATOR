@@ -17,7 +17,7 @@ public:
        std::string name="MQuad")
    : Element(particle, 0, length, name), grad_(gradient) {}
 
-  vectorized_field_type BField(state_type state_matrix);
+  VectorizedField BField(State state_matrix);
 
   void print();
 };

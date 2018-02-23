@@ -3,8 +3,9 @@
 #include <iostream>
 #include "right_hand_side.h"
 #include "particle.h"
+#include "element.h"
 #include "quadrupole.h"
-//#include "wien_filter.h"
+#include "wien_filter.h"
 #include "rf_element.h"
 #include "element.h"
 #include <string>
@@ -20,17 +21,17 @@ int main(int argc, char** argv){
  
   Particle p(1876, 1.14, G);
   //  ERF e(p, 0, length);
-  //  MQuad e(p, length, 8.6);
-  Observer e(p);
+  MQuad e(p, length, 8.6);
+  //  Observer e(p);
 
   // creating the state ensemble
   int num_states = 3;
-  state_type state(num_states, VAR_NUM), deriv(num_states, VAR_NUM);
+  State state(num_states, VAR_NUM), deriv(num_states, VAR_NUM);
   state.setZero();
   state.col(0) = Eigen::VectorXd::LinSpaced(num_states, -1e-3, 1e-3); // setting x
   
   // output vectors
-  vector<state_type> x;
+  vector<State> x;
   vector<double> s;
   DataLog log(x, s);
 

@@ -18,7 +18,7 @@
 #include "data_log.h"
 #include "right_hand_side.h"
 
-using vectorized_field_type = Eigen::Matrix<double, 3, Eigen::Dynamic>;
+using VectorizedField = Eigen::Matrix<double, 3, Eigen::Dynamic>;
 
 class Tilt{
 
@@ -45,15 +45,15 @@ class Element {
 protected:
   Eigen::Vector3d E_field_base_;
   Eigen::Vector3d B_field_base_;
-  vectorized_field_type E_field_vectorized_;
-  vectorized_field_type E_field_prime_s_vectorized_;
-  vectorized_field_type B_field_vectorized_;
+  VectorizedField E_field_vectorized_;
+  VectorizedField E_field_prime_s_vectorized_;
+  VectorizedField B_field_vectorized_;
 
 public:
 
   Tilt tilt_;
 
-  void vectorize_fields(state_type state_matrix); // public for now, might move
+  void vectorize_fields(State state_matrix); // public for now, might move
 
   Element(Particle& particle,
 	  double curve, double length,
@@ -69,16 +69,16 @@ public:
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 
-  virtual vectorized_field_type EField(state_type state_matrix);
-  virtual vectorized_field_type EField_prime_s(state_type state_matrix);
-  virtual vectorized_field_type BField(state_type state_matrix);
+  virtual VectorizedField EField(State state_matrix);
+  virtual VectorizedField EField_prime_s(State state_matrix);
+  virtual VectorizedField BField(State state_matrix);
 
-  virtual void front_kick(state_type& state_matrix);
-  virtual void rear_kick(state_type& state_matrix);
+  virtual void front_kick(State& state_matrix);
+  virtual void rear_kick(State& state_matrix);
 
   void print();
 
-  virtual size_t track_through(state_type& ini_states, DataLog& observer);
+  virtual size_t track_through(State& ini_states, DataLog& observer);
  
 };
 
@@ -87,7 +87,7 @@ public:
   Observer(Particle& particle, std::string name="Observer")
     : Element(particle, 0, 0, name){}
 
-  size_t track_through(state_type& ini_states, DataLog& observer) {
+  size_t track_through(State& ini_states, DataLog& observer) {
     observer(ini_states, ini_states(0, 2));
     return 0;
   }

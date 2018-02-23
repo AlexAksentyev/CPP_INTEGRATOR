@@ -1,6 +1,9 @@
+// Keep elements instead of element pointers, b/c
+// if keep pointers, tilting will be systematic
+
 // TODO:
 //    * add segment_map functionality
-
+//    * checking for multiple RF elements
 
 
 #ifndef LATTICE_H
@@ -8,22 +11,25 @@
 
 #include <vector>
 #include <string>
-#include <boost/shared_ptr>
-#include "element"
+#include "element.h"
 
-using Element_ptr = boost::shared_ptr<Element>;
+using ElementSequence = std::vector<Element>;
 
-struct RF_t {
+struct rf_t {
   int index, count;
 };
 
 class Lattice {
-  std::vector<Element_ptr> sequence_; // contains ponters to used elements
-
+  ElementSequence sequence_; // contains ponters to used elements
+  double length_;
+  size_t count_;
+  rf_t rf_metadata_;
 public:
-  Lattice(std::vector<Element_ptr> element_sequence, std::string name);
-
   
+  Lattice(ElementSequence element_sequence, std::string name);
+
+  size_t count() {return count_;}
+  double length() {return length_;}
 
 };
 
