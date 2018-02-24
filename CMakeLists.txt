@@ -29,6 +29,7 @@ set(SOURCES
   "${SRC_DIR}/${CODE_NAME}.cc" 
   "${SRC_DIR}/particle.cc" 
   "${SRC_DIR}/data_log.cc"
+  "${SRC_DIR}/lattice.cc"
   # elements
   "${SRC_DIR}/elements/element.cc" 
   "${SRC_DIR}/elements/dipole.cc" 

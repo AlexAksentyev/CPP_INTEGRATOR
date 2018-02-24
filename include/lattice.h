@@ -11,27 +11,30 @@
 
 #include <vector>
 #include <string>
+#include <boost/ptr_container/ptr_vector.hpp>
 #include "element.h"
 
-using ElementVector = std::vector<Element>;
+using ElementPtrVector = boost::ptr_vector<Element>;
 
 struct RFMeta {
   int index, count;
+  RFMeta() : index(0), count(0) {};
 };
 
-class Lattice {
-  ElementVector sequence_; // contains ponters to used elements
+class Lattice : public ElementPtrVector {
+  std::string name_;
   double length_;
-  size_t count_;
   RFMeta rf_metadata_;
 public:
   
-  Lattice(ElementVector element_sequence, std::string name);
+  Lattice(std::string name);
 
-  size_t count() {return count_;}
+  void add_element(Element* );
+
   double length() {return length_;}
 
 };
+
 
 
 #endif //LATTICE_H

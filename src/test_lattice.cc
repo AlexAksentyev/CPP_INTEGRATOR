@@ -11,11 +11,11 @@
 #include <string>
 #include <stdlib.h>
 #include <vector>
-
-#include <boost/ptr_container/ptr_vector.hpp>
+#include "lattice.h"
 
 int main(int argc, char** argv) {
   using namespace std;
+  using namespace boost;
 
   int var_id = atoi(argv[1]);
   int pid = atoi(argv[2]);
@@ -36,31 +36,23 @@ int main(int argc, char** argv) {
   Particle p(1876, 1.14, .2);
 
   // creating a lattice
-  MQuad QF(p, length, 8.6);
-  Drift OD(p, length/10);
-  MQuad QD(p, length, -8.4);
+  Lattice lattice("test");
+  lattice.add_element(new MQuad(p, length, 8.6, "QF"));
+  lattice.add_element(new Drift(p, length/10, "OD"));
+  lattice.add_element(new MQuad(p, length, -8.4, "QD"));  
 
-  // size_t num_steps = QF.track_through(state, log);
-
-  vector<Element*> lattice = {&QF, new Drift(OD), new MQuad(QD)}; // CHANGE FROM DUM POINTERS
-
-  cout << lattice.size() << endl;
+  cout << lattice.size() << " " << lattice.length() << endl;
 
   size_t num_steps = 0;
   double current_s = 0;
-  for(vector<Element*>::iterator element=lattice.begin();
+  for(Lattice::iterator element=lattice.begin();
       element!=lattice.end();
       ++element){
-    num_steps += (*element)->track_through(state, log, current_s);
+    num_steps += element->track_through(state, log, current_s);
     log.plot(var_id, pid, "lines");
     cout << current_s << endl;
-    current_s += (*element)->length();
+    current_s += element->length();
   }
-
-  // num_steps += QF.track_through(state, log);
-  // num_steps += QF.track_through(state, log, length);
-  // num_steps += QF.track_through(state, log, length*2); 
-
 
   log.write_to_file("test_lattice");
 

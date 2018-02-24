@@ -1,14 +1,10 @@
 #include "lattice.h"
 
 using namespace std;
-Lattice::Lattice(ElementVector element_sequence, string name)
-  : sequence_(element_sequence), length_(0), count_(element_sequence.size()){
+Lattice::Lattice(string name)
+  : name_(name), length_(0), rf_metadata_(){}
 
-  for(ElementVector::iterator element=element_sequence.begin();
-      element != element_sequence.end();
-      ++element){
-    // checking for RF elements and filling out rf_metadata_
-    length_ += element->length();
-  }
-  
+void Lattice::add_element(Element* new_element){
+  this->push_back(new_element);
+  this->length_ += new_element->length();
 }
