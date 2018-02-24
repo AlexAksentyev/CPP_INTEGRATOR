@@ -29,8 +29,9 @@ public:
   
   Lattice(std::string name);
 
-  void add_element(Element* );
+  Lattice& operator=(std::initializer_list<Element*>);
 
+  void add_element(Element* );
   double length() {return length_;}
 
 };

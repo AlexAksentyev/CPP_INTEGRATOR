@@ -37,9 +37,9 @@ int main(int argc, char** argv) {
 
   // creating a lattice
   Lattice lattice("test");
-  lattice.add_element(new MQuad(p, length, 8.6, "QF"));
-  lattice.add_element(new Drift(p, length/10, "OD"));
-  lattice.add_element(new MQuad(p, length, -8.4, "QD"));  
+  lattice = {new MQuad(p, length, 8.6, "QF"),
+	     new Drift(p, length/10, "OD"),
+	     new MQuad(p, length, -8.4, "QD")};
 
   cout << lattice.size() << " " << lattice.length() << endl;
 
