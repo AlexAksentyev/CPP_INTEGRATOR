@@ -99,6 +99,7 @@ Vector3d Tilt::axis(char name){
   case 'X': return Vector3d::UnitX();
   case 'Y': return Vector3d::UnitY();
   case 'Z': return Vector3d::UnitZ();
+  case 'S': return Vector3d::UnitZ();
   default: cout << "Wrong axis!" << endl;
   }
 }
@@ -125,5 +126,14 @@ void Tilt::operator() (vector<pair<char, double>> axis_degangle,
   }
 
   transform_ = result;
-  
+  tilt_angle_ = axis_degangle;
+}
+
+void Tilt::print(){
+  for(TiltAngleVector::iterator it=tilt_angle_.begin();
+      it!=tilt_angle_.end();
+      ++it)
+    cout << "axis: "<< it->first << " "
+	 << "angle (deg): " << it->second
+	 << endl;
 }

@@ -19,9 +19,11 @@
 #include "right_hand_side.h"
 
 using VectorizedField = Eigen::Matrix<double, 3, Eigen::Dynamic>;
+using TiltAngleVector = std::vector<std::pair<char, double>>;
 
 class Tilt{
-
+  
+  TiltAngleVector tilt_angle_;
   Eigen::Vector3d axis(char name);
   
 public:
@@ -31,6 +33,8 @@ public:
 
   void operator() (std::vector<std::pair<char, double>> axis_degangle,
   		   bool append=false);
+
+  void print();
 
   
 };

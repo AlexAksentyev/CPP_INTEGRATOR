@@ -13,19 +13,34 @@
 #include <vector>
 #include "lattice.h"
 
+#include<boost/tuple/tuple.hpp>
+
 int main(int argc, char** argv) {
   using namespace std;
   using namespace boost;
 
-  int var_id = atoi(argv[1]);
-  int pid = atoi(argv[2]);
-  double length = atof(argv[3]);
+  using TiltTuple = boost::tuple<char, double, double>;
+  vector<TiltTuple> axis_mean_sigma;
+
+  char axis; double mean, sigma;
+  for(int i=1; i<argc-2; i+=3){
+    axis = *argv[i];
+    mean = atof(argv[i+1]);
+    sigma = atof(argv[i+2]);
+    axis_mean_sigma.push_back(TiltTuple(axis, mean, sigma));
+  }
+  
+
+  int var_id = 9;
+  int pid = 0;
+  double length = 1;
   
    // creating the state ensemble
   int num_states = 3;
   State state(num_states, VAR_NUM), deriv(num_states, VAR_NUM);
   state.setZero();
   state.col(0) = Eigen::VectorXd::LinSpaced(num_states, -1e-3, 1e-3); // setting x
+  state.col(11) = Eigen::VectorXd::Ones(num_states); // Sz = 1
 
   // output vectors
   vector<State> x;
@@ -37,28 +52,31 @@ int main(int argc, char** argv) {
 
   // creating a lattice
   Lattice lattice("test");
-  lattice = {new MQuad(p, length, 8.6, "QF"),
-	     new Drift(p, length/10, "OD"),
-	     new MQuad(p, length, -8.4, "QD")};
+  lattice = {new MDipole(p, length, 1.5, "BDA")};//,
+	     // new MQuad(p, length, 8.6, "QF"),
+	     // new Drift(p, length/10, "OD"),
+	     // new MQuad(p, length, -8.4, "QD")};
 
-  cout << lattice.size() << " " << lattice.length() << endl;
+  lattice.tilt(axis_mean_sigma);
+  lattice[0].tilt_.print();
 
+  
   size_t num_steps = 0;
   double current_s = 0;
   for(Lattice::iterator element=lattice.begin();
       element!=lattice.end();
       ++element){
     num_steps += element->track_through(state, log, current_s);
-    log.plot(var_id, pid, "lines");
-    cout << current_s << endl;
+    // log.plot(var_id, pid, "lines");
     current_s += element->length();
   }
 
   log.write_to_file("test_lattice");
 
-  log.plot(var_id, pid, "lines");
+  log.plot(9, pid, "lines");
+  log.plot(10, pid, "lines");
 
-  cout << num_steps << endl;
+  cout << "integration steps: " << num_steps << endl;
   
   return num_steps;
 }

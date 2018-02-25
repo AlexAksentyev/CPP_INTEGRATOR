@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 #include <boost/ptr_container/ptr_vector.hpp>
+#include<boost/tuple/tuple.hpp>
 #include "element.h"
 
 using ElementPtrVector = boost::ptr_vector<Element>;
@@ -32,7 +33,10 @@ public:
   Lattice& operator=(std::initializer_list<Element*>);
 
   void add_element(Element* );
+  
   double length() {return length_;}
+  void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
+	    bool append=false);
 
 };
 
