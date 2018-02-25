@@ -60,6 +60,10 @@ int main(int argc, char** argv) {
   lattice.tilt(axis_mean_sigma);
   lattice[0].tilt_.print();
 
+  MDipole* e = (MDipole*)&lattice[0];
+  cout << "rotation map: \n" << e->tilt_.transform_.rotation() << endl;
+  e->vectorize_fields(state);
+  cout << "B-field: \n" << e->BField(state) << endl;
   
   size_t num_steps = 0;
   double current_s = 0;
