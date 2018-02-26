@@ -13,18 +13,22 @@
 #include <string>
 #include <boost/ptr_container/ptr_vector.hpp>
 #include<boost/tuple/tuple.hpp>
+
 #include "element.h"
+#include "rf_element.h"
 
 using ElementPtrVector = boost::ptr_vector<Element>;
 
 struct RFMeta {
   int index, count;
-  RFMeta() : index(0), count(0) {};
+  RFMeta() : index(-1), count(0) {};
 };
 
+class ERF;
 class Lattice : public ElementPtrVector {
   std::string name_;
   double length_;
+public:
   RFMeta rf_metadata_;
 public:
   
@@ -32,7 +36,9 @@ public:
 
   Lattice& operator=(std::initializer_list<Element*>);
 
-  void add_element(Element* );
+  void add_element(Element*);
+  bool insert_element(Element*, int index); // returns true if 
+  bool insert_RF(int index, Particle& reference, RFPars rf_pars); // successful insertion
   
   double length() {return length_;}
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,

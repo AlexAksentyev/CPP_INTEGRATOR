@@ -1,6 +1,10 @@
+// TODO:
+//     * when insert_element, update segment_map
+
 #include "lattice.h"
 #include <random>
 #include <math.h>
+#include <boost/shared_ptr.hpp>
 
 using Gauss = std::normal_distribution<double>;
 
@@ -11,6 +15,44 @@ Lattice::Lattice(string name)
 void Lattice::add_element(Element* new_element){
   this->push_back(new_element);
   this->length_ += new_element->length();
+}
+
+bool Lattice::insert_element(Element* new_element, int index){
+  Lattice::iterator position = this->begin()+index;
+  // sanity check for segfault
+  if (position > this->end()){
+    cout << "Trying to insert outside lattice bounds" << endl;
+    return false;
+  }
+  this->insert(position, new_element);
+  length_ += new_element->length();
+  // TODO: update segment_map
+
+  return true;
+}
+
+bool Lattice::insert_RF(int index, Particle& reference, RFPars rf_pars){
+  // checking for existing RF
+  if (rf_metadata_.count > 1 && index != rf_metadata_.index){
+    cout << "Trying to add a second RF element; \n"
+	 << "current RF position is " << rf_metadata_.index
+	 << endl;
+    return false;
+  }
+  if (index == rf_metadata_.index) {
+    cout << "Replacing RF: \n";
+    ((*this)[rf_metadata_.index]).print();
+    cout  << endl;
+    rf_metadata_.count -= 1;
+  }
+
+  double new_lattice_length = this->length_ + rf_pars.length;
+  bool success = this->insert_element(new ERF(reference, new_lattice_length, rf_pars), index);
+  if (success){
+    rf_metadata_.index = index;
+    rf_metadata_.count += 1;
+  }
+  return success;
 }
 
 Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
@@ -24,7 +66,6 @@ Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
 
 }
 
-// UNFINISHED		
 void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
 		   bool append) {
 
