@@ -12,9 +12,21 @@ using namespace std;
 Lattice::Lattice(string name)
   : name_(name), length_(0), rf_metadata_(), state_(0){}
 
-void Lattice::add_element(Element* new_element){
+Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
+
+  for (initializer_list<Element*>::iterator element=element_sequence.begin();
+       element!=element_sequence.end();
+       ++element)
+    this->append_element(*element);
+    
+  return (*this);
+
+}
+
+void Lattice::append_element(Element* new_element){
   this->push_back(new_element);
   this->length_ += new_element->length();
+  // TODO: update segment_map
 }
 
 bool Lattice::insert_element(Element* new_element, int index){
@@ -31,6 +43,24 @@ bool Lattice::insert_element(Element* new_element, int index){
   return true;
 }
 
+bool Lattice::replace_element(Element* new_element, int index){
+  Lattice::iterator old_element = this->begin()+index;
+  this->replace(old_element, new_element);
+}
+
+bool Lattice::remove_element(int index) {
+  Lattice::iterator position = this->begin()+index;
+  // sanity check for segfault
+  if (position < this->begin() || position > this->end()){
+    cout << "Position out of bounds; no element removed" << endl;
+    return false;
+  }
+  Lattice::auto_type element = this->release(position); // ownership transferred to element **
+  length_ -= element->length();
+  delete &element; // hence need delete **
+  return true;
+}
+
 bool Lattice::insert_RF(int index, Particle& reference, RFPars rf_pars){
   // checking for existing RF
   if (rf_metadata_.count > 1 && index != rf_metadata_.index){
@@ -39,31 +69,22 @@ bool Lattice::insert_RF(int index, Particle& reference, RFPars rf_pars){
 	 << endl;
     return false;
   }
+
+  double new_lattice_length = this->length_ + rf_pars.length;
+  
   if (index == rf_metadata_.index) {
     cout << "Replacing RF: \n";
     ((*this)[rf_metadata_.index]).print();
     cout  << endl;
-    rf_metadata_.count -= 1;
+    return this->replace_element(new ERF(reference, new_lattice_length, rf_pars), index);
   }
 
-  double new_lattice_length = this->length_ + rf_pars.length;
   bool success = this->insert_element(new ERF(reference, new_lattice_length, rf_pars), index);
   if (success){
     rf_metadata_.index = index;
     rf_metadata_.count += 1;
   }
   return success;
-}
-
-Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
-
-  for (initializer_list<Element*>::iterator element=element_sequence.begin();
-       element!=element_sequence.end();
-       ++element)
-    this->add_element(*element);
-    
-  return (*this);
-
 }
 
 void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,

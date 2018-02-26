@@ -34,14 +34,17 @@ class Lattice : public ElementPtrVector {
 public:
   
   Lattice(std::string name);
-
   Lattice& operator=(std::initializer_list<Element*>);
 
-  void add_element(Element*);
-  bool insert_element(Element*, int index); // returns true if 
-  bool insert_RF(int index, Particle& reference, RFPars rf_pars); // successful insertion
-  
   double length() {return length_;}
+
+  void append_element(Element*); // adds element to back
+  // returns true if success
+  bool insert_element(Element*, int index);
+  bool replace_element(Element*, int index);
+  bool remove_element(int index);
+  bool insert_RF(int index, Particle& reference, RFPars rf_pars);
+  
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);
   void clear_tilt(); // reset the lattice to the original state

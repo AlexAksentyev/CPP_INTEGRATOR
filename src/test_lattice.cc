@@ -15,6 +15,15 @@
 
 #include<boost/tuple/tuple.hpp>
 
+void print_lattice_elements(Lattice& lattice){
+  using namespace std;
+  // print lattice element names
+  for (Lattice::iterator element=lattice.begin();
+       element!=lattice.end();
+       ++element)
+    cout << element->name() << endl;
+}
+
 int main(int argc, char** argv) {
   using namespace std;
   using namespace boost;
@@ -60,12 +69,6 @@ int main(int argc, char** argv) {
   RFPars rf_pars;
 
   lattice.insert_RF(0, p, rf_pars);
-
-  // print lattice element names
-  for (Lattice::iterator element=lattice.begin();
-       element!=lattice.end();
-       ++element)
-    cout << element->name() << endl;
 
   // tilt lattice elements
   lattice.tilt(axis_mean_sigma);
