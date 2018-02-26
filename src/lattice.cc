@@ -57,7 +57,7 @@ bool Lattice::remove_element(int index) {
   }
   Lattice::auto_type element = this->release(position); // ownership transferred to element **
   length_ -= element->length();
-  delete &element; // hence need delete **
+  element.reset(); // hence need delete (called in reset) ** 
   return true;
 }
 
