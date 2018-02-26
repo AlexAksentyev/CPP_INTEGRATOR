@@ -1,5 +1,7 @@
 // TODO:
 // * output data for all pids (now only pid 0)
+// * plot multiple variables for the same pid
+// * plot multiple pids for the same variable
 
 
 #include "data_log.h"
