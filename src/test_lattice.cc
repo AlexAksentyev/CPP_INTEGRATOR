@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
   log.write_to_file("test_lattice");
 
   log.plot(0, pid, "lines"); // x
-  log.plot(10, pid, "lines"); // Sy
+  log.plot(1, pid, "lines"); // y
 
   cout << "integration steps: " << num_steps << endl;
   
