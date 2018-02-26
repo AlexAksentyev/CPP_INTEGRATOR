@@ -34,7 +34,7 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
   Gauss standard_gauss(0, 1);
 
   char axis;
-  double mean, sigma, tilt_angle;
+  double mean, sigma, tiltangle;
   vector<pair<char, double>> axis_degangle;
   for (Lattice::iterator element=this->begin();
        element!=this->end();
@@ -46,12 +46,12 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
       mean = tilt->get<1>();
       sigma = tilt->get<2>();
       // compute the random tilt angle
-      tilt_angle = standard_gauss(generator)*sigma + mean; // in units of sigma and mean
-      // tilt_angle *= 180./M_PI;
+      tiltangle = standard_gauss(generator)*sigma + mean; // in units of sigma and mean
+      // tiltangle *= 180./M_PI;
       // append the element tilt argument
-      axis_degangle.push_back(make_pair(axis, tilt_angle));
+      axis_degangle.push_back(make_pair(axis, tiltangle));
     }
-    element->tilt_(axis_degangle, append);
+    element->tilt(axis_degangle, append);
     axis_degangle.clear();
   }
 }

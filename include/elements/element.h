@@ -17,27 +17,10 @@
 #include "particle.h"
 #include "data_log.h"
 #include "right_hand_side.h"
+#include "tilt.h"
+
 
 using VectorizedField = Eigen::Matrix<double, 3, Eigen::Dynamic>;
-using TiltAngleVector = std::vector<std::pair<char, double>>;
-
-class Tilt{
-  
-  TiltAngleVector tilt_angle_;
-  Eigen::Vector3d axis(char name);
-  
-public:
-  Eigen::Affine3d transform_;
-
-  Tilt() : transform_(Eigen::Matrix3d::Identity(3, 3)){}
-
-  void operator() (std::vector<std::pair<char, double>> axis_degangle,
-  		   bool append=false);
-
-  void print();
-
-  
-};
 
 class Element {
 
@@ -55,7 +38,7 @@ protected:
 
 public:
 
-  Tilt tilt_;
+  Tilt tilt;
 
   void vectorize_fields(State state_matrix); // public for now, might move
 

@@ -13,7 +13,7 @@ Element::Element(Particle& particle, double curve, double length, std::string na
   : rhs_(particle, *this),
     curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
-    tilt_(){}
+    tilt(){}
 
 Element::Element(const Element& to_copy)
   : rhs_(to_copy.rhs_, *this),
@@ -21,7 +21,7 @@ Element::Element(const Element& to_copy)
     name_(to_copy.name_),
     E_field_base_(to_copy.E_field_base_),
     B_field_base_(to_copy.B_field_base_),
-    tilt_(to_copy.tilt_),
+    tilt(to_copy.tilt),
     E_field_vectorized_(to_copy.E_field_vectorized_),
     B_field_vectorized_(to_copy.B_field_vectorized_){}
 
@@ -56,13 +56,13 @@ void Element::print_vectorized_fields(){
 }
 
 VectorizedField Element::EField(State state_matrix){
-  return tilt_.transform_*E_field_vectorized_;
+  return tilt.transform*E_field_vectorized_;
 }
 VectorizedField Element::EField_prime_s(State state_matrix){
-  return tilt_.transform_*E_field_prime_s_vectorized_;
+  return tilt.transform*E_field_prime_s_vectorized_;
 }
 VectorizedField Element::BField(State state_matrix){
-  return tilt_.transform_*B_field_vectorized_;
+  return tilt.transform*B_field_vectorized_;
 }
 
 void Element::front_kick(State& state_matrix){
@@ -90,50 +90,4 @@ size_t Element::track_through(State& ini_states, DataLog& observer, double start
   rear_kick(ini_states);
 
   return num_steps;
-}
-
-using namespace Eigen;
-
-Vector3d Tilt::axis(char name){
-  switch(toupper(name)){
-  case 'X': return Vector3d::UnitX();
-  case 'Y': return Vector3d::UnitY();
-  case 'Z': return Vector3d::UnitZ();
-  case 'S': return Vector3d::UnitZ();
-  default: cout << "Wrong axis!" << endl;
-  }
-}
-
-void Tilt::operator() (vector<pair<char, double>> axis_degangle,
-		       bool append){
-
-  Affine3d result;
-  if(append)
-    result = transform_;
-  else
-    result.setIdentity();
-
-  Vector3d unit_axis;
-  double radangle;
-  for(vector<pair<char, double>>::iterator
-	it = axis_degangle.begin();
-      it != axis_degangle.end();
-      ++it){
-    unit_axis = axis((*it).first);
-    radangle = M_PI/180*(*it).second;
-    Affine3d t(AngleAxisd(radangle, unit_axis));
-    result = t*result;
-  }
-
-  transform_ = result;
-  tilt_angle_ = axis_degangle;
-}
-
-void Tilt::print(){
-  for(TiltAngleVector::iterator it=tilt_angle_.begin();
-      it!=tilt_angle_.end();
-      ++it)
-    cout << "axis: "<< it->first << " "
-	 << "angle (deg): " << it->second
-	 << endl;
 }

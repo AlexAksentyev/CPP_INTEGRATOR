@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
   
 
   int var_id = 9;
-  int pid = 0;
+  int pid = 1;
   double length = 1;
   
    // creating the state ensemble
@@ -58,12 +58,13 @@ int main(int argc, char** argv) {
 	     // new MQuad(p, length, -8.4, "QD")};
 
   lattice.tilt(axis_mean_sigma);
-  lattice[0].tilt_.print();
+  lattice[0].tilt.print();
 
   MDipole* e = (MDipole*)&lattice[0];
-  cout << "rotation map: \n" << e->tilt_.transform_.rotation() << endl;
+  cout << "rotation map: \n" << e->tilt.transform.rotation() << endl;
   e->vectorize_fields(state);
   cout << "B-field: \n" << e->BField(state) << endl;
+  cout << "E-field: \n" << e->EField(state) << endl;
   
   size_t num_steps = 0;
   double current_s = 0;
@@ -77,8 +78,8 @@ int main(int argc, char** argv) {
 
   log.write_to_file("test_lattice");
 
-  log.plot(9, pid, "lines");
-  log.plot(10, pid, "lines");
+  log.plot(0, pid, "lines"); // x
+  log.plot(10, pid, "lines"); // Sy
 
   cout << "integration steps: " << num_steps << endl;
   

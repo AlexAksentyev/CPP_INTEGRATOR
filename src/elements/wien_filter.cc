@@ -59,7 +59,7 @@ VectorizedField WFCylindrical::EField(State state){
   for(int j=0; j<state.rows(); j++)
     E_field_vectorized_(0, j) = E_field_base_(0)/(1 + curve()*state(j, 0)); // E0/(1 + crv*x)
 
-  return tilt_.transform_*E_field_vectorized_;
+  return tilt.transform*E_field_vectorized_;
 }
 
 void WFCylindrical::front_kick(State& state){

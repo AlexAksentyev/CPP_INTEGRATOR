@@ -45,19 +45,19 @@ int main(int argc, char** argv){
   e.vectorize_fields(state);
 
   cout << "Tilt matrix : \n"
-       << e.tilt_.transform_.rotation() << endl;
+       << e.tilt.transform.rotation() << endl;
 
   cout << "M*(0,0,1) : \n"
-       << e.tilt_.transform_*Eigen::Vector3d::UnitZ()
+       << e.tilt.transform*Eigen::Vector3d::UnitZ()
        << endl;
 
-  e.tilt_(ax_an);
+  e.tilt(ax_an);
 
   cout << "Tilt matrix after tilt : \n"
-       << e.tilt_.transform_.rotation() << endl;
+       << e.tilt.transform.rotation() << endl;
 
   cout << "M*(0,0,1) : \n"
-       << e.tilt_.transform_*Eigen::Vector3d::UnitZ()
+       << e.tilt.transform*Eigen::Vector3d::UnitZ()
        << endl;
   
   return 0;

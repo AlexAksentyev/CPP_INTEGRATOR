@@ -114,9 +114,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  Eigen::Vector3d axis(<span class="keywordtype">char</span> name);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classTilt.html#ae603ce53d70a42e2ced2dc516f54d77a">   28</a></span>&#160;  Eigen::Affine3d <a class="code" href="classTilt.html#ae603ce53d70a42e2ced2dc516f54d77a">transform_</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classTilt.html#ae603ce53d70a42e2ced2dc516f54d77a">   28</a></span>&#160;  Eigen::Affine3d <a class="code" href="classTilt.html#ae603ce53d70a42e2ced2dc516f54d77a">transform</a>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classTilt.html#ab2048307a1d3a9c2c0b94d0b1ba2395d">   30</a></span>&#160;  <a class="code" href="classTilt.html#ab2048307a1d3a9c2c0b94d0b1ba2395d">Tilt</a>() : transform_(<a class="code" href="namespaceEigen.html">Eigen</a>::Matrix3d::Identity(3, 3)){}</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classTilt.html#ab2048307a1d3a9c2c0b94d0b1ba2395d">   30</a></span>&#160;  <a class="code" href="classTilt.html#ab2048307a1d3a9c2c0b94d0b1ba2395d">Tilt</a>() : transform(<a class="code" href="namespaceEigen.html">Eigen</a>::Matrix3d::Identity(3, 3)){}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classTilt.html#af6cd651e7f791904e76eb4c73587170f">operator() </a>(std::vector&lt;std::pair&lt;char, double&gt;&gt; axis_degangle,</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;           <span class="keywordtype">bool</span> append=<span class="keyword">false</span>);</div>
@@ -138,7 +138,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classElement.html#ad0280a6cbd99f07f0abc849144e70d78">   52</a></span>&#160;  <a class="code" href="classTilt.html">Tilt</a> <a class="code" href="classElement.html#ad0280a6cbd99f07f0abc849144e70d78">tilt_</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classElement.html#ad0280a6cbd99f07f0abc849144e70d78">   52</a></span>&#160;  <a class="code" href="classTilt.html">Tilt</a> <a class="code" href="classElement.html#ad0280a6cbd99f07f0abc849144e70d78">tilt</a>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classElement.html#afa406b1340f3606a69c292287334f7bd">vectorize_fields</a>(<a class="code" href="right__hand__side_8h.html#accf138cce9edb6c7577a81cd80b818db">state_type</a> state_matrix); <span class="comment">// public for now, might move</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  </div>
@@ -163,7 +163,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classTilt_html_ae603ce53d70a42e2ced2dc516f54d77a"><div class="ttname"><a href="classTilt.html#ae603ce53d70a42e2ced2dc516f54d77a">Tilt::transform_</a></div><div class="ttdeci">Eigen::Affine3d transform_</div><div class="ttdef"><b>Definition:</b> element.h:28</div></div>
+<div class="ttc" id="classTilt_html_ae603ce53d70a42e2ced2dc516f54d77a"><div class="ttname"><a href="classTilt.html#ae603ce53d70a42e2ced2dc516f54d77a">Tilt::transform</a></div><div class="ttdeci">Eigen::Affine3d transform</div><div class="ttdef"><b>Definition:</b> element.h:28</div></div>
 <div class="ttc" id="classElement_html_a0fa437845385f4fb748cbf9fd98f37ab"><div class="ttname"><a href="classElement.html#a0fa437845385f4fb748cbf9fd98f37ab">Element::E_field_base_</a></div><div class="ttdeci">Eigen::Vector3d E_field_base_</div><div class="ttdef"><b>Definition:</b> element.h:45</div></div>
 <div class="ttc" id="classElement_html_abf77d9fb6ace0628c702bf3905155c22"><div class="ttname"><a href="classElement.html#abf77d9fb6ace0628c702bf3905155c22">Element::EField</a></div><div class="ttdeci">VectorizedField EField(state_type state_matrix)</div><div class="ttdef"><b>Definition:</b> element.cc:43</div></div>
 <div class="ttc" id="namespaceEigen_html"><div class="ttname"><a href="namespaceEigen.html">Eigen</a></div></div>
@@ -182,7 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classElement_html"><div class="ttname"><a href="classElement.html">Element</a></div><div class="ttdef"><b>Definition:</b> element.h:38</div></div>
 <div class="ttc" id="element_8h_html_aa619eb831d7ca768384cb7a12509199f"><div class="ttname"><a href="element_8h.html#aa619eb831d7ca768384cb7a12509199f">VectorizedField</a></div><div class="ttdeci">Eigen::Matrix&lt; double, 3, Eigen::Dynamic &gt; VectorizedField</div><div class="ttdef"><b>Definition:</b> element.h:21</div></div>
 <div class="ttc" id="classTilt_html_ab2048307a1d3a9c2c0b94d0b1ba2395d"><div class="ttname"><a href="classTilt.html#ab2048307a1d3a9c2c0b94d0b1ba2395d">Tilt::Tilt</a></div><div class="ttdeci">Tilt()</div><div class="ttdef"><b>Definition:</b> element.h:30</div></div>
-<div class="ttc" id="classElement_html_ad0280a6cbd99f07f0abc849144e70d78"><div class="ttname"><a href="classElement.html#ad0280a6cbd99f07f0abc849144e70d78">Element::tilt_</a></div><div class="ttdeci">Tilt tilt_</div><div class="ttdef"><b>Definition:</b> element.h:52</div></div>
+<div class="ttc" id="classElement_html_ad0280a6cbd99f07f0abc849144e70d78"><div class="ttname"><a href="classElement.html#ad0280a6cbd99f07f0abc849144e70d78">Element::tilt</a></div><div class="ttdeci">Tilt tilt</div><div class="ttdef"><b>Definition:</b> element.h:52</div></div>
 <div class="ttc" id="right__hand__side_8h_html"><div class="ttname"><a href="right__hand__side_8h.html">right_hand_side.h</a></div></div>
 <div class="ttc" id="classElement_html_a8979f3713d06618a6132254dc1603c90"><div class="ttname"><a href="classElement.html#a8979f3713d06618a6132254dc1603c90">Element::length</a></div><div class="ttdeci">double length()</div><div class="ttdef"><b>Definition:</b> element.h:59</div></div>
 <div class="ttc" id="classElement_html_a59ca7eedf393a6cb2682952edbc39305"><div class="ttname"><a href="classElement.html#a59ca7eedf393a6cb2682952edbc39305">Element::B_field_vectorized_</a></div><div class="ttdeci">VectorizedField B_field_vectorized_</div><div class="ttdef"><b>Definition:</b> element.h:48</div></div>

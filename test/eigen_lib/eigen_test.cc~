@@ -20,8 +20,8 @@ int main(int argc, char** argv)
 
   int num_states = atoi(argv[2]);
   
-  Matrix3f tilt_M(3, 3);
-  tilt_M <<
+  Matrix3f tiltM(3, 3);
+  tiltM <<
     cosA, 0, -sinA,
     0,    1, 0,
     sinA, 0, cosA;
@@ -37,8 +37,8 @@ int main(int argc, char** argv)
   cout << vec_field  << endl;
 
   cout << "tilt matrix: \n";
-  cout << tilt_M << endl << endl;
+  cout << tiltM << endl << endl;
 
   cout << "tilted field: \n";
-  cout << tilt_M * vec_field << endl << endl;
+  cout << tiltM * vec_field << endl << endl;
 }
