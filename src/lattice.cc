@@ -10,7 +10,7 @@ using Gauss = std::normal_distribution<double>;
 
 using namespace std;
 Lattice::Lattice(string name)
-  : name_(name), length_(0), rf_metadata_(){}
+  : name_(name), length_(0), rf_metadata_(), state_(0){}
 
 void Lattice::add_element(Element* new_element){
   this->push_back(new_element);
@@ -88,11 +88,19 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
       sigma = tilt->get<2>();
       // compute the random tilt angle
       tiltangle = standard_gauss(generator)*sigma + mean; // in units of sigma and mean
-      // tiltangle *= 180./M_PI;
       // append the element tilt argument
       axis_degangle.push_back(make_pair(axis, tiltangle));
     }
     element->tilt(axis_degangle, append);
     axis_degangle.clear();
   }
+  state_ += 1;
+}
+
+void Lattice::clear_tilt(){
+  for (Lattice::iterator element=this->begin();
+       element!=this->end();
+       ++element)
+    element->tilt.clear();
+  state_ = 0;
 }

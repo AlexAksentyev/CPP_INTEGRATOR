@@ -1,4 +1,5 @@
 
+
 #include "tilt.h"
 
 
@@ -37,15 +38,25 @@ void Tilt::operator() (vector<pair<char, double>> axis_degangle,
   }
 
   transform = result;
-  tiltangle_ = axis_degangle;
+  tilt_angle_ = axis_degangle;
 }
 
 void Tilt::print(){
-  for(TiltAngleVector::iterator it=tiltangle_.begin();
-      it!=tiltangle_.end();
+
+  if (tilt_angle_.size() == 0){
+    cout << "No tilt" << endl;
+    return;
+  }
+  
+  for(TiltAngleVector::iterator it=tilt_angle_.begin();
+      it!=tilt_angle_.end();
       ++it)
     cout << "axis: "<< it->first << " "
 	 << "angle (deg): " << it->second
 	 << endl;
 }
 
+void Tilt::clear() {
+  tilt_angle_.clear();
+  transform.setIdentity();
+}

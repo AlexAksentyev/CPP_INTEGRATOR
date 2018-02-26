@@ -28,8 +28,9 @@ class ERF;
 class Lattice : public ElementPtrVector {
   std::string name_;
   double length_;
-public:
   RFMeta rf_metadata_;
+  int state_; // keeps track of lattice tilt state
+  // for outputting data into a separate file
 public:
   
   Lattice(std::string name);
@@ -43,6 +44,7 @@ public:
   double length() {return length_;}
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);
+  void clear_tilt(); // reset the lattice to the original state
 
 };
 

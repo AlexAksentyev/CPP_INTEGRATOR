@@ -11,7 +11,7 @@ using TiltAngleVector = std::vector<std::pair<char, double>>;
 
 class Tilt{
   
-  TiltAngleVector tiltangle_;
+  TiltAngleVector tilt_angle_;
   Eigen::Vector3d axis(char name);
   
 public:
@@ -23,7 +23,7 @@ public:
   		   bool append=false);
 
   void print();
-
+  void clear();
   
 };
 

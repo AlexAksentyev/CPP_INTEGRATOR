@@ -19,9 +19,9 @@ int main(int argc, char** argv) {
   using namespace std;
   using namespace boost;
 
+  // parse input arguments
   using TiltTuple = boost::tuple<char, double, double>;
   vector<TiltTuple> axis_mean_sigma;
-
   char axis; double mean, sigma;
   for(int i=1; i<argc-2; i+=3){
     axis = *argv[i];
@@ -53,53 +53,46 @@ int main(int argc, char** argv) {
   // creating a lattice
   Lattice lattice("test");
   lattice = {new MDipole(p, length, 1.5, "BDA"),
-	     new MQuad(p, length, 8.6, "QF")};//,
-	     // new Drift(p, length/10, "OD"),
-	     // new MQuad(p, length, -8.4, "QD")};
+	     new MQuad(p, length, 8.6, "QF"),
+	     new Drift(p, length/10, "OD"),
+	     new MQuad(p, length, -8.4, "QD")};
 
   RFPars rf_pars;
 
-  cout << "lattice RF index: " << lattice.rf_metadata_.index << endl;
-  cout << "lattice RF count: " << lattice.rf_metadata_.count << endl;
-  cout << "lattice count: " << lattice.size() << endl;
-  lattice.insert_RF(2, p, rf_pars);
-  cout << "lattice RF index: " << lattice.rf_metadata_.index << endl;
-  cout << "lattice RF count: " << lattice.rf_metadata_.count << endl;
-  cout << "lattice count: " << lattice.size() << endl << endl;
+  lattice.insert_RF(0, p, rf_pars);
 
+  // print lattice element names
   for (Lattice::iterator element=lattice.begin();
        element!=lattice.end();
        ++element)
     cout << element->name() << endl;
+
+  // tilt lattice elements
+  lattice.tilt(axis_mean_sigma);
+
+  // tracking
+  size_t num_steps = 0;
+  double current_s = 0;
+  for(Lattice::iterator element=lattice.begin();
+      element!=lattice.end();
+      ++element){
+    num_steps += element->track_through(state, log, current_s);
+    // log.plot(var_id, pid, "lines");
+    current_s += element->length();
+  }
+
+  log.write_to_file("test_lattice");
+
+  log.plot(0, pid, "lines"); // x
+  log.plot(1, pid, "lines"); // y
+
+  cout << "integration steps: " << num_steps << endl;
+
+  lattice[0].tilt.print();
+  cout << lattice[0].tilt.transform.rotation() << endl;
+  lattice.clear_tilt();
+  lattice[0].tilt.print();
+  cout << lattice[0].tilt.transform.rotation() << endl;
   
-  // lattice.tilt(axis_mean_sigma);
-  // lattice[0].print();
-  // lattice[0].tilt.print();
-
-  // MDipole* e = (MDipole*)&lattice[0];
-  // cout << "rotation map: \n" << e->tilt.transform.rotation() << endl;
-  // e->vectorize_fields(state);
-  // cout << "B-field: \n" << e->BField(state) << endl;
-  // cout << "E-field: \n" << e->EField(state) << endl;
-  
-  // size_t num_steps = 0;
-  // double current_s = 0;
-  // for(Lattice::iterator element=lattice.begin();
-  //     element!=lattice.end();
-  //     ++element){
-  //   num_steps += element->track_through(state, log, current_s);
-  //   // log.plot(var_id, pid, "lines");
-  //   current_s += element->length();
-  // }
-
-  // log.write_to_file("test_lattice");
-
-  // log.plot(0, pid, "lines"); // x
-  // log.plot(1, pid, "lines"); // y
-
-  // cout << "integration steps: " << num_steps << endl;
-  
-  // return num_steps;
-
-  return 0;
+  return num_steps;
 }
