@@ -46,25 +46,6 @@ void DataLog::write_to_file(string name, string dir){
   file_handle.close();
 }
 
-
-void DataLog::plot(string var_name, int pid, string line_type){
-
-  int var_index = IMAP.left.at(var_name);
-
-  vector<double> var_values;
-  double value;
-  for(vector<State>::iterator it = system_state_.begin(); it != system_state_.end(); ++it){
-    value = (*it)(pid, var_index);
-    var_values.push_back(value);
-  }
-  
-  Gnuplot gp;
-
-  gp << "plot '-' with " << line_type << " title '" + var_name + "'\n";
-  gp.send1d(boost::make_tuple(system_position_, var_values));
-  
-}
-
 void DataLog::plot(string var_y_name, string var_x_name, int pid, std::string line_type){
   string delim = " ";
   size_t d_pos_x = var_x_name.find(delim); // find the first occurence of blank space
