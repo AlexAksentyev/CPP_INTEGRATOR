@@ -13,6 +13,15 @@
 #include <vector>
 #include <Eigen/Dense>
 #include <string>
+#include <boost/bimap.hpp>
+
+
+using imap_type = boost::bimap<boost::bimaps::set_of<std::string>, boost::bimaps::set_of<int>>;
+static const std::vector<imap_type::value_type>v{{"x",  0},  {"y",     1},  {"s",   2},
+						 {"t",  3},  {"Theta", 4},  {"H",   5},
+			                         {"px", 6},  {"py",    7},  {"dK",  8},
+			                         {"Sx", 9},  {"Sy",   10},  {"Sz", 11}};
+static const imap_type IMAP(v.begin(), v.end());
 
 static const int VAR_NUM = 12;
 static const std::string VAR_NAME[] = {"x", "y", "s",
