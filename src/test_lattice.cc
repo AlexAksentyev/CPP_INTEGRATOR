@@ -3,7 +3,6 @@
 #include <string>
 #include <stdlib.h>
 #include <vector>
-#include <typeinfo>
 
 #include "right_hand_side.h"
 #include "particle.h"
@@ -101,8 +100,9 @@ int main(int argc, char** argv) {
 
   log.write_to_file("test_lattice");
 
-  log.plot(0, pid, "lines"); // x
-  log.plot(1, pid, "lines"); // y
+  log.plot("x", pid, "lines"); // x
+  log.plot("y", pid, "lines"); // y
+  log.plot("Sx", "x", pid, "lines");
 
   cout << "integration steps: " << num_steps << endl;
   

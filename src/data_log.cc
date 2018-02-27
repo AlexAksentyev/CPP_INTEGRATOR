@@ -8,10 +8,11 @@
 #include <iomanip>
 #include <stdlib.h>
 #include <iostream>
+#include <math.h>
 
 #include "gnuplot-iostream.h"
 #include <boost/tuple/tuple.hpp>
-
+#include "right_hand_side.h"
 
 using namespace std;
 
@@ -45,13 +46,14 @@ void DataLog::write_to_file(string name, string dir){
 }
 
 
-void DataLog::plot(int var_index, int pid, string line_type){
+void DataLog::plot(string var_name, int pid, string line_type){
 
-  string var_name = VAR_NAME[var_index];
+  int var_index = IMAP.left.at(var_name);
 
   vector<double> var_values;
+  double value;
   for(vector<State>::iterator it = system_state_.begin(); it != system_state_.end(); ++it){
-    double value = (*it)(pid, var_index);
+    value = (*it)(pid, var_index);
     var_values.push_back(value);
   }
   
@@ -60,4 +62,26 @@ void DataLog::plot(int var_index, int pid, string line_type){
   gp << "plot '-' with " << line_type << " title '" + var_name + "'\n";
   gp.send1d(boost::make_tuple(system_position_, var_values));
   
+}
+
+void DataLog::plot(string var_y_name, string var_x_name, int pid, std::string line_type){
+
+  int y_ind = IMAP.left.at(var_y_name), x_ind = IMAP.left.at(var_x_name);
+
+  vector<double> x_vals, y_vals;
+  double x_val, y_val;
+  for(vector<State>::iterator it = system_state_.begin(); it != system_state_.end(); ++it){
+    x_val = (*it)(pid, x_ind);
+    y_val = (*it)(pid, y_ind);
+    if(std::isnan(x_val) || std::isnan(y_val))
+      continue;
+    x_vals.push_back(x_val);
+    y_vals.push_back(y_val);
+  }
+
+  cout << "x_vals size: " << x_vals.size() << endl;
+  Gnuplot gp;
+
+  gp << "plot '-' with " << line_type << " title '" + var_y_name + "'\n";
+  gp.send1d(boost::make_tuple(x_vals, y_vals));
 }
