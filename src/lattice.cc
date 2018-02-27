@@ -32,7 +32,7 @@ void Lattice::append_element(Element* new_element){
 bool Lattice::insert_element(Element* new_element, int index){
   Lattice::iterator position = this->begin()+index;
   // sanity check for segfault
-  if (position > this->end()){
+  if (position < this->begin() || position > this->end()){
     cout << "Trying to insert outside lattice bounds" << endl;
     return false;
   }
@@ -45,7 +45,9 @@ bool Lattice::insert_element(Element* new_element, int index){
 
 bool Lattice::replace_element(Element* new_element, int index){
   Lattice::iterator old_element = this->begin()+index;
+  length_ -= old_element->length();
   this->replace(old_element, new_element);
+  length_ += new_element->length();
 }
 
 bool Lattice::remove_element(int index) {

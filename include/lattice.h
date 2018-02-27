@@ -25,7 +25,7 @@ struct RFMeta {
 };
 
 class ERF;
-class Lattice : public ElementPtrVector {
+class Lattice : private ElementPtrVector {
   std::string name_;
   double length_;
   RFMeta rf_metadata_;
