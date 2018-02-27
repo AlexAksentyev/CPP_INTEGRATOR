@@ -100,9 +100,7 @@ int main(int argc, char** argv) {
 
   log.write_to_file("test_lattice");
 
-  log.plot("x", pid, "lines"); // x
-  log.plot("y", pid, "lines"); // y
-  log.plot("Sx", "x", pid, "lines");
+  log.plot("-d Sx", "s", pid, "lines");
 
   cout << "integration steps: " << num_steps << endl;
   
