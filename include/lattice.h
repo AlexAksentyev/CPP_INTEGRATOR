@@ -28,7 +28,7 @@ struct RFMeta {
 };
 
 class ERF;
-class Lattice : public ElementPtrVector {
+class Lattice : private ElementPtrVector {
   std::string name_;
   double length_;
 public:
@@ -40,9 +40,9 @@ public:
   Lattice(std::string name);
   Lattice& operator=(std::initializer_list<Element*>);
 
-  // using iterator = ElementPtrVector::iterator;
-  // iterator begin() {return this->begin();}
-  // iterator end() {return this->end();}
+  using iterator = ElementPtrVector::iterator;
+  iterator begin() {return this->ElementPtrVector::begin();}
+  iterator end() {return this->ElementPtrVector::end();}
 
   double length() {return length_;}
 
