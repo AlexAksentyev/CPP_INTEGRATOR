@@ -81,6 +81,10 @@ int main(int argc, char** argv) {
 
   lattice.rf_metadata_.print();
 
+  cout << "Lattice_0 name: " <<lattice[0].name() << endl;
+  lattice[0].rename("BLAH!");
+  cout << "Lattice_0 name: " <<lattice[0].name() << endl;
+
   // tilt lattice elements
   lattice.tilt(axis_mean_sigma);
 

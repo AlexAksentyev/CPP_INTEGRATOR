@@ -40,10 +40,6 @@ public:
   Lattice(std::string name);
   Lattice& operator=(std::initializer_list<Element*>);
 
-  using iterator = ElementPtrVector::iterator;
-  iterator begin() {return this->ElementPtrVector::begin();}
-  iterator end() {return this->ElementPtrVector::end();}
-
   double length() {return length_;}
 
   void append_element(Element*); // adds element to back
@@ -56,6 +52,13 @@ public:
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);
   void clear_tilt(); // reset the lattice to the original state
+
+  // methods from base class open to the user
+  using iterator = ElementPtrVector::iterator;
+  iterator begin() {return this->ElementPtrVector::begin();}
+  iterator end() {return this->ElementPtrVector::end();}
+  
+  Element& operator[](size_type n) {return this->ElementPtrVector::operator[](n);}
 
 };
 
