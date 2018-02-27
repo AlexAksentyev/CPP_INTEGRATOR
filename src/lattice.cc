@@ -5,6 +5,7 @@
 #include <random>
 #include <math.h>
 #include <boost/shared_ptr.hpp>
+#include <typeinfo>
 
 using Gauss = std::normal_distribution<double>;
 
@@ -36,8 +37,8 @@ bool Lattice::insert_element(Element* new_element, int index){
     cout << "Trying to insert outside lattice bounds" << endl;
     return false;
   }
-  this->insert(position, new_element);
   length_ += new_element->length();
+  this->insert(position, new_element);
   // TODO: update segment_map
 
   return true;
@@ -59,6 +60,12 @@ bool Lattice::remove_element(int index) {
   }
   Lattice::auto_type element = this->release(position); // ownership transferred to element **
   length_ -= element->length();
+
+  if(element->is_RF()){
+    cout << "Removing an RF" << endl;
+    rf_metadata_.reset(); // we have only 1 RF element; if it's removed, reset metadata
+  }
+  
   element.reset(); // hence need delete (called in reset) ** 
   return true;
 }

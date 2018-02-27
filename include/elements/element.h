@@ -48,6 +48,8 @@ public:
 
   Element(const Element& ); // copy constructor
 
+  virtual bool is_RF() {return false;}
+
   double curve(){return curve_;}
   double length(){return length_;}
   std::string name(){return name_;}

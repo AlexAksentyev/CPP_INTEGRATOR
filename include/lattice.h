@@ -22,12 +22,16 @@ using ElementPtrVector = boost::ptr_vector<Element>;
 struct RFMeta {
   int index, count;
   RFMeta() : index(-1), count(0) {};
+  void reset() {index = -1; count = 0;}
+  void print() {std::cout << "index: "  << index
+ 			   << " count: " << count << std::endl;}
 };
 
 class ERF;
-class Lattice : private ElementPtrVector {
+class Lattice : public ElementPtrVector {
   std::string name_;
   double length_;
+public:
   RFMeta rf_metadata_;
   int state_; // keeps track of lattice tilt state
   // for outputting data into a separate file
@@ -35,6 +39,10 @@ public:
   
   Lattice(std::string name);
   Lattice& operator=(std::initializer_list<Element*>);
+
+  // using iterator = ElementPtrVector::iterator;
+  // iterator begin() {return this->begin();}
+  // iterator end() {return this->end();}
 
   double length() {return length_;}
 

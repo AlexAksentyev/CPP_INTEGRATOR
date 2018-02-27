@@ -1,5 +1,10 @@
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <vector>
+#include <typeinfo>
+
 #include "right_hand_side.h"
 #include "particle.h"
 #include "drift_space.h"
@@ -8,9 +13,6 @@
 #include "sextupole.h"
 #include "wien_filter.h"
 #include "rf_element.h"
-#include <string>
-#include <stdlib.h>
-#include <vector>
 #include "lattice.h"
 
 #include<boost/tuple/tuple.hpp>
@@ -38,7 +40,6 @@ int main(int argc, char** argv) {
     sigma = atof(argv[i+2]);
     axis_mean_sigma.push_back(TiltTuple(axis, mean, sigma));
   }
-  
 
   int var_id = 9;
   int pid = 1;
@@ -70,6 +71,16 @@ int main(int argc, char** argv) {
 
   lattice.insert_RF(0, p, rf_pars);
 
+  print_lattice_elements(lattice);
+
+  lattice.rf_metadata_.print();
+
+  lattice.remove_element(0);
+
+  print_lattice_elements(lattice);
+
+  lattice.rf_metadata_.print();
+
   // tilt lattice elements
   lattice.tilt(axis_mean_sigma);
 
@@ -90,12 +101,6 @@ int main(int argc, char** argv) {
   log.plot(1, pid, "lines"); // y
 
   cout << "integration steps: " << num_steps << endl;
-
-  lattice[0].tilt.print();
-  cout << lattice[0].tilt.transform.rotation() << endl;
-  lattice.clear_tilt();
-  lattice[0].tilt.print();
-  cout << lattice[0].tilt.transform.rotation() << endl;
   
   return num_steps;
 }

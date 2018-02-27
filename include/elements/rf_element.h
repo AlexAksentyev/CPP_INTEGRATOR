@@ -35,6 +35,7 @@ public:
 	  rf_pars.E_field, rf_pars.phase, rf_pars.H_number,
 	  name){}
 
+  bool is_RF(){return true;}
   VectorizedField EField(State state);
   VectorizedField EField_prime_s(State state);
   
