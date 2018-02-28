@@ -11,7 +11,7 @@ using Gauss = std::normal_distribution<double>;
 
 using namespace std;
 using namespace data_log;
-using namespace RHS;
+using namespace rhs;
 using namespace element;
 
 Lattice::Lattice(string name)

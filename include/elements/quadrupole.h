@@ -17,7 +17,7 @@ namespace element{
 	  std::string name="MQuad")
       : Element(particle, 0, length, name), grad_(gradient) {}
 
-    VectorizedField BField(RHS::State state_matrix);
+    VectorizedField BField(rhs::State state_matrix);
 
     void print();
   };

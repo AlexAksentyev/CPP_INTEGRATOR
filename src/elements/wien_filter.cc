@@ -2,7 +2,7 @@
 #include "particle.h"
 #include <math.h>
 
-using namespace RHS;
+using namespace rhs;
 using namespace element;
 
 WFStraight::WFStraight(Particle& reference_particle,

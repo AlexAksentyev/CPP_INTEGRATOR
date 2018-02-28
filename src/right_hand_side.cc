@@ -8,7 +8,7 @@
 #include <boost/numeric/odeint.hpp>
 
 using namespace std;
-using namespace RHS;
+using namespace rhs;
 using namespace element;
 
 RightHandSide::RightHandSide(Particle& reference, Element& host)

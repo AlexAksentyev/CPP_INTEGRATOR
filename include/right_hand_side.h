@@ -20,7 +20,7 @@ class Particle;
 namespace data_log{class DataLog;}
 namespace element{class Element;}
 
-namespace RHS{
+namespace rhs{
 
   using imap_type = boost::bimap<boost::bimaps::set_of<std::string>, boost::bimaps::set_of<int>>;
   static const std::vector<imap_type::value_type>v{{"x",  0},  {"y",     1},  {"s",   2},
@@ -49,7 +49,7 @@ namespace RHS{
     RightHandSide(Particle& reference_particle, element::Element& host_element);
     RightHandSide(const RightHandSide& to_copy, element::Element& new_host);
     RightHandSide(const RightHandSide& to_copy);
-    void operator() (const RHS::State &x , RHS::State &dxds, const double /* s*/);
+    void operator() (const rhs::State &x , rhs::State &dxds, const double /* s*/);
   };
 
 } // namespace RHS

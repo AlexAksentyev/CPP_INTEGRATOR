@@ -1,5 +1,5 @@
 // TODO:
-// * finish RHS::StateList
+// * finish rhs::StateList
 // * add log controls for deciding whether to log intermediate state values,
 //   i.e. when a data log is passed to Lattice::track_through(),
 //   if record_intermediate == true, pass the log to Element::track_through()
@@ -44,7 +44,7 @@ namespace data_log{
   };
 
   class DataLog{
-    std::vector<RHS::State> system_state_;
+    std::vector<rhs::State> system_state_;
     std::vector<double> system_position_;
     // std::vector<std::string> element_name_;
     std::vector<MetaData> state_metadata_;
@@ -54,9 +54,9 @@ namespace data_log{
 
     DataLog() : system_state_(), system_position_(), state_metadata_(), reference_pid_(0){}
   
-    void operator() (const RHS::State &state, double position);
-    //  void operator() (const RHS::State &state, double position, std::string element_name);
-    void operator() (const RHS::State &state, double position, const MetaData& );
+    void operator() (const rhs::State &state, double position);
+    //  void operator() (const rhs::State &state, double position, std::string element_name);
+    void operator() (const rhs::State &state, double position, const MetaData& );
   
     void set_reference(int pid){reference_pid_ = pid;}
   

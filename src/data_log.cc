@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace data_log;
-using namespace RHS;
+using namespace rhs;
 
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);

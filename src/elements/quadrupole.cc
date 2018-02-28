@@ -2,7 +2,7 @@
 
 using namespace std;
 using namespace Eigen;
-using namespace RHS;
+using namespace rhs;
 using namespace element;
 
 VectorizedField MQuad::BField(State state){

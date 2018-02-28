@@ -30,7 +30,7 @@ namespace element{
     double curve_;
     double length_;
     std::string name_;
-    RHS::RightHandSide rhs_;
+    rhs::RightHandSide rhs_;
 
   protected:
     Eigen::Vector3d E_field_base_;
@@ -43,7 +43,7 @@ namespace element{
 
     Tilt tilt;
 
-    void vectorize_fields(RHS::State state_matrix); // public for now, might move
+    void vectorize_fields(rhs::State state_matrix); // public for now, might move
 
     Element(Particle& particle,
 	    double curve, double length,
@@ -61,12 +61,12 @@ namespace element{
     void print_fields(); // for testing purposes
     void print_vectorized_fields(); // testing
 
-    virtual VectorizedField EField(RHS::State state_matrix);
-    virtual VectorizedField EField_prime_s(RHS::State state_matrix);
-    virtual VectorizedField BField(RHS::State state_matrix);
+    virtual VectorizedField EField(rhs::State state_matrix);
+    virtual VectorizedField EField_prime_s(rhs::State state_matrix);
+    virtual VectorizedField BField(rhs::State state_matrix);
 
-    virtual void front_kick(RHS::State& state_matrix);
-    virtual void rear_kick(RHS::State& state_matrix);
+    virtual void front_kick(rhs::State& state_matrix);
+    virtual void rear_kick(rhs::State& state_matrix);
 
     void print();
     friend std::ostream& operator<<(std::ostream& out_stream, const Element& element){
@@ -82,10 +82,10 @@ namespace element{
     }
 
     // tracking with intermediate values output
-    virtual size_t track_through(RHS::State& ini_states, data_log::DataLog& observer);
+    virtual size_t track_through(rhs::State& ini_states, data_log::DataLog& observer);
     // tracking w/o intermediate values output;
     // data logging is handled in the Lattice class' track_through
-    virtual size_t track_through(RHS::State& ini_states);
+    virtual size_t track_through(rhs::State& ini_states);
  
   };
 
@@ -94,7 +94,7 @@ namespace element{
     Observer(Particle& particle, std::string name="Observer")
       : Element(particle, 0, 0, name){}
 
-    size_t track_through(RHS::State& ini_states, data_log::DataLog& observer) {
+    size_t track_through(rhs::State& ini_states, data_log::DataLog& observer) {
       observer(ini_states, ini_states(0, 2));
       return 0;
     }

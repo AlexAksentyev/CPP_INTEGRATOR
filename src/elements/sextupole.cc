@@ -1,6 +1,6 @@
 #include "sextupole.h"
 
-using namespace RHS;
+using namespace rhs;
 using namespace element;
 
 VectorizedField MSext::BField(State state){

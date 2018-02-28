@@ -5,7 +5,7 @@
 #include <iomanip>
 
 using namespace data_log;
-using namespace RHS;
+using namespace rhs;
 using namespace element;
 
 ERF::ERF(Particle& reference_particle,

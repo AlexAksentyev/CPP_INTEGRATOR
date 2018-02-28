@@ -14,8 +14,8 @@ namespace element{
 	       double E_hor, double B_vert,
 	       std::string name="WFS");
 
-    void front_kick(RHS::State& state);
-    void rear_kick(RHS::State& state);
+    void front_kick(rhs::State& state);
+    void rear_kick(rhs::State& state);
   };
 
   class WFCylindrical : public Element {
@@ -30,9 +30,9 @@ namespace element{
 		  double E_hor, double B_vert,
 		  std::string name="WFS");  
 
-    VectorizedField EField(RHS::State state);
-    void front_kick(RHS::State& state);
-    void rear_kick(RHS::State& state);
+    VectorizedField EField(rhs::State state);
+    void front_kick(rhs::State& state);
+    void rear_kick(rhs::State& state);
   };
 } // element namespace
 

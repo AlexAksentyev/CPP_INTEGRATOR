@@ -11,7 +11,7 @@ namespace element{
     MSext(Particle& particle, double length, double gradient, std::string name="MSext")
       : Element(particle, 0, length, name), grad_(gradient){}
 
-    VectorizedField BField(RHS::State state);
+    VectorizedField BField(rhs::State state);
   };
 } // element namespace
 

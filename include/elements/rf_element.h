@@ -36,11 +36,11 @@ namespace element{
 	    name){}
 
     bool is_RF(){return true;}
-    VectorizedField EField(RHS::State state);
-    VectorizedField EField_prime_s(RHS::State state);
+    VectorizedField EField(rhs::State state);
+    VectorizedField EField_prime_s(rhs::State state);
   
-    void front_kick(RHS::State& state);
-    void rear_kick(RHS::State& state);
+    void front_kick(rhs::State& state);
+    void rear_kick(rhs::State& state);
 
     friend std::ostream& operator<<(std::ostream& out_stream, const ERF& element){
       using namespace std;
@@ -58,8 +58,8 @@ namespace element{
     // implements advance()
     // version 1 logs intermediate states (before rear kick)
     // version 2 leaves logging to Lattice (hence logging after rear kick)
-    size_t track_through(RHS::State& ini_states, data_log::DataLog& observer); 
-    size_t track_through(RHS::State& ini_states);
+    size_t track_through(rhs::State& ini_states, data_log::DataLog& observer); 
+    size_t track_through(rhs::State& ini_states);
   };
 }// element namespace
 
