@@ -34,13 +34,13 @@ void DataLog::operator() (const State &state, double position, Element& element)
 
 void DataLog::write_to_file(string name, string dir){
 
-  int col_width = 10;
+  int col_width = 15;
   int num_rows = system_position_.size();
   
   ofstream file_handle;
   file_handle.open((dir+"/"+name+".dat").c_str());
 
-  file_handle << fixed << setprecision(4);
+  file_handle << scientific << setprecision(4);
   
   file_handle << right
 	      << setw(col_width) << "#Name" // # for gnuplot comment
