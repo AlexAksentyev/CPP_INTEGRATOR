@@ -40,17 +40,32 @@ void ERF::rear_kick(State& state){
 }
 
 size_t ERF::track_through(State& ini_states, DataLog& observer){// implements advance()
-  this->vectorize_fields(ini_states); // remove this when have class Lattice
+  //  this->vectorize_fields(ini_states); // handled by Lattice
   front_kick(ini_states);
   double angle, beta;
   for(int i=0; i<ini_states.rows(); i++){
     angle = w_freq_*ini_states(i, 3) + phase_;
-    ini_states(i, 8) += kick_voltage_*cos(angle)*1e-6/reference_particle_.kinetic_energy();
-    ini_states(i, 2) += length();
+    ini_states(i, 8) += kick_voltage_*cos(angle)*1e-6/reference_particle_.kinetic_energy(); // update dK
+    ini_states(i, 2) += length(); // update s
     beta = reference_particle_.beta(ini_states(i, 8));
-    ini_states(i, 3) += length()/beta/CLIGHT;
+    ini_states(i, 3) += length()/beta/CLIGHT; // update t
   }
   observer(ini_states, ini_states(0, 2));
+  rear_kick(ini_states);
+  return 0;
+}
+
+size_t ERF::track_through(State& ini_states){// implements advance()
+  //  this->vectorize_fields(ini_states); // handled by Lattice
+  front_kick(ini_states);
+  double angle, beta;
+  for(int i=0; i<ini_states.rows(); i++){
+    angle = w_freq_*ini_states(i, 3) + phase_;
+    ini_states(i, 8) += kick_voltage_*cos(angle)*1e-6/reference_particle_.kinetic_energy(); // update dK
+    ini_states(i, 2) += length(); // update s
+    beta = reference_particle_.beta(ini_states(i, 8));
+    ini_states(i, 3) += length()/beta/CLIGHT; // update t
+  }
   rear_kick(ini_states);
   return 0;
 }

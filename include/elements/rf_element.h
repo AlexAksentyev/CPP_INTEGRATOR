@@ -42,7 +42,11 @@ public:
   void front_kick(State& state);
   void rear_kick(State& state);
 
-  size_t track_through(State& ini_states, DataLog& observer); // implements advance()
+  // implements advance()
+  // version 1 logs intermediate states (before rear kick)
+  // version 2 leaves logging to Lattice (hence logging after rear kick)
+  size_t track_through(State& ini_states, DataLog& observer); 
+  size_t track_through(State& ini_states);
 };
 
 

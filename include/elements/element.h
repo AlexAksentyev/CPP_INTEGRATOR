@@ -67,7 +67,11 @@ public:
 
   void print();
 
-  virtual size_t track_through(State& ini_states, DataLog& observer, double start_s=0);
+  // tracking with intermediate values output
+  virtual size_t track_through(State& ini_states, DataLog& observer);
+  // tracking w/o intermediate values output;
+  // data logging is handled in the Lattice class' track_through
+  virtual size_t track_through(State& ini_states);
  
 };
 
