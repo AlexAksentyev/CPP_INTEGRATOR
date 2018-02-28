@@ -144,13 +144,15 @@ size_t Lattice::track_through(State ini_state, DataLog& log, size_t num_turns){
   
   size_t num_steps = 0;
   double current_s = 0;
+  log(ini_state, current_s, "START");
   for (size_t turn=0; turn<num_turns; turn++){
     for(Lattice::iterator element=this->begin();
 	element!=this->end();
 	++element){
       num_steps += element->track_through(ini_state);
       current_s += element->length();
-      log(ini_state, current_s, *element);
+      log(ini_state, current_s, element->name());
     }
   }
+  return num_steps;
 }
