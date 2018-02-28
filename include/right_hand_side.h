@@ -25,10 +25,10 @@ static const std::vector<imap_type::value_type>v{{"x",  0},  {"y",     1},  {"s"
 static const imap_type IMAP(v.begin(), v.end());
 
 static const int VAR_NUM = 12;
-static const std::string VAR_NAME[] = {"x", "y", "s",
-				       "t", "Theta", "H",
-				       "px", "py", "dK",
-				       "Sx", "Sy", "Sz"};
+// static const std::string VAR_NAME[] = {"x", "y", "s",
+// 				       "t", "Theta", "H",
+// 				       "px", "py", "dK",
+// 				       "Sx", "Sy", "Sz"};
 
 // variable names
 /*   x, y, s, */        // 0,  1,  2
