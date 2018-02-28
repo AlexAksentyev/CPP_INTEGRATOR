@@ -13,20 +13,20 @@
 #include <string>
 #include "right_hand_side.h"
 
+class Element;
 class DataLog{
-  std::vector<State>& system_state_;
-  std::vector<double>& system_position_;
+  std::vector<State> system_state_; // &
+  std::vector<double> system_position_; // &
+  std::vector<std::string> element_name_; // &
   int reference_pid_;
 
 public:
-  DataLog(std::vector<State>& states, std::vector<double>& positions)
-    : system_state_(states), system_position_(positions), reference_pid_(0){}
-  
-  void operator() (const State &state, double position){
-    system_state_.push_back(state);
-    system_position_.push_back(position);
-  }
 
+  DataLog() : system_state_(), system_position_(), element_name_(), reference_pid_(0){}
+  
+  void operator() (const State &state, double position);
+  void operator() (const State &state, double position, Element& element);
+  
   void set_reference(int pid){reference_pid_ = pid;}
   
   void write_to_file(std::string name, std::string dir = "../data"); // bin is in build, go out
