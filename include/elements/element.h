@@ -13,6 +13,7 @@
 #include <math.h>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+#include <iomanip>
 
 #include "particle.h"
 #include "data_log.h"
@@ -27,7 +28,7 @@ class Element {
   double curve_;
   double length_;
   std::string name_;
-  RightHandSide rhs_;
+  RHS::RightHandSide rhs_;
 
 protected:
   Eigen::Vector3d E_field_base_;
@@ -40,7 +41,7 @@ public:
 
   Tilt tilt;
 
-  void vectorize_fields(State state_matrix); // public for now, might move
+  void vectorize_fields(RHS::State state_matrix); // public for now, might move
 
   Element(Particle& particle,
 	  double curve, double length,
@@ -58,21 +59,31 @@ public:
   void print_fields(); // for testing purposes
   void print_vectorized_fields(); // testing
 
-  virtual VectorizedField EField(State state_matrix);
-  virtual VectorizedField EField_prime_s(State state_matrix);
-  virtual VectorizedField BField(State state_matrix);
+  virtual VectorizedField EField(RHS::State state_matrix);
+  virtual VectorizedField EField_prime_s(RHS::State state_matrix);
+  virtual VectorizedField BField(RHS::State state_matrix);
 
-  virtual void front_kick(State& state_matrix);
-  virtual void rear_kick(State& state_matrix);
+  virtual void front_kick(RHS::State& state_matrix);
+  virtual void rear_kick(RHS::State& state_matrix);
 
   void print();
-  friend std::ostream& operator<<(std::ostream&, const Element&);
+  friend std::ostream& operator<<(std::ostream& out_stream, const Element& element){
+    using namespace std;
+    out_stream << right
+	       << setw(10) << "name"
+	       << setw(10) << "curvature"
+	       << setw(10) << "length" << endl
+	       << setw(10) << element.name_
+	       << setw(10) << element.curve_
+	       << setw(10) << element.length_;
+    return out_stream;
+  }
 
   // tracking with intermediate values output
-  virtual size_t track_through(State& ini_states, data_log::DataLog& observer);
+  virtual size_t track_through(RHS::State& ini_states, data_log::DataLog& observer);
   // tracking w/o intermediate values output;
   // data logging is handled in the Lattice class' track_through
-  virtual size_t track_through(State& ini_states);
+  virtual size_t track_through(RHS::State& ini_states);
  
 };
 
@@ -81,7 +92,7 @@ public:
   Observer(Particle& particle, std::string name="Observer")
     : Element(particle, 0, 0, name){}
 
-  size_t track_through(State& ini_states, data_log::DataLog& observer) {
+  size_t track_through(RHS::State& ini_states, data_log::DataLog& observer) {
     observer(ini_states, ini_states(0, 2));
     return 0;
   }

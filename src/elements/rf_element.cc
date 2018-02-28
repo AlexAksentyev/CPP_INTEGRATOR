@@ -5,6 +5,7 @@
 #include <iomanip>
 
 using namespace data_log;
+using namespace RHS;
 
 std::ostream& operator<<(std::ostream& out_stream, const ERF& element){
   using namespace std;

@@ -14,8 +14,8 @@ public:
 	     double E_hor, double B_vert,
 	     std::string name="WFS");
 
-  void front_kick(State& state);
-  void rear_kick(State& state);
+  void front_kick(RHS::State& state);
+  void rear_kick(RHS::State& state);
 };
 
 class WFCylindrical : public Element {
@@ -30,9 +30,9 @@ public:
 		double E_hor, double B_vert,
 		std::string name="WFS");  
 
-  VectorizedField EField(State state);
-  void front_kick(State& state);
-  void rear_kick(State& state);
+  VectorizedField EField(RHS::State state);
+  void front_kick(RHS::State& state);
+  void rear_kick(RHS::State& state);
 };
 
 

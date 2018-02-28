@@ -36,19 +36,19 @@ public:
 	  name){}
 
   bool is_RF(){return true;}
-  VectorizedField EField(State state);
-  VectorizedField EField_prime_s(State state);
+  VectorizedField EField(RHS::State state);
+  VectorizedField EField_prime_s(RHS::State state);
   
-  void front_kick(State& state);
-  void rear_kick(State& state);
+  void front_kick(RHS::State& state);
+  void rear_kick(RHS::State& state);
 
   friend std::ostream& operator<<(std::ostream&, const ERF&);
 
   // implements advance()
   // version 1 logs intermediate states (before rear kick)
   // version 2 leaves logging to Lattice (hence logging after rear kick)
-  size_t track_through(State& ini_states, data_log::DataLog& observer); 
-  size_t track_through(State& ini_states);
+  size_t track_through(RHS::State& ini_states, data_log::DataLog& observer); 
+  size_t track_through(RHS::State& ini_states);
 };
 
 

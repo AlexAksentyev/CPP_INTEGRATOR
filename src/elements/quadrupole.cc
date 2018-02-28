@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace Eigen;
+using namespace RHS;
 
 VectorizedField MQuad::BField(State state){
   for (int j=0; j<state.rows(); j++){

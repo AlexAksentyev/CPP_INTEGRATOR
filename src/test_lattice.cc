@@ -39,10 +39,10 @@ int main(int argc, char** argv) {
   
    // creating the state ensemble
   int num_states = 3;
-  State state(num_states, VAR_NUM), deriv(num_states, VAR_NUM);
+  RHS::State state(num_states, RHS::VAR_NUM), deriv(num_states, RHS::VAR_NUM);
   state.setZero();
   state.col(0) = Eigen::VectorXd::LinSpaced(num_states, -1e-3, 1e-3); // setting x
-  state.col(IMAP.left.at("dK")) = Eigen::VectorXd::LinSpaced(3, 0, 1e-4);
+  state.col(RHS::VMAP.left.at("dK")) = Eigen::VectorXd::LinSpaced(3, 0, 1e-4);
   state.col(11) = Eigen::VectorXd::Ones(num_states); // Sz = 1
 
   // defining the default particle

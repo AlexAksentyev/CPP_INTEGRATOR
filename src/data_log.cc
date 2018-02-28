@@ -18,26 +18,13 @@
 
 using namespace std;
 using namespace data_log;
-
-// ostream& data_log::operator<<(ostream& out_stream, const MetaData& data){
-//   out_stream << setw(COL_WIDTH) << data.current_turn
-// 	     << setw(COL_WIDTH) << data.element_name
-// 	     << setw(COL_WIDTH) << data.element_id;
-//   return out_stream;
-// }
+using namespace RHS;
 
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);
   system_position_.push_back(position);
-  //  element_name_.push_back("  *");
   state_metadata_.push_back(MetaData());
 }
-
-// void DataLog::operator() (const State &state, double position, string element_name){
-//   system_state_.push_back(state);
-//   system_position_.push_back(position);
-//   element_name_.push_back(element_name);
-// }
 
 void DataLog::operator() (const State &state, double position, const MetaData& metadata){
   system_state_.push_back(state);
@@ -59,7 +46,7 @@ void DataLog::write_to_file(string name, string dir){
 	      << setw(COL_WIDTH) << "EID"
 	      << setw(COL_WIDTH) << "s_loc"; 
   for (int j=0; j<VAR_NUM; j++)
-    file_handle << setw(COL_WIDTH) << IMAP.right.at(j);
+    file_handle << setw(COL_WIDTH) << VMAP.right.at(j);
 
   file_handle << endl;
   for (int i=0; i<num_rows; i++){
@@ -88,7 +75,7 @@ void DataLog::plot(string var_y_name, string var_x_name, int pid, std::string li
 
   var_x_name.erase(0, d_pos_x+1); // remove flag
   var_y_name.erase(0, d_pos_y+1);
-  int y_ind = IMAP.left.at(var_y_name), x_ind = IMAP.left.at(var_x_name);
+  int y_ind = VMAP.left.at(var_y_name), x_ind = VMAP.left.at(var_x_name);
 
   vector<double> x_vals, y_vals;
   double x_val, y_val, x_ref_val = 0, y_ref_val = 0;

@@ -1,5 +1,6 @@
 #include "sextupole.h"
 
+using namespace RHS;
 
 VectorizedField MSext::BField(State state){
   for(int j=0; j<state.rows(); j++){

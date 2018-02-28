@@ -10,18 +10,7 @@
 
 using namespace std;
 using namespace data_log;
-
-ostream& operator<<(ostream& out_stream, const Element& element){
-  out_stream << right
-	     << setw(10) << "name"
-	     << setw(10) << "curvature"
-	     << setw(10) << "length" << endl
-	     << setw(10) << element.name_
-	     << setw(10) << element.curve_
-	     << setw(10) << element.length_;
-  return out_stream;
-}
-
+using namespace RHS;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
   : rhs_(particle, *this),

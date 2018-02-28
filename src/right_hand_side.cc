@@ -8,6 +8,7 @@
 #include <boost/numeric/odeint.hpp>
 
 using namespace std;
+using namespace RHS;
 
 RightHandSide::RightHandSide(Particle& reference, Element& host)
   : particle_(reference), host_(host), w_freq_(0) {}

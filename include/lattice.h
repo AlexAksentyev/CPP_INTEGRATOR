@@ -14,7 +14,7 @@
 
 #include "element.h"
 #include "rf_element.h"
-#include "right_hand_side.h" // provides State typedef
+#include "right_hand_side.h" // provides RHS::State typedef
 
 using ElementPtrVector = boost::ptr_vector<Element>;
 
@@ -55,7 +55,7 @@ public:
 
   // data_log::DataLog passed here doesn't go to element::track_through,
   // and only logs the state after passing through the element
-  size_t track_through(State, data_log::DataLog&, size_t number_of_turns);
+  size_t track_through(RHS::State, data_log::DataLog&, size_t number_of_turns);
 
   // methods from base class open to the user
   using iterator = ElementPtrVector::iterator;

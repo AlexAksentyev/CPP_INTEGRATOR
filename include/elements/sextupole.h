@@ -10,7 +10,7 @@ public:
   MSext(Particle& particle, double length, double gradient, std::string name="MSext")
     : Element(particle, 0, length, name), grad_(gradient){}
 
-  VectorizedField BField(State state);
+  VectorizedField BField(RHS::State state);
 };
 
 
