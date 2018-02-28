@@ -28,7 +28,7 @@ void DataLog::write_to_file(string name, string dir){
   file_handle << fixed << setprecision(4);
   
   file_handle << right
-	      << setw(col_width) << "#s"; // # for gnuplot comment
+	      << setw(col_width) << "#s_loc"; // # for gnuplot comment
   for (int j=0; j<VAR_NUM; j++)
     file_handle << setw(col_width) << VAR_NAME[j];
 
