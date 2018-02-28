@@ -1,5 +1,3 @@
-// Keep elements instead of element pointers, b/c
-// if keep pointers, tilting will be systematic
 
 // TODO:
 //    * add segment_map functionality
@@ -16,6 +14,7 @@
 
 #include "element.h"
 #include "rf_element.h"
+#include "right_hand_side.h" // provides State typedef
 
 using ElementPtrVector = boost::ptr_vector<Element>;
 
@@ -27,11 +26,10 @@ struct RFMeta {
  			   << " count: " << count << std::endl;}
 };
 
-class ERF;
+class DataLog;
 class Lattice : private ElementPtrVector {
   std::string name_;
   double length_;
-public:
   RFMeta rf_metadata_;
   int state_; // keeps track of lattice tilt state
   // for outputting data into a separate file
@@ -52,6 +50,10 @@ public:
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);
   void clear_tilt(); // reset the lattice to the original state
+
+  // DataLog passed here doesn't go to element::track_through,
+  // and only logs the state after passing through the element
+  size_t track_through(State, DataLog&, size_t number_of_turns);
 
   // methods from base class open to the user
   using iterator = ElementPtrVector::iterator;

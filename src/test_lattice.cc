@@ -30,15 +30,7 @@ int main(int argc, char** argv) {
   using namespace boost;
 
   // parse input arguments
-  using TiltTuple = boost::tuple<char, double, double>;
-  vector<TiltTuple> axis_mean_sigma;
-  char axis; double mean, sigma;
-  for(int i=1; i<argc-2; i+=3){
-    axis = *argv[i];
-    mean = atof(argv[i+1]);
-    sigma = atof(argv[i+2]);
-    axis_mean_sigma.push_back(TiltTuple(axis, mean, sigma));
-  }
+  size_t num_turns = atoi(argv[1]);
 
   int var_id = 9;
   int pid = 1;
@@ -50,11 +42,6 @@ int main(int argc, char** argv) {
   state.setZero();
   state.col(0) = Eigen::VectorXd::LinSpaced(num_states, -1e-3, 1e-3); // setting x
   state.col(11) = Eigen::VectorXd::Ones(num_states); // Sz = 1
-
-  // output vectors
-  vector<State> x;
-  vector<double> s;
-  DataLog log(x, s);
 
   // defining the default particle
   Particle p(1876, 1.14, .2);
@@ -70,37 +57,12 @@ int main(int argc, char** argv) {
 
   lattice.insert_RF(0, p, rf_pars);
 
-  print_lattice_elements(lattice);
-
-  lattice.rf_metadata_.print();
-
-  lattice.remove_element(0);
-
-  print_lattice_elements(lattice);
-
-  lattice.rf_metadata_.print();
-
-  cout << "Lattice_0 name: " <<lattice[0].name() << endl;
-  lattice[0].rename("BLAH!");
-  cout << "Lattice_0 name: " <<lattice[0].name() << endl;
-
-  // tilt lattice elements
-  lattice.tilt(axis_mean_sigma);
-
-  // tracking
-  size_t num_steps = 0;
-  double current_s = 0;
-  for(Lattice::iterator element=lattice.begin();
-      element!=lattice.end();
-      ++element){
-    num_steps += element->track_through(state, log, current_s);
-    // log.plot(var_id, pid, "lines");
-    current_s += element->length();
-  }
+  DataLog log;
+  size_t num_steps = lattice.track_through(state, log, num_turns);
 
   log.write_to_file("test_lattice");
 
-  log.plot("-d Sx", "s", pid, "lines");
+  log.plot("-D x", "s", pid, "lines");
 
   cout << "integration steps: " << num_steps << endl;
   
