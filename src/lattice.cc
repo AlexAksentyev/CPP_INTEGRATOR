@@ -140,11 +140,19 @@ void Lattice::clear_tilt(){
 }
 
 size_t Lattice::track_through(State ini_state, DataLog& log, size_t num_turns){
+  int rf_index = this->get_RF_index();
+  double rf_w_freq = 0;
+  if (rf_index != -1) // if we have an RF element, update frequency
+    rf_w_freq = (dynamic_cast<ERF&>((*this)[rf_index])).w_freq();
+  else
+    cout << "Running w/o RF" << endl;
   // adapting the element vectorized_fields to ini_state size
   for(Lattice::iterator element=this->begin();
       element!=this->end();
-      ++element)
+      ++element){
     element->vectorize_fields(ini_state);
+    element->set_RF_w_freq(rf_w_freq);
+  }
   
   size_t num_steps = 0, eid; // eid = element id = order of element in lattice
   double current_s = 0;

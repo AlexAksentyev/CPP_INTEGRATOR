@@ -48,6 +48,8 @@ public:
   bool replace_element(element::Element*, int index);
   bool remove_element(int index);
   bool insert_RF(int index, Particle& reference, element::RFPars rf_pars);
+
+  int get_RF_index(){return rf_metadata_.index;}
   
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);

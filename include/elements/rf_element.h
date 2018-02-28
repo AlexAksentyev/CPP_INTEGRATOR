@@ -35,6 +35,8 @@ namespace element{
 	    rf_pars.E_field, rf_pars.phase, rf_pars.H_number,
 	    name){}
 
+    double w_freq(){return w_freq_;}
+    
     bool is_RF(){return true;}
     VectorizedField EField(rhs::State state);
     VectorizedField EField_prime_s(rhs::State state);

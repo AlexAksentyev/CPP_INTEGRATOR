@@ -57,6 +57,7 @@ namespace element{
     double length(){return length_;}
     std::string name(){return name_;}
     void rename(std::string new_name){name_ = new_name;}
+    void set_RF_w_freq(double value){rhs_.set_w_freq(value);}
 
     void print_fields(); // for testing purposes
     void print_vectorized_fields(); // testing

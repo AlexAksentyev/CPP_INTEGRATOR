@@ -33,6 +33,7 @@ int main(int argc, char** argv) {
   // parse input arguments
   size_t num_turns = atoi(argv[1]);
   string var_y(argv[2]);
+  string var_x(argv[3]);
 
   int var_id = 9;
   int pid = 1;
@@ -57,7 +58,8 @@ int main(int argc, char** argv) {
 	     new MQuad(p, length, -8.4, "QD")};
 
   RFPars rf_pars;
-
+  rf_pars.E_field=15e7;
+  
   lattice.insert_RF(0, p, rf_pars);
 
   data_log::DataLog log;
@@ -66,7 +68,7 @@ int main(int argc, char** argv) {
 
   log.write_to_file("test_lattice");
 
-  log.plot(var_y, "s", pid, "lines");
+  log.plot(var_y, var_x, pid, "lines");
 
   cout << "integration steps: " << num_steps << endl;
   

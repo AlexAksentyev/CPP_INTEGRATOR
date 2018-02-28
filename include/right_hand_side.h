@@ -50,6 +50,7 @@ namespace rhs{
     RightHandSide(const RightHandSide& to_copy, element::Element& new_host);
     RightHandSide(const RightHandSide& to_copy);
     void operator() (const rhs::State &x , rhs::State &dxds, const double /* s*/);
+    void set_w_freq(double value) {w_freq_ = value;}
   };
 
 } // namespace RHS
