@@ -5,6 +5,7 @@
 
 // TODO:
 // * (possibly) define IMAP as unordered_map
+// * Consider moving from Eigen to boost::uBLAS for performance reasons
 
 
 #ifndef RIGHT_HAND_SIDE_H
