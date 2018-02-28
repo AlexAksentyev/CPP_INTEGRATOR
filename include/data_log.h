@@ -27,7 +27,9 @@ public:
   void set_reference(int pid){reference_pid_ = pid;}
   
   void write_to_file(std::string name, std::string dir = "../data"); // bin is in build, go out
-  void plot(std::string var_y_name, std::string var_x_name="s", int pid, std::string line_type="points");
+  // var names accept format: FLAG var_name, where FLAG can be -D for
+  // plotting the difference between the pid particle's var_name and the reference particle's var_name
+  void plot(std::string var_y_name, std::string var_x_name, int pid, std::string line_type="points");
 };
 
 // TO FINISH
