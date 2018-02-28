@@ -138,22 +138,28 @@ void Lattice::clear_tilt(){
 size_t Lattice::track_through(State ini_state, DataLog& log, size_t num_turns){
   // adapting the element vectorized_fields to ini_state size
   for(Lattice::iterator element=this->begin();
-	element!=this->end();
-	++element)
+      element!=this->end();
+      ++element)
     element->vectorize_fields(ini_state);
-
   
-  size_t num_steps = 0;
+  size_t num_steps = 0, eid; // eid = element id = order of element in lattice
   double current_s = 0;
-  log(ini_state, current_s, "START"); // logging initial state
+  MetaData metadata(0, "START", 0); // initial state meta data
+  log(ini_state, current_s, metadata); // logging initial state
   //tracking proper
-  for (size_t turn=0; turn<num_turns; turn++){
+  for (size_t turn=1; turn<=num_turns; turn++){
+    eid = 1;
     for(Lattice::iterator element=this->begin();
 	element!=this->end();
 	++element){
-      num_steps += element->track_through(ini_state);
-      current_s += element->length();
-      log(ini_state, current_s, element->name());
+
+      num_steps += element->track_through(ini_state); // track through the current element
+
+      current_s += element->length(); // current position s of the beam along the optical axis
+      metadata.overwrite(turn, element->name(), eid); // overwrite metadata for current turn, element
+      log(ini_state, current_s, metadata); // logging current state
+      
+      eid += 1;
     }
   }
   return num_steps;

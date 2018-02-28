@@ -19,42 +19,56 @@
 
 using namespace std;
 
+ostream& operator<<(ostream& out_stream, const MetaData& data){
+  out_stream << setw(COL_WIDTH) << data.current_turn
+	     << setw(COL_WIDTH) << data.element_name
+	     << setw(COL_WIDTH) << data.element_id;
+  return out_stream;
+}
+
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);
   system_position_.push_back(position);
-  element_name_.push_back("  *");
+  //  element_name_.push_back("  *");
+  state_metadata_.push_back(MetaData());
 }
 
-void DataLog::operator() (const State &state, double position, string element_name){
+// void DataLog::operator() (const State &state, double position, string element_name){
+//   system_state_.push_back(state);
+//   system_position_.push_back(position);
+//   element_name_.push_back(element_name);
+// }
+
+void DataLog::operator() (const State &state, double position, const MetaData& metadata){
   system_state_.push_back(state);
   system_position_.push_back(position);
-  element_name_.push_back(element_name);
+  state_metadata_.push_back(metadata);
 }
 
 void DataLog::write_to_file(string name, string dir){
-
-  int col_width = 15;
   int num_rows = system_position_.size();
   
   ofstream file_handle;
   file_handle.open((dir+"/"+name+".dat").c_str());
 
-  file_handle << scientific << setprecision(4);
+  file_handle << scientific << setprecision(VAL_PREC);
   
   file_handle << right
-	      << setw(col_width) << "#Name" // # for gnuplot comment
-	      << setw(col_width) << "s_loc"; 
+	      << setw(COL_WIDTH) << "#turn" // # for gnuplot comment
+	      << setw(COL_WIDTH) << "name"
+	      << setw(COL_WIDTH) << "EID"
+	      << setw(COL_WIDTH) << "s_loc"; 
   for (int j=0; j<VAR_NUM; j++)
-    file_handle << setw(col_width) << IMAP.right.at(j);
+    file_handle << setw(COL_WIDTH) << IMAP.right.at(j);
 
   file_handle << endl;
   for (int i=0; i<num_rows; i++){
     file_handle << right
-		<< setw(col_width) << element_name_[i]
-		<< setw(col_width) << system_position_[i];
+		<< setw(COL_WIDTH) << state_metadata_[i]
+		<< setw(COL_WIDTH) << system_position_[i];
 
     for (int j=0; j<VAR_NUM; j++)
-      file_handle << setw(col_width) << system_state_[i](0,j);
+      file_handle << setw(COL_WIDTH) << system_state_[i](0,j);
 
     file_handle << endl;
   }
