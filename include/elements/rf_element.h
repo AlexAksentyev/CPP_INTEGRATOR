@@ -42,6 +42,8 @@ public:
   void front_kick(State& state);
   void rear_kick(State& state);
 
+  friend std::ostream& operator<<(std::ostream&, const ERF&);
+
   // implements advance()
   // version 1 logs intermediate states (before rear kick)
   // version 2 leaves logging to Lattice (hence logging after rear kick)

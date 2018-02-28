@@ -59,6 +59,10 @@ int main(int argc, char** argv) {
 
   lattice.insert_RF(0, p, rf_pars);
 
+  ERF erf(p, 10, rf_pars);
+
+  cout << erf << endl;
+
   DataLog log;
   size_t num_steps = lattice.track_through(state, log, num_turns);
 

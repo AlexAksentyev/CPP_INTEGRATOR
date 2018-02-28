@@ -4,10 +4,24 @@
 
 #include "element.h"
 #include <iostream>
+#include <iomanip>
 #include <boost/numeric/odeint.hpp>
 #include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 using namespace std;
+
+
+ostream& operator<<(ostream& out_stream, const Element& element){
+  out_stream << right
+	     << setw(10) << "name"
+	     << setw(10) << "curvature"
+	     << setw(10) << "length" << endl
+	     << setw(10) << element.name_
+	     << setw(10) << element.curve_
+	     << setw(10) << element.length_;
+  return out_stream;
+}
+
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
   : rhs_(particle, *this),

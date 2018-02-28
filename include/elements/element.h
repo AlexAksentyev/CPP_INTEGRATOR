@@ -66,6 +66,7 @@ public:
   virtual void rear_kick(State& state_matrix);
 
   void print();
+  friend std::ostream& operator<<(std::ostream&, const Element&);
 
   // tracking with intermediate values output
   virtual size_t track_through(State& ini_states, DataLog& observer);
