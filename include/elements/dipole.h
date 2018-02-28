@@ -8,18 +8,21 @@
 #include "element.h"
 #include "particle.h"
 
-class MDipole : public Element {
-public:
-  MDipole(Particle& reference_particle,
-	  double length, double B_vert,
-	  std::string name="MDip");
-};
 
-class MSolenoid : public Element {
-public:
-  MSolenoid(Particle& particle,
-	    double length, double B_longitudinal,
-	    std::string name="MSol");
-};
+namespace element{
+  class MDipole : public Element {
+  public:
+    MDipole(Particle& reference_particle,
+	    double length, double B_vert,
+	    std::string name="MDip");
+  };
 
-#endif
+  class MSolenoid : public Element {
+  public:
+    MSolenoid(Particle& particle,
+	      double length, double B_longitudinal,
+	      std::string name="MSol");
+  };
+} // element namespace
+
+#endif // DIPOLE_H

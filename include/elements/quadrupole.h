@@ -5,21 +5,22 @@
 #include "element.h"
 
 
+namespace element{
+  class MQuad : public Element {
 
-class MQuad : public Element {
-
-  double grad_;
+    double grad_;
   
-public:
+  public:
   
- MQuad(Particle& particle,
-       double length, double gradient,
-       std::string name="MQuad")
-   : Element(particle, 0, length, name), grad_(gradient) {}
+    MQuad(Particle& particle,
+	  double length, double gradient,
+	  std::string name="MQuad")
+      : Element(particle, 0, length, name), grad_(gradient) {}
 
-  VectorizedField BField(RHS::State state_matrix);
+    VectorizedField BField(RHS::State state_matrix);
 
-  void print();
-};
+    void print();
+  };
+} // element namespace
 
-#endif
+#endif // QUADRUPOLE_H

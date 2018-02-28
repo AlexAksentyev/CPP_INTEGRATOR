@@ -28,6 +28,7 @@ void print_lattice_elements(Lattice& lattice){
 int main(int argc, char** argv) {
   using namespace std;
   using namespace boost;
+  using namespace element;
 
   // parse input arguments
   size_t num_turns = atoi(argv[1]);

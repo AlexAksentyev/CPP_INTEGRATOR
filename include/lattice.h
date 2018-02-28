@@ -16,7 +16,7 @@
 #include "rf_element.h"
 #include "right_hand_side.h" // provides RHS::State typedef
 
-using ElementPtrVector = boost::ptr_vector<Element>;
+using ElementPtrVector = boost::ptr_vector<element::Element>;
 
 struct RFMeta {
   int index, count;
@@ -38,16 +38,16 @@ class Lattice : private ElementPtrVector {
 public:
   
   Lattice(std::string name);
-  Lattice& operator=(std::initializer_list<Element*>);
+  Lattice& operator=(std::initializer_list<element::Element*>);
 
   double length() {return length_;}
 
-  void append_element(Element*); // adds element to back
+  void append_element(element::Element*); // adds element to back
   // returns true if success
-  bool insert_element(Element*, int index);
-  bool replace_element(Element*, int index);
+  bool insert_element(element::Element*, int index);
+  bool replace_element(element::Element*, int index);
   bool remove_element(int index);
-  bool insert_RF(int index, Particle& reference, RFPars rf_pars);
+  bool insert_RF(int index, Particle& reference, element::RFPars rf_pars);
   
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);
@@ -62,7 +62,7 @@ public:
   iterator begin() {return this->ElementPtrVector::begin();}
   iterator end() {return this->ElementPtrVector::end();}
   
-  Element& operator[](size_type n) {return this->ElementPtrVector::operator[](n);}
+  element::Element& operator[](size_type n) {return this->ElementPtrVector::operator[](n);}
 
 };
 

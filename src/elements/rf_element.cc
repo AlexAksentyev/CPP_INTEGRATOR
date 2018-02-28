@@ -6,19 +6,7 @@
 
 using namespace data_log;
 using namespace RHS;
-
-std::ostream& operator<<(std::ostream& out_stream, const ERF& element){
-  using namespace std;
-  out_stream << (static_cast<const Element&>(element)) << endl
-	     << setw(15) << "amplitude"
-	     << setw(15) << "phase"
-	     << setw(15) << "frequency" << endl
-	     << setw(15) << element.ampl_
-	     << setw(15) << element.phase_
-	     << setw(15) << element.w_freq_/2/M_PI;
-    
-  return out_stream;
-}
+using namespace element;
 
 ERF::ERF(Particle& reference_particle,
 	 double length, double acc_length,

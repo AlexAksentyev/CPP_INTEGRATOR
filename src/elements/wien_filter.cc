@@ -3,6 +3,7 @@
 #include <math.h>
 
 using namespace RHS;
+using namespace element;
 
 WFStraight::WFStraight(Particle& reference_particle,
 		       double length, double h_gap,

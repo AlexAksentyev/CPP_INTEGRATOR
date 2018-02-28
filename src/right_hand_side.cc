@@ -9,6 +9,7 @@
 
 using namespace std;
 using namespace RHS;
+using namespace element;
 
 RightHandSide::RightHandSide(Particle& reference, Element& host)
   : particle_(reference), host_(host), w_freq_(0) {}

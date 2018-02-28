@@ -11,6 +11,7 @@
 using namespace std;
 using namespace data_log;
 using namespace RHS;
+using namespace element;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
   : rhs_(particle, *this),

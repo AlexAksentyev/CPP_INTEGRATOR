@@ -3,15 +3,16 @@
 
 #include "element.h"
 
-class MSext : public Element {
-  double grad_;
+namespace element{
+  class MSext : public Element {
+    double grad_;
 
-public:
-  MSext(Particle& particle, double length, double gradient, std::string name="MSext")
-    : Element(particle, 0, length, name), grad_(gradient){}
+  public:
+    MSext(Particle& particle, double length, double gradient, std::string name="MSext")
+      : Element(particle, 0, length, name), grad_(gradient){}
 
-  VectorizedField BField(RHS::State state);
-};
+    VectorizedField BField(RHS::State state);
+  };
+} // element namespace
 
-
-#endif
+#endif // SEXTUPOLE_H

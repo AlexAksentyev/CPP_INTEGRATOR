@@ -1,5 +1,7 @@
 #include "dipole.h"
 
+using namespace element;
+
 // horizontally bending magnetic dipole
 // B = (0, By, 0)
 MDipole::MDipole(Particle& reference_particle,

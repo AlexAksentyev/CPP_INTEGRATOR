@@ -17,7 +17,8 @@
 #include <boost/bimap.hpp>
 
 class Particle;
-class Element;
+namespace data_log{class DataLog;}
+namespace element{class Element;}
 
 namespace RHS{
 
@@ -38,18 +39,15 @@ namespace RHS{
 
   using State = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 
-  namespace data_log{
-    class DataLog;
-  }
   class RightHandSide{
     Particle& particle_;
-    Element& host_;
+    element::Element& host_;
     double w_freq_; // for now initialized to 0
     // change when have Lattice and can insert an RF
 
   public:
-    RightHandSide(Particle& reference_particle, Element& host_element);
-    RightHandSide(const RightHandSide& to_copy, Element& new_host);
+    RightHandSide(Particle& reference_particle, element::Element& host_element);
+    RightHandSide(const RightHandSide& to_copy, element::Element& new_host);
     RightHandSide(const RightHandSide& to_copy);
     void operator() (const RHS::State &x , RHS::State &dxds, const double /* s*/);
   };

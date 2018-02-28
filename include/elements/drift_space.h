@@ -4,10 +4,12 @@
 
 #include "element.h"
 
-class Drift : public Element {
-public:
- Drift(Particle& particle, double length, std::string name="Drift")
-   : Element(particle, 0, length, name) {}
-};
+namespace element{
+  class Drift : public Element {
+  public:
+    Drift(Particle& particle, double length, std::string name="Drift")
+      : Element(particle, 0, length, name) {}
+  };
+} // element namespace
 
-#endif
+#endif // DRIFT_SPACE_H
