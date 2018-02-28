@@ -26,7 +26,9 @@ struct RFMeta {
  			   << " count: " << count << std::endl;}
 };
 
-class DataLog;
+namespace data_log{
+  class DataLog;
+}
 class Lattice : private ElementPtrVector {
   std::string name_;
   double length_;
@@ -51,9 +53,9 @@ public:
 	    bool append=false);
   void clear_tilt(); // reset the lattice to the original state
 
-  // DataLog passed here doesn't go to element::track_through,
+  // data_log::DataLog passed here doesn't go to element::track_through,
   // and only logs the state after passing through the element
-  size_t track_through(State, DataLog&, size_t number_of_turns);
+  size_t track_through(State, data_log::DataLog&, size_t number_of_turns);
 
   // methods from base class open to the user
   using iterator = ElementPtrVector::iterator;

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace data_log;
+
 std::ostream& operator<<(std::ostream& out_stream, const ERF& element){
   using namespace std;
   out_stream << (static_cast<const Element&>(element)) << endl

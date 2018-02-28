@@ -69,7 +69,7 @@ public:
   friend std::ostream& operator<<(std::ostream&, const Element&);
 
   // tracking with intermediate values output
-  virtual size_t track_through(State& ini_states, DataLog& observer);
+  virtual size_t track_through(State& ini_states, data_log::DataLog& observer);
   // tracking w/o intermediate values output;
   // data logging is handled in the Lattice class' track_through
   virtual size_t track_through(State& ini_states);
@@ -81,7 +81,7 @@ public:
   Observer(Particle& particle, std::string name="Observer")
     : Element(particle, 0, 0, name){}
 
-  size_t track_through(State& ini_states, DataLog& observer) {
+  size_t track_through(State& ini_states, data_log::DataLog& observer) {
     observer(ini_states, ini_states(0, 2));
     return 0;
   }

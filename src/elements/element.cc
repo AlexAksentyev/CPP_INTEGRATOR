@@ -9,7 +9,7 @@
 #include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 using namespace std;
-
+using namespace data_log;
 
 ostream& operator<<(ostream& out_stream, const Element& element){
   out_stream << right

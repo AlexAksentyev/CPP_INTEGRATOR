@@ -47,7 +47,7 @@ public:
   // implements advance()
   // version 1 logs intermediate states (before rear kick)
   // version 2 leaves logging to Lattice (hence logging after rear kick)
-  size_t track_through(State& ini_states, DataLog& observer); 
+  size_t track_through(State& ini_states, data_log::DataLog& observer); 
   size_t track_through(State& ini_states);
 };
 

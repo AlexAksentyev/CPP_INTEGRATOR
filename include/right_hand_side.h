@@ -40,7 +40,9 @@ using State = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 
 class Particle;
 class Element;
-class DataLog;
+namespace data_log{
+  class DataLog;
+}
 class RightHandSide{
   Particle& particle_;
   Element& host_;

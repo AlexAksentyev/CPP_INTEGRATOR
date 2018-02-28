@@ -10,6 +10,8 @@
 using Gauss = std::normal_distribution<double>;
 
 using namespace std;
+using namespace data_log;
+
 Lattice::Lattice(string name)
   : name_(name), length_(0), rf_metadata_(), state_(0){}
 

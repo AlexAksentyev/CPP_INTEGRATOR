@@ -6,7 +6,6 @@
 
 #include "data_log.h"
 
-#include <iomanip>
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
@@ -18,13 +17,14 @@
 #include "right_hand_side.h"
 
 using namespace std;
+using namespace data_log;
 
-ostream& operator<<(ostream& out_stream, const MetaData& data){
-  out_stream << setw(COL_WIDTH) << data.current_turn
-	     << setw(COL_WIDTH) << data.element_name
-	     << setw(COL_WIDTH) << data.element_id;
-  return out_stream;
-}
+// ostream& data_log::operator<<(ostream& out_stream, const MetaData& data){
+//   out_stream << setw(COL_WIDTH) << data.current_turn
+// 	     << setw(COL_WIDTH) << data.element_name
+// 	     << setw(COL_WIDTH) << data.element_id;
+//   return out_stream;
+// }
 
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);
