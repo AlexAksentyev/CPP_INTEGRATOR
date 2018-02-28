@@ -16,7 +16,6 @@
 #include <boost/tuple/tuple.hpp>
 
 #include "right_hand_side.h"
-#include "element.h"
 
 using namespace std;
 
@@ -26,10 +25,10 @@ void DataLog::operator() (const State &state, double position){
   element_name_.push_back("  *");
 }
 
-void DataLog::operator() (const State &state, double position, Element& element){
+void DataLog::operator() (const State &state, double position, string element_name){
   system_state_.push_back(state);
   system_position_.push_back(position);
-  element_name_.push_back(element.name());
+  element_name_.push_back(element_name);
 }
 
 void DataLog::write_to_file(string name, string dir){
@@ -46,7 +45,7 @@ void DataLog::write_to_file(string name, string dir){
 	      << setw(col_width) << "#Name" // # for gnuplot comment
 	      << setw(col_width) << "s_loc"; 
   for (int j=0; j<VAR_NUM; j++)
-    file_handle << setw(col_width) << VAR_NAME[j];
+    file_handle << setw(col_width) << IMAP.right.at(j);
 
   file_handle << endl;
   for (int i=0; i<num_rows; i++){

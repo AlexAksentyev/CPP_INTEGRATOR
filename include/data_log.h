@@ -13,7 +13,6 @@
 #include <string>
 #include "right_hand_side.h"
 
-class Element;
 class DataLog{
   std::vector<State> system_state_; // &
   std::vector<double> system_position_; // &
@@ -25,7 +24,7 @@ public:
   DataLog() : system_state_(), system_position_(), element_name_(), reference_pid_(0){}
   
   void operator() (const State &state, double position);
-  void operator() (const State &state, double position, Element& element);
+  void operator() (const State &state, double position, std::string element_name);
   
   void set_reference(int pid){reference_pid_ = pid;}
   
