@@ -5,7 +5,7 @@
 
 namespace element{
   struct MSextPars {
-    double lenght, grad;
+    double length, grad;
     std::string name;
 
     MSextPars(double length, double grad, std::string name="MSext")

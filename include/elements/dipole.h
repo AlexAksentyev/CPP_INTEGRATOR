@@ -15,7 +15,7 @@ namespace element{
     std::string name;
 
     MDipPars(double length, double B_field, std::string name)
-      : length(length), B_field(B_vert), name(name) {}
+      : length(length), B_field(B_field), name(name) {}
   };
 
   
