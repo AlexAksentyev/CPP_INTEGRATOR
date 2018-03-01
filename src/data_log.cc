@@ -9,6 +9,7 @@
 #include <iostream>
 #include <math.h>
 #include <boost/algorithm/string.hpp>
+#include <algorithm>
 
 #include "gnuplot-iostream.h"
 #include <boost/tuple/tuple.hpp>
@@ -98,9 +99,22 @@ void DataLog::plot(string var_y_name, string var_x_name, int pid, std::string li
 
   Gnuplot gp;
 
+  double y_min=*min_element(y_vals.begin(), y_vals.end());
+  double y_max=*max_element(y_vals.begin(), y_vals.end());
+  if(y_min == y_max){
+    cout << "y_min == y_max \n"
+	 << "setting [-1e-3: 1e-3]" << endl;
+    y_min = -1e-3;
+    y_max = 1e-3;
+  }
+  cout << "y range: [" << y_min << ": " << y_max << "]"<< endl;
+
+  gp << "set yrange [" << y_min << ":" << y_max << "]\n";
   gp << "set xlabel '" << x_flag + " " + var_x_name << "'\n";
   gp << "set ylabel '" << y_flag + " " + var_y_name << "'\n";
   gp << "plot '-' with " << line_type << " title '" + var_y_name + "'\n";
+
   gp.send1d(boost::make_tuple(x_vals, y_vals));
- 
+
 }
+    
