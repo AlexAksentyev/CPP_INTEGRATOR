@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-set(CODE_NAME test_lattice)
+set(CODE_NAME FODO_lattice)
 project(TEST_PROJECCT)
 
 set(ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
