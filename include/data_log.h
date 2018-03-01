@@ -62,6 +62,8 @@ namespace data_log{
     void operator() (const rhs::State &state, double position, const MetaData& );
   
     void set_reference(int pid){reference_pid_ = pid;}
+
+    size_t size(){return system_state_.size();}
   
     void write_to_file(std::string name, std::string dir = "../data"); // binary is in build, go out
     friend std::ostream& operator<<(std::ostream& out_stream, const DataLog& data_log){
