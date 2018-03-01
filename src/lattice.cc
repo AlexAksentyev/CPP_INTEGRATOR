@@ -177,6 +177,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   log(ini_state, current_s, metadata); // logging initial state
   //tracking proper
   Lattice::iterator element;
+  int old_percent=-1, percent;
   for (turn=1; turn<=num_turns; turn++){
     for(element=this->begin(), eid=1;
 	element!=this->end();
@@ -193,6 +194,11 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       if (!go_on)
 	return pair<size_t, size_t>(turn, eid);
+    }
+    percent = ((double)turn-1)/num_turns*100;
+    if (percent/10 != old_percent/10){
+      cout << "Complete: "<< percent << "%" << endl;
+      old_percent = percent;
     }
   }
   return pair<size_t, size_t>(turn-1, eid-1);
