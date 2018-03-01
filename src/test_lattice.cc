@@ -66,7 +66,11 @@ int main(int argc, char** argv) {
 
   data_log::DataLog log;
 
-  size_t num_steps = lattice.track_through(state, log, num_turns);
+  pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
+
+  cout << "exited at:\n"
+       << "\t turn: " << turn_eid.first << endl
+       << "\t eid: " << turn_eid.second << endl;
 
   ofstream out_file;
   out_file.open("../data/test_lattice.dat");
@@ -74,8 +78,6 @@ int main(int argc, char** argv) {
   out_file.close();
 
   log.plot(var_y, var_x, pid, "lines");
-
-  cout << "integration steps: " << num_steps << endl;
   
-  return num_steps;
+  return 0;
 }

@@ -64,7 +64,7 @@ public:
 
   // data_log::DataLog passed here doesn't go to element::track_through,
   // and only logs the state after passing through the element
-  size_t track_through(rhs::State, data_log::DataLog&, size_t number_of_turns);
+  std::pair<size_t, size_t> track_through(rhs::State&, data_log::DataLog&, size_t number_of_turns);
 
   // methods from base class open to the user
   using iterator = ElementPtrVector::iterator;

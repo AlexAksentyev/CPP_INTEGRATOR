@@ -160,7 +160,7 @@ void Lattice::clear_tilt(){
   state_ = 0;
 }
 
-size_t Lattice::track_through(State ini_state, DataLog& log, size_t num_turns){
+pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size_t num_turns){
   // adapting the element vectorized_fields to ini_state size
   for(Lattice::iterator element=this->begin();
       element!=this->end();
@@ -169,25 +169,32 @@ size_t Lattice::track_through(State ini_state, DataLog& log, size_t num_turns){
     element->set_RF_w_freq(this->rf_w_freq());
   }
   
-  size_t num_steps = 0, eid; // eid = element id = order of element in lattice
+  size_t turn, eid; // eid = element id = order of element in lattice
   double current_s = 0;
+  bool go_on;
   MetaData metadata(0, "START", 0); // initial state meta data
   log(ini_state, current_s, metadata); // logging initial state
   //tracking proper
-  for (size_t turn=1; turn<=num_turns; turn++){
+  for (turn=1; turn<=num_turns; turn++){
     eid = 1;
     for(Lattice::iterator element=this->begin();
 	element!=this->end();
 	++element){
 
-      num_steps += element->track_through(ini_state); // track through the current element
+      element->track_through(ini_state); // track through the current element
+
+      go_on = !std::isnan(ini_state.norm()); // if the norm is nan, state contains nans,
+      // therefore, stop tracking
 
       current_s += element->length(); // current position s of the beam along the optical axis
       metadata.overwrite(turn, element->name(), eid); // overwrite metadata for current turn, element
       log(ini_state, current_s, metadata); // logging current state
+
+      if (!go_on)
+	return pair<size_t, size_t>(turn, eid);
       
       eid += 1;
     }
   }
-  return num_steps;
+  return pair<size_t, size_t>(turn, eid);
 }
