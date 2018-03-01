@@ -4,6 +4,7 @@
 //   i.e. when a data log is passed to Lattice::track_through(),
 //   if record_intermediate == true, pass the log to Element::track_through()
 //   (This looks rather a pythonic solution; in c++ should use polymorphism somehow...)
+// * define operator<<
 
 #ifndef DATA_LOG_H
 #define DATA_LOG_H
