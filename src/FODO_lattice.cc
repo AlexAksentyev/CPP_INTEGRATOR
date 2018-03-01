@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
   out_file.close();
 
   cout << "plotting ... \n";
-  log.plot(var_y, var_x, pid, "lines");
+  log.plot(var_y, var_x, pid, argv[5]);
   
   return 0;
 }
