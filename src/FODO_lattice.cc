@@ -34,11 +34,10 @@ int main(int argc, char** argv) {
 
   // parse input arguments
   size_t num_turns = atoi(argv[1]);
-  string var_y(argv[2]);
-  string var_x(argv[3]);
-
-  int var_id = 9;
-  int pid = 1;
+  int pid = 1; //atoi(argv[2]);
+  string var_y(argv[3]);
+  string var_x(argv[4]);
+  
   double length = 1;
   
    // creating the state ensemble
@@ -68,7 +67,7 @@ int main(int argc, char** argv) {
 	     //
 	     new MQuad(p, qfa2_pars),
 	     new Drift(p, od_len, "OD1"),
-	     new Drift(p, of_len, "OSF"),
+	     new Drift(p, os_len, "OSF"),
 	     new Drift(p, od_len, "OD2"),
 	     new Drift(p, orb_len, "ORB"),
 	     new Drift(p, od_len, "OD2"),
@@ -84,7 +83,7 @@ int main(int argc, char** argv) {
 	     new Drift(p, od_len, "OD2"),
 	     new Drift(p, bpm_len, "BPM"),
 	     new Drift(p, od_len, "OD1"),
-	     GradFieldPars qfa2_pars(5e-2, 8.2, "QFA2");};
+	     new MQuad(p, qfa2_pars)};
 
   RFPars rf_pars;
   rf_pars.E_field=15e7;
@@ -99,11 +98,13 @@ int main(int argc, char** argv) {
        << "\t turn: " << turn_eid.first << endl
        << "\t eid: " << turn_eid.second << endl;
 
+  cout << log.size() << endl;
   ofstream out_file;
-  out_file.open("../data/test_lattice.dat");
+  out_file.open("../data/FODO_lattice.dat");
   out_file << scientific << setprecision(3) << log;
   out_file.close();
 
+  cout << "plotting ... \n";
   log.plot(var_y, var_x, pid, "lines");
   
   return 0;
