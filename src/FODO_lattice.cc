@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
   // parse input arguments
   size_t num_turns = atoi(argv[1]);
-  int pid = 1; //atoi(argv[2]);
+  int pid = atoi(argv[2]);
   string var_y(argv[3]);
   string var_x(argv[4]);
   

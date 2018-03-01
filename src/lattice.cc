@@ -68,6 +68,7 @@ bool Lattice::replace_element(Element* new_element, int index){
   length_ -= old_element->length();
   this->replace(old_element, new_element);
   length_ += new_element->length();
+  return true;
 }
 
 bool Lattice::remove_element(int index) {
