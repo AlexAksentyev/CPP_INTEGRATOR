@@ -25,6 +25,28 @@ namespace element{
 
   using VectorizedField = Eigen::Matrix<double, 3, Eigen::Dynamic>;
 
+  struct ElementPars {
+    double curve, length;
+    std::string name;
+
+    ElementPars(double curve, double length, std::string name="Element")
+      : curve(curve), length(length), name(name) {}
+  };
+
+  struct UniFieldPars : public ElementPars{
+    double field;
+
+    UniFieldPars(double length, double field, std::string name)
+      : ElementPars(0, length, name), field(field) {}
+  };
+
+  struct GradFieldPars : public ElementPars {
+    double grad;
+
+    GradFieldPars(double length, double grad, std::string name)
+      : ElementPars(0, length, name), grad(grad) {}
+  };
+
   class Element {
 
     double curve_;
@@ -48,6 +70,9 @@ namespace element{
     Element(Particle& particle,
 	    double curve, double length,
 	    std::string name="Element");
+
+    Element(Particle& particle, ElementPars epars)
+      : Element(particle, epars.curve, epars.length, epars.name) {}
 
     Element(const Element& ); // copy constructor
 
