@@ -175,11 +175,11 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   MetaData metadata(0, "START", 0); // initial state meta data
   log(ini_state, current_s, metadata); // logging initial state
   //tracking proper
+  Lattice::iterator element;
   for (turn=1; turn<=num_turns; turn++){
-    eid = 1;
-    for(Lattice::iterator element=this->begin();
+    for(element=this->begin(), eid=1;
 	element!=this->end();
-	++element){
+	++element, eid++){
 
       element->track_through(ini_state); // track through the current element
 
@@ -192,9 +192,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       if (!go_on)
 	return pair<size_t, size_t>(turn, eid);
-      
-      eid += 1;
     }
   }
-  return pair<size_t, size_t>(turn, eid);
+  return pair<size_t, size_t>(turn-1, eid-1);
 }
