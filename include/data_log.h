@@ -13,6 +13,8 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <iostream>
+
 #include "right_hand_side.h"
 
 namespace data_log{
@@ -62,6 +64,36 @@ namespace data_log{
     void set_reference(int pid){reference_pid_ = pid;}
   
     void write_to_file(std::string name, std::string dir = "../data"); // binary is in build, go out
+    friend std::ostream& operator<<(std::ostream& out_stream, const DataLog& data_log){
+      using namespace std;
+      int num_rows = data_log.system_position_.size();
+      int num_states = data_log.system_state_[0].rows();
+      // printing header 
+      out_stream << setw(COL_WIDTH) << "#turn" // # for gnuplot comment
+    		 << setw(COL_WIDTH) << "name"
+    		 << setw(COL_WIDTH) << "EID"
+    		 << setw(COL_WIDTH) << "s_loc"
+    		 << setw(COL_WIDTH) << "PID";
+      for (int j=0; j<rhs::VAR_NUM; j++) // variable names
+    	out_stream << setw(COL_WIDTH) << rhs::VMAP.right.at(j);
+      out_stream << endl;
+
+      for (int state_i=0; state_i<num_rows; state_i++){ // current ensemble state
+    	for(int pid=0; pid<num_states; pid++){ // particle pid
+    	  out_stream << setw(COL_WIDTH) << data_log.state_metadata_[state_i]
+    		     << setw(COL_WIDTH) << data_log.system_position_[state_i]
+    		     << setw(COL_WIDTH) << pid;
+
+    	  for (int var_j=0; var_j<rhs::VAR_NUM; var_j++) // state values
+    	    out_stream << setw(COL_WIDTH) << data_log.system_state_[state_i](pid, var_j);
+
+    	  out_stream << endl;
+    	}
+    	out_stream << "#\n";
+      }
+      return out_stream;
+    }
+    
     // var names accept format: FLAG var_name, where FLAG can be -D for
     // plotting the difference between the pid particle's var_name and the reference particle's var_name
     void plot(std::string var_y_name, std::string var_x_name, int pid, std::string line_type="points");
@@ -70,6 +102,7 @@ namespace data_log{
   // TO FINISH
   // object for creating ensembles of initial conditions
   class StateList{};
+
 } // namespace data_log
 
 

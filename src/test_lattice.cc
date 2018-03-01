@@ -68,7 +68,10 @@ int main(int argc, char** argv) {
 
   size_t num_steps = lattice.track_through(state, log, num_turns);
 
-  log.write_to_file("test_lattice");
+  ofstream out_file;
+  out_file.open("../data/test_lattice.dat");
+  out_file << scientific << setprecision(3) << log;
+  out_file.close();
 
   log.plot(var_y, var_x, pid, "lines");
 
