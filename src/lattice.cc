@@ -29,12 +29,22 @@ Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
 }
 
 void Lattice::append_element(Element* new_element){
+  // if(new_element->is_RF()){
+  //   cout << "Trying to append an RF element; \n"
+  // 	 << "please use insert_RF()" << endl;
+  //   return;
+  // }
   this->push_back(new_element);
   this->length_ += new_element->length();
   // TODO: update segment_map
 }
 
 bool Lattice::insert_element(Element* new_element, int index){
+  // if(new_element->is_RF()){
+  //   cout << "Trying to insert an RF element; \n"
+  // 	 << "please use insert_RF()" << endl;
+  //   return false;
+  // }
   Lattice::iterator position = this->begin()+index;
   // sanity check for segfault
   if (position < this->begin() || position > this->end()){
@@ -50,6 +60,11 @@ bool Lattice::insert_element(Element* new_element, int index){
 
 bool Lattice::replace_element(Element* new_element, int index){
   Lattice::iterator old_element = this->begin()+index;
+  // if(new_element->is_RF() && !old_element->is_RF()){
+  //   cout << "Trying to replace an RF element; \n"
+  // 	 << "please use insert_RF()" << endl;
+  //   return false;
+  // }
   length_ -= old_element->length();
   this->replace(old_element, new_element);
   length_ += new_element->length();
@@ -76,7 +91,7 @@ bool Lattice::remove_element(int index) {
 
 bool Lattice::insert_RF(int index, Particle& reference, RFPars rf_pars){
   // checking for existing RF
-  if (rf_metadata_.count > 1 && index != rf_metadata_.index){
+  if (this->contains_RF() && index != rf_metadata_.index){
     cout << "Trying to add a second RF element; \n"
 	 << "current RF position is " << rf_metadata_.index
 	 << endl;
@@ -84,18 +99,24 @@ bool Lattice::insert_RF(int index, Particle& reference, RFPars rf_pars){
   }
 
   double new_lattice_length = this->length_ + rf_pars.length;
-  
+  bool success;
+
+  // if trying to insert an new RF at the place of an existing RF,
+  // replace the existing RF with the new one
   if (index == rf_metadata_.index) {
-    cout << "Replacing RF: \n";
-    ((*this)[rf_metadata_.index]).print();
-    cout  << endl;
-    return this->replace_element(new ERF(reference, new_lattice_length, rf_pars), index);
+    cout << "Replacing RF: \n"
+	 << *(this->begin()+rf_metadata_.index)
+	 << endl;
+    success = this->replace_element(new ERF(reference, new_lattice_length, rf_pars), index);
+    if(success) // if replaced successfully, update rf_w_freq_
+      rf_metadata_.w_freq = this->get_RF().w_freq();
+    return success;
   }
 
-  bool success = this->insert_element(new ERF(reference, new_lattice_length, rf_pars), index);
+  success = this->insert_element(new ERF(reference, new_lattice_length, rf_pars), index);
   if (success){
     rf_metadata_.index = index;
-    rf_metadata_.count += 1;
+    rf_metadata_.w_freq = this->get_RF().w_freq(); // update rf_w_freq_
   }
   return success;
 }
@@ -140,18 +161,12 @@ void Lattice::clear_tilt(){
 }
 
 size_t Lattice::track_through(State ini_state, DataLog& log, size_t num_turns){
-  int rf_index = this->get_RF_index();
-  double rf_w_freq = 0;
-  if (rf_index != -1) // if we have an RF element, update frequency
-    rf_w_freq = (dynamic_cast<ERF&>((*this)[rf_index])).w_freq();
-  else
-    cout << "Running w/o RF" << endl;
   // adapting the element vectorized_fields to ini_state size
   for(Lattice::iterator element=this->begin();
       element!=this->end();
       ++element){
     element->vectorize_fields(ini_state);
-    element->set_RF_w_freq(rf_w_freq);
+    element->set_RF_w_freq(this->rf_w_freq());
   }
   
   size_t num_steps = 0, eid; // eid = element id = order of element in lattice

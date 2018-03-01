@@ -10,7 +10,7 @@
 #include <vector>
 #include <string>
 #include <boost/ptr_container/ptr_vector.hpp>
-#include<boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple.hpp>
 
 #include "element.h"
 #include "rf_element.h"
@@ -19,11 +19,13 @@
 using ElementPtrVector = boost::ptr_vector<element::Element>;
 
 struct RFMeta {
-  int index, count;
-  RFMeta() : index(-1), count(0) {};
-  void reset() {index = -1; count = 0;}
-  void print() {std::cout << "index: "  << index
- 			   << " count: " << count << std::endl;}
+  int index;
+  double w_freq;
+  RFMeta() : index(-1), w_freq(0){};
+  void reset() {index = -1; w_freq = 0;}
+  void print() {std::cout << "index: " << index
+			   << "frequency (rad/s): " << w_freq
+			   << std::endl;}
 };
 
 namespace data_log{
@@ -49,7 +51,12 @@ public:
   bool remove_element(int index);
   bool insert_RF(int index, Particle& reference, element::RFPars rf_pars);
 
-  int get_RF_index(){return rf_metadata_.index;}
+  int rf_w_freq(){return rf_metadata_.w_freq;}
+  element::ERF& get_RF(){ // dereference iterator and downcast 
+    return dynamic_cast<element::ERF&> (*(this->begin()+rf_metadata_.index));
+    // SAFETY WARNING: not catching std::bad_cast&
+  }
+  bool contains_RF(){return rf_metadata_.index != -1? true : false;}
   
   void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	    bool append=false);

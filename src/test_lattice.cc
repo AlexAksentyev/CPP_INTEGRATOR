@@ -14,7 +14,7 @@
 #include "rf_element.h"
 #include "lattice.h"
 
-#include<boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple.hpp>
 
 void print_lattice_elements(Lattice& lattice){
   using namespace std;
