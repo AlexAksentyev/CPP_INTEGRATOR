@@ -3,6 +3,7 @@ set(CODE_NAME FODO_lattice)
 project(TEST_PROJECCT)
 
 set(ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${ROOT_DIR}/bin")
 set(SRC_DIR "${ROOT_DIR}/src")
 
 # project headers

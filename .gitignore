@@ -1,4 +1,10 @@
 build
+bin
+lib
 data
+
+# ignore backup files
 *~
+
+# Mac-specific files
 .DS_Store
