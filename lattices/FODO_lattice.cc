@@ -4,15 +4,15 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "right_hand_side.h"
-#include "particle.h"
-#include "drift_space.h"
-#include "dipole.h"
-#include "quadrupole.h"
-#include "sextupole.h"
-#include "wien_filter.h"
-#include "rf_element.h"
-#include "lattice.h"
+#include <right_hand_side.h>
+#include <particle.h>
+#include <lattice.h>
+#include <drift_space.h>
+#include <dipole.h>
+#include <quadrupole.h>
+#include <sextupole.h>
+#include <wien_filter.h>
+#include <rf_element.h>
 
 #include <boost/tuple/tuple.hpp>
 

@@ -1,0 +1,67 @@
+cmake_minimum_required(VERSION 3.9)
+set(LIB_NAME Cpp_int)
+project(${LIB_NAME} VERSION 1.0.1 DESCRIPTION "Integrator core")
+
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os")
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+
+# project headers
+include_directories(
+  "${CMAKE_SOURCE_DIR}/include" 
+  "${CMAKE_SOURCE_DIR}/include/elements"
+  )
+  
+find_package(Boost 1.66.0 COMPONENTS system iostreams REQUIRED)
+# external headers
+if(APPLE)
+  set(CELLAR "/usr/local/Cellar")
+  include_directories("${CELLAR}/boost/1.66.0/boost"
+    "/usr/local/include/eigen3"
+    "$ENV{HOME}/REPOS/gnuplot-iostream")
+  link_directories("${CELLAR}/boost/1.66.0/lib")
+else(APPLE)
+  include_directories("/usr/local/boost_1_66_0"
+    "/usr/include/eigen3")
+  link_directories(/usr/local/boost_1_66_0/stage/lib)
+endif(APPLE)
+
+set(LIB_SOURCES
+  # "${SRC_DIR}/particle.cc" 
+  # "${SRC_DIR}/data_log.cc"
+  # "${SRC_DIR}/lattice.cc"
+  # "${SRC_DIR}/tilt.cc"
+  # elements
+  "${SRC_DIR}/elements/element.cc" 
+  "${SRC_DIR}/elements/dipole.cc" 
+  "${SRC_DIR}/elements/quadrupole.cc" 
+  "${SRC_DIR}/elements/sextupole.cc" 
+  "${SRC_DIR}/elements/wien_filter.cc"
+  "${SRC_DIR}/elements/rf_element.cc"
+  # other
+  "${SRC_DIR}/particle.cc" 
+  "${SRC_DIR}/data_log.cc"
+  "${SRC_DIR}/lattice.cc"
+  "${SRC_DIR}/tilt.cc"
+  "${SRC_DIR}/right_hand_side.cc"
+  )
+
+add_library(${LIB_NAME} ${LIB_SOURCES})
+target_link_libraries( ${LIB_NAME} ${Boost_LIBRARIES})
+set_target_properties(${LIB_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+
+
+# ## adding executables
+# set(APP_SOURCES "${CMAKE_SOURCE_DIR}/lattices/FODO_lattice.cc"
+#   "${CMAKE_SOURCE_DIR}/test/test_lattice.cc")
+
+# foreach(app_src_filename ${APP_SOURCES})
+#   get_filename_component(app_name ${app_src_filename} NAME_WE)
+#   add_executable( ${app_name} ${app_src_filename} )
+#   target_link_libraries( ${app_name} ${LIB_NAME} )
+# endforeach(app_src_filename ${APP_SOURCES})
