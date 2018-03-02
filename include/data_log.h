@@ -1,5 +1,4 @@
 // TODO:
-// * finish rhs::StateList
 // * add log controls for deciding whether to log intermediate state values,
 //   i.e. when a data log is passed to Lattice::track_through(),
 //   if record_intermediate == true, pass the log to Element::track_through()
@@ -100,10 +99,6 @@ namespace data_log{
     // plotting the difference between the pid particle's var_name and the reference particle's var_name
     void plot(std::string var_y_name, std::string var_x_name, int pid, std::string line_type="points");
   };
-
-  // TO FINISH
-  // object for creating ensembles of initial conditions
-  class StateList{};
 
 } // namespace data_log
 
