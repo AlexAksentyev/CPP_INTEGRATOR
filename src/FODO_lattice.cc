@@ -17,6 +17,7 @@
 #include <boost/tuple/tuple.hpp>
 
 #include <iomanip>
+#include <time.h>
 
 void print_lattice_elements(Lattice& lattice){
   using namespace std;
@@ -91,8 +92,11 @@ int main(int argc, char** argv) {
   lattice.insert_RF(0, p, rf_pars);
 
   data_log::DataLog log;
-
+  clock_t t;
+  t=clock();
   pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
+  t = clock() - t;
+  printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
   cout << "exited at:\n"
        << "\t turn: " << turn_eid.first << endl
@@ -101,7 +105,7 @@ int main(int argc, char** argv) {
   cout << log.size() << endl;
   ofstream out_file;
   out_file.open("../data/FODO_lattice.dat");
-  out_file << scientific << setprecision(3) << log;
+  out_file << scientific << setprecision(4) << log;
   out_file.close();
 
   cout << "plotting ... \n";
