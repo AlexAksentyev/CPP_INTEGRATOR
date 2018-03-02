@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 set(CODE_NAME FODO_lattice)
 project(TEST_PROJECT)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -O3 -Os")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Os")
 
 set(ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(SRC_DIR "${ROOT_DIR}/src")
