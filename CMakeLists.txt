@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.9)
-set(CODE_NAME FODO_lattice)
 project(TEST_PROJECT)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Os")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os")
 
-set(ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
-set(SRC_DIR "${ROOT_DIR}/src")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
 # project headers
 include_directories(
-  "${ROOT_DIR}/include" 
-  "${ROOT_DIR}/include/elements"
+  "${CMAKE_SOURCE_DIR}/include" 
+  "${CMAKE_SOURCE_DIR}/include/elements"
   )
   
 find_package(Boost 1.66.0 COMPONENTS system iostreams REQUIRED)
@@ -27,8 +29,7 @@ else(APPLE)
   link_directories(/usr/local/boost_1_66_0/stage/lib)
 endif(APPLE)
 
-set(SOURCES 
-  "${SRC_DIR}/${CODE_NAME}.cc" 
+set(LIB_SOURCES 
   "${SRC_DIR}/particle.cc" 
   "${SRC_DIR}/data_log.cc"
   "${SRC_DIR}/lattice.cc"
@@ -40,11 +41,19 @@ set(SOURCES
   "${SRC_DIR}/elements/sextupole.cc" 
   "${SRC_DIR}/elements/wien_filter.cc"
   "${SRC_DIR}/elements/rf_element.cc"
+  # other
   "${SRC_DIR}/right_hand_side.cc"
   )
 
-set(CMAKE_CXX_STANDARD 11)
+add_library(Cpp_int ${LIB_SOURCES})
+target_link_libraries( Cpp_int ${Boost_LIBRARIES})
 
-add_executable(${CODE_NAME} ${SOURCES})
+## adding executables
+set(APP_SOURCES "${CMAKE_SOURCE_DIR}/lattices/FODO_lattice.cc"
+  "${CMAKE_SOURCE_DIR}/test/test_lattice.cc")
 
-target_link_libraries(${CODE_NAME} ${Boost_LIBRARIES})
+foreach(app_src_filename ${APP_SOURCES})
+  get_filename_component(app_name ${app_src_filename} NAME_WE)
+  add_executable( ${app_name} ${app_src_filename} )
+  target_link_libraries( ${app_name} Cpp_int )
+endforeach(app_src_filename ${APP_SOURCES})
