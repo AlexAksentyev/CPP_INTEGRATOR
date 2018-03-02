@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.9)
-project(TEST_PROJECCT)
+project(TEST_PROJECT)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -O3 -Os)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
@@ -42,21 +45,15 @@ set(LIB_SOURCES
   "${SRC_DIR}/right_hand_side.cc"
   )
 
-set(CMAKE_CXX_STANDARD 11)
-
-add_library(cpp_integrator ${LIB_SOURCES})
+add_library(Cpp_int ${LIB_SOURCES})
+target_link_libraries( Cpp_int ${Boost_LIBRARIES})
 
 ## adding executables
 set(APP_SOURCES "${CMAKE_SOURCE_DIR}/lattices/FODO_lattice.cc"
   "${CMAKE_SOURCE_DIR}/test/test_lattice.cc")
 
-foreach(app_src_file ${APP_SOURCES})
-  # cut off .cpp.
-  string( REPLACE ".cc" "" app_name ${app_src_file} )
-  add_executable( ${app_name} ${app_src_file} ${LIB_SOURCES})
-  # link libraries to each app
-  target_link_libraries( ${app_name} ${Boost_LIBRARIES})
-endforeach(app_src_file ${APP_SOURCES})
-
-#add_executable(${CODE_NAME} ${LIB_SOURCES})
-#target_link_libraries(${CODE_NAME} ${Boost_LIBRARIES})
+foreach(app_src_filename ${APP_SOURCES})
+  get_filename_component(app_name ${app_src_filename} NAME_WE)
+  add_executable( ${app_name} ${app_src_filename} )
+  target_link_libraries( ${app_name} Cpp_int )
+endforeach(app_src_filename ${APP_SOURCES})
