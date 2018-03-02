@@ -23,6 +23,7 @@ int main(int argc, char** argv){
   //  ERF e(p, 0, length);
   MQuad e(p, length, 8.6);
   //  Observer e(p);
+e.
 
   // creating the state ensemble
   int num_states = 3;
