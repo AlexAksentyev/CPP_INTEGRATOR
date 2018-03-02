@@ -4,7 +4,6 @@
 // the EM fields
 
 // TODO:
-// * (possibly) define VMAP as unordered_map
 // * Consider moving from Eigen to boost::uBLAS for performance reasons
 
 
