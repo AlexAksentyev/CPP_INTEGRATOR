@@ -19,6 +19,8 @@
 #include <iomanip>
 #include <time.h>
 
+using namespace integrator;
+
 void print_lattice_elements(Lattice& lattice){
   using namespace std;
   // print lattice element names
