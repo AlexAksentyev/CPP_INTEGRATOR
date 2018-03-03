@@ -7,12 +7,13 @@
 #include <right_hand_side.h>
 #include <particle.h>
 #include <lattice.h>
-#include <drift_space.h>
-#include <dipole.h>
-#include <quadrupole.h>
-#include <sextupole.h>
-#include <wien_filter.h>
-#include <rf_element.h>
+
+#include <elements/drift_space.h>
+#include <elements/dipole.h>
+#include <elements/quadrupole.h>
+#include <elements/sextupole.h>
+#include <elements/wien_filter.h>
+#include <elements/rf_element.h>
 
 #include <boost/tuple/tuple.hpp>
 
