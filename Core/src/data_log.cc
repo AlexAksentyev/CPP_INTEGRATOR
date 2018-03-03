@@ -17,8 +17,8 @@
 #include "right_hand_side.h"
 
 using namespace std;
-using namespace data_log;
-using namespace rhs;
+using namespace integrator::data_log;
+using namespace integrator::rhs;
 
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);

@@ -8,8 +8,8 @@
 #include <boost/numeric/odeint.hpp>
 
 using namespace std;
-using namespace rhs;
-using namespace element;
+using namespace integrator::rhs;
+using namespace integrator::element;
 
 RightHandSide::RightHandSide(Particle& reference, Element& host)
   : particle_(reference), host_(host), w_freq_(0) {}

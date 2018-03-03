@@ -9,9 +9,9 @@
 #include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 using namespace std;
-using namespace data_log;
-using namespace rhs;
-using namespace element;
+using namespace integrator::data_log;
+using namespace integrator::rhs;
+using namespace integrator::element;
 
 Element::Element(Particle& particle, double curve, double length, std::string name)
   : rhs_(particle, *this),

@@ -2,8 +2,8 @@
 
 using namespace std;
 using namespace Eigen;
-using namespace rhs;
-using namespace element;
+using namespace integrator::rhs;
+using namespace integrator::element;
 
 VectorizedField MQuad::BField(State state){
   for (int j=0; j<state.rows(); j++){

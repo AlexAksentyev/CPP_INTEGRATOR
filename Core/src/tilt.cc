@@ -5,6 +5,7 @@
 
 using namespace Eigen;
 using namespace std;
+using namespace integrator;
 
 Vector3d Tilt::axis(char name){
   switch(toupper(name)){

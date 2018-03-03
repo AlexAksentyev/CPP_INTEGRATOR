@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace Eigen;
+using namespace integrator;
 
 Particle::Particle(double mass0, double gamma, double G)
   : mass0_(mass0), gamma_(gamma), G_(G){

@@ -1,7 +1,7 @@
 #include "sextupole.h"
 
-using namespace rhs;
-using namespace element;
+using namespace integrator::rhs;
+using namespace integrator::element;
 
 VectorizedField MSext::BField(State state){
   for(int j=0; j<state.rows(); j++){
