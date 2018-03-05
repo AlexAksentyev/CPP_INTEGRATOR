@@ -52,9 +52,7 @@ namespace integrator {
       void operator() (const rhs::State &x , rhs::State &dxds, const double /* s*/);
       void set_w_freq(double value) {w_freq_ = value;}
     };
-
   } // namespace RHS
-
 } // namespace integrator
 
 #endif // RIGHT_HAND_SIDE_H

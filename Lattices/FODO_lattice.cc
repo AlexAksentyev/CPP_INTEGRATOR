@@ -20,7 +20,7 @@
 #include <iomanip>
 #include <time.h>
 
-#include "readers.h" // read State information from .csv file
+#include "read_matrix.h" // read State information from .csv file
 
 using namespace integrator;
 
@@ -49,14 +49,13 @@ int main(int argc, char** argv) {
    // creating the state ensemble
   string home_dir = getenv("HOME");
   string config_dir = home_dir+"/REPOS/CPP_INTEGRATOR/Lattices/config";
-  string filename = config_dir + "/state.conf";
-  rhs::State state = utilities::read_matrix_csv<rhs::State>(filename);
+  //  string filename = config_dir + "/state.conf";
+  rhs::State state = utilities::read_matrix<rhs::State>(config_dir + "/state.conf");
 
   // defining the default particle
   cout << "reading particle config" << endl;
-  filename = config_dir + "/particle.conf";
-  using integrator::read_particle_csv;
-  Particle p = read_particle_csv(filename); // (1876, 1.14, .2);
+  // filename = config_dir + "/particle.conf";
+  Particle p = Particle::from_config(config_dir + "/particle.conf"); // (1876, 1.14, .2);
   p.print();
   
   // creating a lattice
