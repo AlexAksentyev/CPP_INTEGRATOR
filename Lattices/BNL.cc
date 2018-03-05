@@ -44,51 +44,66 @@ int main(int argc, char** argv) {
    // creating the state ensemble
   string home_dir = getenv("HOME");
   string config_dir = home_dir+"/REPOS/CPP_INTEGRATOR/Lattices/config";
-  //  string filename = config_dir + "/state.conf";
+  cout << "Reading state config" << endl;
   rhs::State state = utilities::read_matrix<rhs::State>(config_dir + "/state.conf");
 
-  // defining the default particle
+  // defining the particle
   cout << "Reading particle config" << endl;
-  // filename = config_dir + "/particle.conf";
   Particle p = Particle::from_config(config_dir + "/particle.conf"); // (1876, 1.14, .2);
   p.print();
   
   // creating a lattice
-  GradFieldPars qda2_pars(5e-2, -8.2, "QDA2");
-  GradFieldPars qfa2_pars(5e-2, 7.36, "QFA2");
-  double od_len = 25e-2, orb_len=2.2, os_len=15e-2, bpm_len=15e-2;
+  GradFieldPars qda1_pars(5e-2, -10.23, "QDA1"), qda2_pars(5e-2, -8.6, "QDA2");
+  GradFieldPars qfa1_pars(5e-2,  13.64, "QFA1"), qfa2_pars(5e-2, 8.31, "QFA2");
+  GradFieldPars sdp_pars(15e-2, -3.39597809*0, "SDP"), sfp_pars(15e-2,  2.7695769*0, "SFP");
+  GradFieldPars sdn_pars(15e-2,  3.79310524*0,"SDN"), sfn_pars(15e-2, -2.09836542*0,"SFN");
+  double od_len = 25e-2,
+    orb_len=2.2, ore_len=2.17,
+    os_len=15e-2, bpm_len=15e-2;
+  WFPars rbe_pars(180.77969e-2, 5e-2, 120e5, 0.46002779, "RBE");
   
   Lattice lattice("FODO");
-  lattice = {new MQuad(p, qda2_pars),
-	     new Drift(p, od_len, "OD1"),
-	     new Drift(p, orb_len, "ORB"),
-	     new Drift(p, od_len, "OD2"),
-	     new Drift(p, bpm_len, "BPM"),
-	     new Drift(p, od_len, "OD1"),
-	     new MQuad(p, qfa2_pars),
-	     //
-	     new MQuad(p, qfa2_pars),
-	     new Drift(p, od_len, "OD1"),
-	     new Drift(p, os_len, "OSF"),
-	     new Drift(p, od_len, "OD2"),
-	     new Drift(p, orb_len, "ORB"),
-	     new Drift(p, od_len, "OD2"),
-	     new Drift(p, bpm_len, "BPM"),
-	     new Drift(p, od_len, "OD1"),
-	     new MQuad(p, qda2_pars),
-	     //
-	     new MQuad(p, qda2_pars),
-	     new Drift(p, od_len, "OD1"),
-	     new Drift(p, os_len, "OSD"),
-	     new Drift(p, od_len, "OD2"),
-	     new Drift(p, orb_len, "ORB"),
-	     new Drift(p, od_len, "OD2"),
-	     new Drift(p, bpm_len, "BPM"),
-	     new Drift(p, od_len, "OD1"),
-	     new MQuad(p, qfa2_pars)};
+  lattice = {
+    // SS1H2
+    new MQuad(p, qda2_pars),
+    new Drift(p, od_len, "OD1"),
+    new Drift(p, os_len, "OSD"),
+    new Drift(p, od_len, "OD2"),
+    new Drift(p, orb_len, "ORB"),
+    new Drift(p, od_len, "OD2"),
+    new Drift(p, bpm_len, "BPM"),
+    new Drift(p, od_len, "OD1"),
+    new MQuad(p, qfa2_pars),
+    // ARC1
+    // ***** UNFINISHED
+    //
+	     // new MQuad(p, qfa2_pars),
+	     // new Drift(p, od_len, "OD1"),
+	     // new Drift(p, os_len, "OSF"),
+	     // new Drift(p, od_len, "OD2"),
+	     // new Drift(p, orb_len, "ORB"),
+	     // new Drift(p, od_len, "OD2"),
+	     // new Drift(p, bpm_len, "BPM"),
+	     // new Drift(p, od_len, "OD1"),
+	     // new MQuad(p, qda2_pars),
+	     // //
+	     // new MQuad(p, qda2_pars),
+	     // new Drift(p, od_len, "OD1"),
+	     // new Drift(p, os_len, "OSD"),
+	     // new Drift(p, od_len, "OD2"),
+	     // new Drift(p, orb_len, "ORB"),
+	     // new Drift(p, od_len, "OD2"),
+	     // new Drift(p, bpm_len, "BPM"),
+	     // new Drift(p, od_len, "OD1"),
+	     // new MQuad(p, qfa2_pars)
+  };
 
   RFPars rf_pars;
   rf_pars.E_field=15e7;
+
+  lattice += lattice;
+
+  print_lattice_elements(lattice);
   
   lattice.insert_RF(0, p, rf_pars);
 
