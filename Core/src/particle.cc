@@ -89,14 +89,13 @@ double Particle::revolution_freq(double lattice_length){
   return v/lattice_length;
 }
 
-Particle integrator::read_particle_csv(const string & path){
-  cout << "Particle read_particle" << endl;
+Particle Particle::from_config(const std::string & path){
   string header, data;
   vector<double> values;
   ifstream particle_file;
   particle_file.open(path);
   getline(particle_file, header);
-  cout << header << endl;
+  cout << "Config header: " << header << endl;
   getline(particle_file, data);
   stringstream lineStream(data);
   string cell;
@@ -105,3 +104,20 @@ Particle integrator::read_particle_csv(const string & path){
   }
   return Particle(values[0], values[1], values[2]);
 }
+
+// Particle integrator::read_particle_csv(const string & path){
+//   cout << "Particle read_particle" << endl;
+//   string header, data;
+//   vector<double> values;
+//   ifstream particle_file;
+//   particle_file.open(path);
+//   getline(particle_file, header);
+//   cout << header << endl;
+//   getline(particle_file, data);
+//   stringstream lineStream(data);
+//   string cell;
+//   while (getline(lineStream, cell, ',')) {
+//     values.push_back(stod(cell));
+//   }
+//   return Particle(values[0], values[1], values[2]);
+// }

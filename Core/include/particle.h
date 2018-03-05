@@ -45,9 +45,11 @@ namespace integrator {
     double revolution_freq(double lattice_length);
 
     void print(){std::cout << mass0_ << " " << gamma_ << " " << G_ << std::endl;}
+
+    static Particle from_config(const std::string & path);
   };  // class particle
 
-  Particle read_particle_csv(const std::string & path);
+  // Particle read_particle_csv(const std::string & path);
 } // namespace integrator
 
 #endif
