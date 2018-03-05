@@ -10,7 +10,7 @@ from particle import Particle
 
 # generate initial state
 state = StateList(Sz=1, dK=(-1e-4, 1e-4, 5), x=(-1e-3, 2e-4, 4))
-state.write_to_file("state.csv", ".")
+state.write_to_file("state.conf", ".")
 
 deu = Particle()
-deu.write_to_file("particle.csv", ".")
+deu.write_to_file("particle.conf", ".")
