@@ -32,10 +32,6 @@ else(APPLE)
 endif(APPLE)
 
 set(LIB_SOURCES
-  # "${SRC_DIR}/particle.cc" 
-  # "${SRC_DIR}/data_log.cc"
-  # "${SRC_DIR}/lattice.cc"
-  # "${SRC_DIR}/tilt.cc"
   # elements
   "${SRC_DIR}/elements/element.cc" 
   "${SRC_DIR}/elements/dipole.cc" 
@@ -54,14 +50,3 @@ set(LIB_SOURCES
 add_library(${LIB_NAME} ${LIB_SOURCES})
 target_link_libraries( ${LIB_NAME} ${Boost_LIBRARIES})
 set_target_properties(${LIB_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
-
-
-# ## adding executables
-# set(APP_SOURCES "${CMAKE_SOURCE_DIR}/lattices/FODO_lattice.cc"
-#   "${CMAKE_SOURCE_DIR}/test/test_lattice.cc")
-
-# foreach(app_src_filename ${APP_SOURCES})
-#   get_filename_component(app_name ${app_src_filename} NAME_WE)
-#   add_executable( ${app_name} ${app_src_filename} )
-#   target_link_libraries( ${app_name} ${LIB_NAME} )
-# endforeach(app_src_filename ${APP_SOURCES})
