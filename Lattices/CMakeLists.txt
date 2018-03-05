@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-project(TEST_PROJECT)
+project(LATTICE)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os")
@@ -11,6 +11,9 @@ include_directories(
   "${INTEGRATOR_ROOT_DIR}/Core/include" 
   "${INTEGRATOR_ROOT_DIR}/Core/include/elements"
   )
+
+# Utilities headers
+include_directories(${INTEGRATOR_ROOT_DIR}/Utilities/include)
 
 find_package(Boost 1.66.0 COMPONENTS REQUIRED system iostreams)
 # external headers

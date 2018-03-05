@@ -12,6 +12,8 @@ include_directories(
   "${INTEGRATOR_ROOT_DIR}/Core/include/elements"
   )
 
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
 find_package(Boost 1.66.0 COMPONENTS REQUIRED system iostreams)
 # external headers
 if(APPLE)

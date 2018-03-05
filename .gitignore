@@ -3,8 +3,10 @@ bin
 lib
 data
 
-# ignore backup files
+# ignore emacs backup files
 *~
+# ignore config files
+*.conf
 
 # Mac-specific files
 .DS_Store
