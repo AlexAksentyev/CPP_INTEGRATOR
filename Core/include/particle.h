@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <Eigen/Dense>
+#include <string>
+
 
 namespace integrator {
   const double CLIGHT = 2.99792458e8; // m/s
@@ -43,7 +45,9 @@ namespace integrator {
     double revolution_freq(double lattice_length);
 
     void print(){std::cout << mass0_ << " " << gamma_ << " " << G_ << std::endl;}
-  };
+  };  // class particle
+
+  Particle read_particle_csv(const std::string & path);
 } // namespace integrator
 
 #endif

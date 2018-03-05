@@ -1,5 +1,8 @@
 #include "particle.h"
 
+#include <vector>
+#include <fstream>
+
 using namespace std;
 using namespace Eigen;
 using namespace integrator;
@@ -84,4 +87,21 @@ VariableCol Particle::Pc(VariableCol relative_dK){
 double Particle::revolution_freq(double lattice_length){
   double v = beta()*CLIGHT;
   return v/lattice_length;
+}
+
+Particle integrator::read_particle_csv(const string & path){
+  cout << "Particle read_particle" << endl;
+  string header, data;
+  vector<double> values;
+  ifstream particle_file;
+  particle_file.open(path);
+  getline(particle_file, header);
+  cout << header << endl;
+  getline(particle_file, data);
+  stringstream lineStream(data);
+  string cell;
+  while (getline(lineStream, cell, ',')) {
+    values.push_back(stod(cell));
+  }
+  return Particle(values[0], values[1], values[2]);
 }
