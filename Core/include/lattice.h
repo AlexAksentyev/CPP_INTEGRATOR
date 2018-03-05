@@ -23,6 +23,7 @@ namespace integrator{
     int index;
     double w_freq;
     RFMeta() : index(-1), w_freq(0){};
+    RFMeta(const RFMeta& data): index(data.index), w_freq(data.w_freq) {}
     void reset() {index = -1; w_freq = 0;}
     void print() {std::cout << "index: " << index
 			    << "frequency (rad/s): " << w_freq
@@ -41,7 +42,22 @@ namespace integrator{
   public:
   
     Lattice(std::string name);
+    Lattice(const Lattice& lattice)
+      : ElementPtrVector(lattice),
+	name_(lattice.name_), length_(lattice.length_),
+	rf_metadata_(lattice.rf_metadata_), state_(lattice.state_){}
+    
     Lattice& operator=(std::initializer_list<element::Element*>);
+    Lattice& operator +=(const Lattice& lattice){
+      this->resize(this->size() + lattice.size());
+      for(Lattice::iterator element=lattice.begin();
+	  element!=lattice.end();
+	  ++element)
+	this->append_element(element);
+      return (*this);
+    }
+
+    Lattice& replicate(size_t repeat_factor); 
 
     double length() {return length_;}
 
@@ -75,6 +91,11 @@ namespace integrator{
     element::Element& operator[](size_type n) {return this->ElementPtrVector::operator[](n);}
 
   };
+
+  inline Lattice operator+(Lattice lhs, const Lattice& rhs){
+    lhs += rhs;
+    return lhs;
+  }
 } // namespace integrator
 
 #endif //LATTICE_H

@@ -29,6 +29,23 @@ Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
 
 }
 
+// Lattice& Lattice::operator+=(Lattice& lattice){
+//   this->resize(this->size() + lattice.size());
+//   for(Lattice::iterator element=lattice.begin();
+//       element!=lattice.end();
+//       ++element)
+//     this->append_element(element);
+//   return (*this);
+// }
+
+Lattice& Lattice::replicate(size_t repeat_factor){
+  this->resize(this->size()*repeat_factor); // preallocate memory
+  for (size_t i=1; i<repeat_factor; i++){
+    this += this;
+  }
+  return (*this);
+}
+
 void Lattice::append_element(Element* new_element){
   // if(new_element->is_RF()){
   //   cout << "Trying to append an RF element; \n"
