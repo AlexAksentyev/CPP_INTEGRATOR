@@ -4,18 +4,18 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <iostream>
-#include "particle.h"
+
 
 namespace utilities {
   template<typename M>
-  M read_matrix_csv (const std::string & path) {
+  M read_matrix (const std::string & path) {
     std::ifstream indata;
     indata.open(path);
     std::string header, line;
     std::vector<double> values;
     uint rows = 0;
     std::getline(indata, header);
+    std::cout << "Config header: " << header << std::endl;
     while (std::getline(indata, line)) {
       std::stringstream lineStream(line);
       std::string cell;
