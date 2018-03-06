@@ -61,51 +61,185 @@ int main(int argc, char** argv) {
     orb_len=2.2, ore_len=2.17,
     os_len=15e-2, bpm_len=15e-2;
   WFPars rbe_pars(180.77969e-2, 5e-2, 120e5, 0.46002779, "RBE");
+
+  cout << "\t Making lattice segments" << endl;
   
-  Lattice lattice("FODO");
-  lattice = {
-    // SS1H2
-    new MQuad(p, qda2_pars),
-    new Drift(p, od_len, "OD1"),
-    new Drift(p, os_len, "OSD"),
-    new Drift(p, od_len, "OD2"),
-    new Drift(p, orb_len, "ORB"),
-    new Drift(p, od_len, "OD2"),
-    new Drift(p, bpm_len, "BPM"),
-    new Drift(p, od_len, "OD1"),
-    new MQuad(p, qfa2_pars),
-    // ARC1
-    // ***** UNFINISHED
-    //
-	     // new MQuad(p, qfa2_pars),
-	     // new Drift(p, od_len, "OD1"),
-	     // new Drift(p, os_len, "OSF"),
-	     // new Drift(p, od_len, "OD2"),
-	     // new Drift(p, orb_len, "ORB"),
-	     // new Drift(p, od_len, "OD2"),
-	     // new Drift(p, bpm_len, "BPM"),
-	     // new Drift(p, od_len, "OD1"),
-	     // new MQuad(p, qda2_pars),
-	     // //
-	     // new MQuad(p, qda2_pars),
-	     // new Drift(p, od_len, "OD1"),
-	     // new Drift(p, os_len, "OSD"),
-	     // new Drift(p, od_len, "OD2"),
-	     // new Drift(p, orb_len, "ORB"),
-	     // new Drift(p, od_len, "OD2"),
-	     // new Drift(p, bpm_len, "BPM"),
-	     // new Drift(p, od_len, "OD1"),
-	     // new MQuad(p, qfa2_pars)
-  };
+  Lattice SS1H2("SS1H2");
+  SS1H2 = {new MQuad(p, qda2_pars),
+	   new Drift(p, od_len, "OD1"),
+	   new Drift(p, os_len, "OSD"),
+	   new Drift(p, od_len, "OD2"),
+	   new Drift(p, orb_len, "ORB"),
+	   new Drift(p, od_len, "OD2"),
+	   new Drift(p, bpm_len, "BPM"),
+	   new Drift(p, od_len, "OD1"),
+	   new MQuad(p, qfa2_pars),
+	   //
+	   new MQuad(p, qfa2_pars),
+	   new Drift(p, od_len, "OD1"),
+	   new Drift(p, os_len, "OSF"),
+	   new Drift(p, od_len, "OD2"),
+	   new Drift(p, orb_len, "ORB"),
+	   new Drift(p, od_len, "OD2"),
+	   new Drift(p, bpm_len, "BPM"),
+	   new Drift(p, od_len, "OD1"),
+	   new MQuad(p, qda2_pars),
+	   //
+	   new MQuad(p, qda2_pars),
+	   new Drift(p, od_len, "OD1"),
+	   new Drift(p, os_len, "OSD"),
+	   new Drift(p, od_len, "OD2"),
+	   new Drift(p, orb_len, "ORB"),
+	   new Drift(p, od_len, "OD2"),
+	   new Drift(p, bpm_len, "BPM"),
+	   new Drift(p, od_len, "OD1"),
+	   new MQuad(p, qfa2_pars)};
+
+  cout << " \t Made SS1H2" << endl;
+  // Lattice ARC1("ARC1");
+  // ARC1 = {new MQuad(p, qfa1_pars),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MSext(p, sfp_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new WFCylindrical(p, rbe_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new Drift(p, bpm_len, "BPM"),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MQuad(p, qda1_pars),
+  // 	  new MQuad(p, qda1_pars),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MSext(p, sdp_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new WFCylindrical(p, rbe_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new Drift(p, bpm_len, "BPM"),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MQuad(p, qfa1_pars)};
+  // ARC1 = ARC1.replicate(8);
+  // cout << "\t Made ARC1" << endl;
+  // Lattice SS2H1("SS2H1");
+  // SS2H1 = {new MQuad(p, qfa2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MSext(p, sfp_pars),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qda2_pars),
+  // 	   //
+  // 	   new MQuad(p, qda2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MSext(p, sdp_pars),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qfa2_pars),
+  // 	   //
+  // 	   new MQuad(p, qfa2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MSext(p, sfp_pars),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qda2_pars)};
+  // Lattice SS2H2("SS2H2");
+  // SS2H2 = {new MQuad(p, qda2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new Drift(p, os_len, "OSD"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qfa2_pars),
+  // 	   //
+  // 	   new MQuad(p, qfa2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new Drift(p, os_len, "OSF"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qda2_pars),
+  // 	   //
+  // 	   new MQuad(p, qda2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new Drift(p, os_len, "OSD"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qfa2_pars)};
+  // cout << "\t Made SS2" << endl;
+  // Lattice ARC2("ARC2");
+  // ARC2 = {new MQuad(p, qfa1_pars),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MSext(p, sfp_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new WFCylindrical(p, rbe_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new Drift(p, bpm_len, "BPM"),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MQuad(p, qda1_pars),
+  // 	  new MQuad(p, qda1_pars),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MSext(p, sdp_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new WFCylindrical(p, rbe_pars),
+  // 	  new Drift(p, od_len, "OD2"),
+  // 	  new Drift(p, bpm_len, "BPM"),
+  // 	  new Drift(p, od_len, "OD1"),
+  // 	  new MQuad(p, qfa1_pars)};
+  // ARC2 = ARC2.replicate(8);
+  // cout << "\t Made ARC2" << endl;
+  // Lattice SS1H1("SS1H1");
+  // SS1H1 = {new MQuad(p, qfa2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MSext(p, sfp_pars),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qda2_pars),
+  // 	   //
+  // 	   new MQuad(p, qda2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MSext(p, sdp_pars),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qfa2_pars),
+  // 	   //
+  // 	   new MQuad(p, qfa2_pars),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MSext(p, sfp_pars),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, orb_len, "ORB"),
+  // 	   new Drift(p, od_len, "OD2"),
+  // 	   new Drift(p, bpm_len, "BPM"),
+  // 	   new Drift(p, od_len, "OD1"),
+  // 	   new MQuad(p, qda2_pars)};
+
+  cout << "\t Made all" << endl;
+
+  Lattice lattice("BNL");
+  cout << "\t Combining segments" << endl;
+   SS1H2 += SS1H2;
+   cout << "\t added" << endl;
 
   RFPars rf_pars;
   rf_pars.E_field=15e7;
-
-  lattice += lattice;
-
-  print_lattice_elements(lattice);
-  
-  lattice.insert_RF(0, p, rf_pars);
+  //  lattice.insert_RF(0, p, rf_pars);
 
   data_log::DataLog log;
   clock_t t;
@@ -120,7 +254,7 @@ int main(int argc, char** argv) {
 
   cout << log.size() << endl;
   ofstream out_file;
-  out_file.open("../data/FODO_lattice.dat");
+  out_file.open("../data/BNL.dat");
   out_file << scientific << setprecision(4) << log;
   out_file.close();
 

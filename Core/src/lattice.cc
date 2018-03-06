@@ -4,7 +4,6 @@
 #include "lattice.h"
 #include <random>
 #include <math.h>
-#include <boost/shared_ptr.hpp>
 #include <typeinfo>
 
 using Gauss = std::normal_distribution<double>;
@@ -30,6 +29,7 @@ Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
 }
 
 Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
+  cout << "Inside operator+=" << endl;
   // checking for RF in other
   if (other.rf_metadata_.index != -1){
     cout << "Trying to add a lattice segment with an RF;"
@@ -38,7 +38,9 @@ Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
   }
   // appending the new elements
   this->reserve(this->size() + other.size());
+  cout << "operator+= reserve passed" << endl;
   this->insert(this->end(), other.begin(), other.end());
+  cout << "operator+= insert passed" << endl;
   // updating lattice length
   length_ += other.length_;
   return *this;
