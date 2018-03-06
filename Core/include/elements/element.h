@@ -112,7 +112,6 @@ namespace integrator {
       // tracking w/o intermediate values output;
       // data logging is handled in the Lattice class' track_through
       virtual size_t track_through(rhs::State& ini_states);
- 
     };
 
     class Observer : public Element {
@@ -124,7 +123,6 @@ namespace integrator {
 	observer(ini_states, ini_states(0, 2));
 	return 0;
       }
-
     };
   } // element namespace
 } //namespace integrator

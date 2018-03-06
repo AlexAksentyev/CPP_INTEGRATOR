@@ -43,7 +43,12 @@ namespace integrator {
       WFCylindrical(Particle& reference_particle,
 		    double length, double h_gap,
 		    double E_hor, double B_vert,
-		    std::string name="WFS");  
+		    std::string name="WFS");
+      WFCylindrical(Particle& reference_particle, WFPars wfpars)
+	: WFCylindrical(reference_particle,
+		     wfpars.length, wfpars.h_gap,
+		     wfpars.E_field, wfpars.B_field,
+		     wfpars.name) {}
 
       VectorizedField EField(rhs::State state);
       void front_kick(rhs::State& state);
