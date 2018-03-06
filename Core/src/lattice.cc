@@ -37,9 +37,9 @@ Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
     return *this;
   }
   // appending the new elements
-  this->reserve(this->size() + other.size());
+  sequence_.reserve(this->element_count() + other.element_count());
   cout << "operator+= reserve passed" << endl;
-  this->insert(this->end(), other.begin(), other.end());
+  sequence_.insert(this->end(), other.begin(), other.end());
   cout << "operator+= insert passed" << endl;
   // updating lattice length
   length_ += other.length_;
@@ -47,9 +47,9 @@ Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
 }
 
 Lattice& Lattice::replicate(size_t repeat_factor){
-  this->reserve(this->size()*repeat_factor); // preallocate memory
+  sequence_.reserve(this->element_count()*repeat_factor); // preallocate memory
   for (size_t i=1; i<repeat_factor; i++){
-    this->insert(this->end(), this->begin(), this->end());
+    sequence_.insert(this->end(), this->begin(), this->end());
   }
   length_ *= repeat_factor;
   return *this;
@@ -61,8 +61,8 @@ void Lattice::append_element(Element* new_element){
   // 	 << "please use insert_RF()" << endl;
   //   return;
   // }
-  this->push_back(new_element);
-  this->length_ += new_element->length();
+  sequence_.push_back(new_element);
+  length_ += new_element->length();
   // TODO: update segment_map
 }
 
@@ -72,40 +72,40 @@ bool Lattice::insert_element(Element* new_element, int index){
   // 	 << "please use insert_RF()" << endl;
   //   return false;
   // }
-  Lattice::iterator position = this->begin()+index;
+  Lattice::element_iterator position = this->begin()+index;
   // sanity check for segfault
   if (position < this->begin() || position > this->end()){
     cout << "Trying to insert outside lattice bounds" << endl;
     return false;
   }
   length_ += new_element->length();
-  this->insert(position, new_element);
+  sequence_.insert(position, new_element);
   // TODO: update segment_map
 
   return true;
 }
 
 bool Lattice::replace_element(Element* new_element, int index){
-  Lattice::iterator old_element = this->begin()+index;
+  Lattice::element_iterator old_element = this->begin()+index;
   // if(new_element->is_RF() && !old_element->is_RF()){
   //   cout << "Trying to replace an RF element; \n"
   // 	 << "please use insert_RF()" << endl;
   //   return false;
   // }
   length_ -= old_element->length();
-  this->replace(old_element, new_element);
+  sequence_.replace(old_element, new_element);
   length_ += new_element->length();
   return true;
 }
 
 bool Lattice::remove_element(int index) {
-  Lattice::iterator position = this->begin()+index;
+  Lattice::element_iterator position = this->begin()+index;
   // sanity check for segfault
   if (position < this->begin() || position > this->end()){
     cout << "Position out of bounds; no element removed" << endl;
     return false;
   }
-  Lattice::auto_type element = this->release(position); // ownership transferred to element **
+  Lattice::element_carry element = sequence_.release(position); // ownership transferred to element **
   length_ -= element->length();
 
   if(element->is_RF()){
@@ -160,7 +160,7 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
   char axis;
   double mean, sigma, tiltangle;
   vector<pair<char, double>> axis_degangle;
-  for (Lattice::iterator element=this->begin();
+  for (Lattice::element_iterator element=this->begin();
        element!=this->end();
        ++element){ // for this element
     for(Triplet::iterator tilt=axis_mean_sigma.begin();
@@ -181,7 +181,7 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
 }
 
 void Lattice::clear_tilt(){
-  for (Lattice::iterator element=this->begin();
+  for (Lattice::element_iterator element=this->begin();
        element!=this->end();
        ++element)
     element->tilt.clear();
@@ -190,7 +190,7 @@ void Lattice::clear_tilt(){
 
 pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size_t num_turns){
   // adapting the element vectorized_fields to ini_state size
-  for(Lattice::iterator element=this->begin();
+  for(Lattice::element_iterator element=this->begin();
       element!=this->end();
       ++element){
     element->vectorize_fields(ini_state);
@@ -203,7 +203,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   MetaData metadata(0, "START", 0); // initial state meta data
   log(ini_state, current_s, metadata); // logging initial state
   //tracking proper
-  Lattice::iterator element;
+  Lattice::element_iterator element;
   int old_percent=-1, percent;
   for (turn=1; turn<=num_turns; turn++){
     for(element=this->begin(), eid=1;

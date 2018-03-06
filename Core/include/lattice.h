@@ -17,8 +17,6 @@
 #include "right_hand_side.h" // provides rhs::State typedef
 
 namespace integrator{
-  using ElementPtrVector = boost::ptr_vector<element::Element>;
-
   struct RFMeta {
     int index;
     double w_freq;
@@ -33,26 +31,37 @@ namespace integrator{
   namespace data_log{
     class DataLog;
   }
-  class Lattice : private ElementPtrVector {
+  class Lattice {
+    using ElementPtrVector = boost::ptr_vector<element::Element>;
+    ElementPtrVector sequence_;
     std::string name_;
     double length_;
     RFMeta rf_metadata_;
     int state_; // keeps track of lattice tilt state
     // for outputting data into a separate file
   public:
-  
+    
+    using element_iterator = ElementPtrVector::iterator;
+    using size_type = ElementPtrVector::size_type;
+    using element_carry = ElementPtrVector::auto_type;
+    
     Lattice(std::string name);
     Lattice(const Lattice& lattice)
-      : ElementPtrVector(lattice),
+      : sequence_(lattice.sequence_),
 	name_(lattice.name_), length_(lattice.length_),
 	rf_metadata_(lattice.rf_metadata_), state_(lattice.state_){}
-    
+
     Lattice& operator=(std::initializer_list<element::Element*>);
     Lattice& operator+=(Lattice& other); // TODO: I want const here
+    element::Element& operator[](size_type n) {return sequence_[n];}
 
     Lattice& replicate(size_t repeat_factor); 
 
+    element_iterator begin(){return sequence_.begin();}
+    element_iterator end(){return sequence_.end();}
+
     double length() {return length_;}
+    size_type element_count() const {return sequence_.size();}
 
     void append_element(element::Element*); // adds element to back
     // returns true if success
@@ -61,12 +70,12 @@ namespace integrator{
     bool remove_element(int index);
     bool insert_RF(int index, Particle& reference, element::RFPars rf_pars);
 
+    bool contains_RF(){return rf_metadata_.index != -1? true : false;}
     int rf_w_freq(){return rf_metadata_.w_freq;}
     element::ERF& get_RF(){ // dereference iterator and downcast 
       return dynamic_cast<element::ERF&> (*(this->begin()+rf_metadata_.index));
       // SAFETY WARNING: not catching std::bad_cast&
     }
-    bool contains_RF(){return rf_metadata_.index != -1? true : false;}
   
     void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	      bool append=false);
@@ -75,13 +84,6 @@ namespace integrator{
     // data_log::DataLog passed here doesn't go to element::track_through,
     // and only logs the state after passing through the element
     std::pair<size_t, size_t> track_through(rhs::State&, data_log::DataLog&, size_t number_of_turns);
-
-    // methods from base class open to the user
-    using iterator = ElementPtrVector::iterator;
-    iterator begin() {return this->ElementPtrVector::begin();}
-    iterator end() {return this->ElementPtrVector::end();}
-  
-    element::Element& operator[](size_type n) {return this->ElementPtrVector::operator[](n);}
 
   };
 
