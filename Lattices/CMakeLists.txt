@@ -32,7 +32,8 @@ endif(APPLE)
 link_directories(${INTEGRATOR_ROOT_DIR}/Core/lib)
 
 ## adding executables
-set(APP_SOURCES "${CMAKE_SOURCE_DIR}/FODO_lattice.cc")
+set(APP_SOURCES "${CMAKE_SOURCE_DIR}/FODO_lattice.cc"
+  "${CMAKE_SOURCE_DIR}/BNL.cc")
 
 foreach(app_src_filename ${APP_SOURCES})
   get_filename_component(app_name ${app_src_filename} NAME_WE)
