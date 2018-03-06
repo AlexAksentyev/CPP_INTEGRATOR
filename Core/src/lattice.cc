@@ -29,21 +29,28 @@ Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
 
 }
 
-// Lattice& Lattice::operator+=(Lattice& lattice){
-//   this->resize(this->size() + lattice.size());
-//   for(Lattice::iterator element=lattice.begin();
-//       element!=lattice.end();
-//       ++element)
-//     this->append_element(element);
-//   return (*this);
-// }
+Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
+  // checking for RF in other
+  if (other.rf_metadata_.index != -1){
+    cout << "Trying to add a lattice segment with an RF;"
+	 << "denied" << endl;
+    return *this;
+  }
+  // appending the new elements
+  this->reserve(this->size() + other.size());
+  this->insert(this->end(), other.begin(), other.end());
+  // updating lattice length
+  length_ += other.length_;
+  return *this;
+}
 
 Lattice& Lattice::replicate(size_t repeat_factor){
-  this->resize(this->size()*repeat_factor); // preallocate memory
+  this->reserve(this->size()*repeat_factor); // preallocate memory
   for (size_t i=1; i<repeat_factor; i++){
-    this += this;
+    this->insert(this->end(), this->begin(), this->end());
   }
-  return (*this);
+  length_ *= repeat_factor;
+  return *this;
 }
 
 void Lattice::append_element(Element* new_element){

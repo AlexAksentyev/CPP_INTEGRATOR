@@ -2,7 +2,7 @@
 // TODO:
 //    * add segment_map functionality
 //    * checking for multiple RF elements
-
+//    * operator += argument const keyword (fails to compile, why?)
 
 #ifndef LATTICE_H
 #define LATTICE_H
@@ -48,14 +48,7 @@ namespace integrator{
 	rf_metadata_(lattice.rf_metadata_), state_(lattice.state_){}
     
     Lattice& operator=(std::initializer_list<element::Element*>);
-    Lattice& operator +=(const Lattice& lattice){
-      this->resize(this->size() + lattice.size());
-      for(Lattice::iterator element=lattice.begin();
-	  element!=lattice.end();
-	  ++element)
-	this->append_element(element);
-      return (*this);
-    }
+    Lattice& operator+=(Lattice& other); // TODO: I want const here
 
     Lattice& replicate(size_t repeat_factor); 
 
@@ -92,7 +85,7 @@ namespace integrator{
 
   };
 
-  inline Lattice operator+(Lattice lhs, const Lattice& rhs){
+  inline Lattice operator+(Lattice lhs,  Lattice& rhs){
     lhs += rhs;
     return lhs;
   }
