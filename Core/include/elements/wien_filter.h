@@ -15,6 +15,7 @@ namespace integrator {
     };
   
     class WFStraight : public Element {
+      virtual Element* do_clone() const {return new WFStraight(*this);}
       double ref_kinetic_energy_;
       double kick_voltage_;
     public:
@@ -34,6 +35,7 @@ namespace integrator {
     };
 
     class WFCylindrical : public Element {
+      virtual Element* do_clone() const {return new WFCylindrical(*this);}
       static double curv_comp(Particle& reference_particle, double E_hor, double B_vert); // required for constructor
       double ref_kinetic_energy_;
       double plate_voltage_;

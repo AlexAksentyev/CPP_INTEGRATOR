@@ -20,6 +20,7 @@ namespace integrator {
 
   
     class MDipole : public Element {
+      virtual Element* do_clone() const {return new MDipole(*this);}
     public:
       MDipole(Particle& reference_particle,
 	      double length, double B_vert,
@@ -31,6 +32,7 @@ namespace integrator {
     };
 
     class MSolenoid : public Element {
+      virtual Element* do_clone() const {return new MSolenoid(*this);}
     public:
       MSolenoid(Particle& particle,
 		double length, double B_longitudinal,

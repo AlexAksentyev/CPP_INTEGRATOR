@@ -15,7 +15,7 @@ namespace integrator {
   
     class MSext : public Element {
       double grad_;
-
+      virtual Element* do_clone() const {return new MSext(*this);}
     public:
       MSext(Particle& particle, double length, double gradient, std::string name="MSext")
 	: Element(particle, 0, length, name), grad_(gradient){}

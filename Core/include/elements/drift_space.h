@@ -7,6 +7,7 @@
 namespace integrator {
   namespace element{
     class Drift : public Element {
+      virtual Element* do_clone() const {return new Drift(*this);}
     public:
       Drift(Particle& particle, double length, std::string name="Drift")
 	: Element(particle, 0, length, name) {}
