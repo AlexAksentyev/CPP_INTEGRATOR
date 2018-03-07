@@ -30,6 +30,9 @@ namespace integrator {
       MQuad(Particle& particle, GradFieldPars gfpars)
 	: MQuad(particle, gfpars.length, gfpars.grad, gfpars.name) {}
 
+      MQuad(const MQuad& to_copy)
+	: Element(to_copy), grad_(to_copy.grad_) {}
+
       VectorizedField BField(rhs::State state_matrix);
 
       void print();
