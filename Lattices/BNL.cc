@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 
   // defining the particle
   cout << "Reading particle config" << endl;
-  Particle p = Particle::from_config(config_dir + "/particle.conf"); // (1876, 1.14, .2);
+  Particle p = Particle::from_config(config_dir + "/particle.conf");
   p.print();
   
   // creating a lattice
@@ -232,7 +232,7 @@ int main(int argc, char** argv) {
   out_file.close();
 
   cout << "plotting ... \n";
-  log.plot("x", "s", 0, "points");
+  log.plot("Sx", "s", 0, "points");
   
   return 0;
 }
