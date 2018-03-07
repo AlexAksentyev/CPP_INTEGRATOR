@@ -38,9 +38,7 @@ Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
   }
   // appending the new elements
   sequence_.reserve(this->element_count() + other.element_count());
-  cout << "operator+= reserve passed" << endl;
   sequence_.insert(this->end(), other.begin(), other.end());
-  cout << "operator+= insert passed" << endl;
   // updating lattice length
   length_ += other.length_;
   return *this;

@@ -59,7 +59,16 @@ namespace integrator{
     }
     Lattice& operator+=(Lattice&); // TODO: I want const here
     element::Element& operator[](size_type n) {return sequence_[n];}
+    friend std::ostream& operator<<(std::ostream& out_stream, Lattice& lattice){
+      for(Lattice::element_iterator element=lattice.begin();
+	  element!=lattice.end();
+	  ++element){
+	std::cout << (*element) << std::endl;
+      }
+      return out_stream;
+    }
 
+    void rename(std::string new_name){name_ = new_name;}
     Lattice& replicate(size_t repeat_factor); 
 
     element_iterator begin(){return sequence_.begin();}
