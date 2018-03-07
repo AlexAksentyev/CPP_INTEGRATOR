@@ -1,4 +1,4 @@
-#include "dipole.h"
+#include "elements/dipole.h"
 
 using namespace integrator::element;
 

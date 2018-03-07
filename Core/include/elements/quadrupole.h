@@ -2,7 +2,7 @@
 #define QUADRUPOLE_H
 
 
-#include "element.h"
+#include "elements/element.h"
 
 namespace integrator {
   namespace element{

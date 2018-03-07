@@ -1,7 +1,7 @@
 #ifndef WIEN_FILTER_H
 #define WIEN_FILTER_H
 
-#include "element.h"
+#include "elements/element.h"
 #include <eigen3/Eigen/Dense>
 
 namespace integrator {

@@ -5,7 +5,7 @@
 // * magnetic dipole MDipole
 // * magnetic solenoid MSolenoid
 
-#include "element.h"
+#include "elements/element.h"
 #include "particle.h"
 
 namespace integrator {

@@ -1,4 +1,4 @@
-#include "sextupole.h"
+#include "elements/sextupole.h"
 
 using namespace integrator::rhs;
 using namespace integrator::element;

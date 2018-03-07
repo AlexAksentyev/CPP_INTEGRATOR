@@ -2,7 +2,7 @@
 //    * remove vectorization from track_through when implemented Lattice class
 
 
-#include "element.h"
+#include "elements/element.h"
 #include <iostream>
 #include <iomanip>
 #include <boost/numeric/odeint.hpp>

@@ -2,7 +2,7 @@
 #ifndef RF_ELEMENT_H
 #define RF_ELEMENT_H
 
-#include "element.h"
+#include "elements/element.h"
 #include "particle.h"
 #include <math.h>
 

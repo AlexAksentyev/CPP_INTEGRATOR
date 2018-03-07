@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
   out_file.close();
 
   cout << "plotting ... \n";
-  log.plot("x", "s", 0, "points");
+  log.plot("x", "s", 1, "points");
   
   return 0;
 }

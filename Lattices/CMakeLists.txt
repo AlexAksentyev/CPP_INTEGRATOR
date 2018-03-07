@@ -7,10 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(INTEGRATOR_ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 
 # Cpp_int Core headers
-include_directories(
-  "${INTEGRATOR_ROOT_DIR}/Core/include" 
-  "${INTEGRATOR_ROOT_DIR}/Core/include/elements"
-  )
+include_directories("${INTEGRATOR_ROOT_DIR}/Core/include")
 
 # Utilities headers
 include_directories(${INTEGRATOR_ROOT_DIR}/Utilities/include)

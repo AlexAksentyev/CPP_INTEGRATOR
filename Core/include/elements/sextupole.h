@@ -1,7 +1,7 @@
 #ifndef SEXTUPOLE_H
 #define SEXTUPOLE_H
 
-#include "element.h"
+#include "elements/element.h"
 
 namespace integrator {
   namespace element{

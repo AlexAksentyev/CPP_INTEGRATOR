@@ -12,10 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
 # project headers
-include_directories(
-  "${CMAKE_SOURCE_DIR}/include" 
-  "${CMAKE_SOURCE_DIR}/include/elements"
-  )
+include_directories("${CMAKE_SOURCE_DIR}/include")
   
 find_package(Boost 1.66.0 COMPONENTS system iostreams REQUIRED)
 # external headers

@@ -4,7 +4,7 @@
 
 #include "right_hand_side.h"
 #include "particle.h"
-#include "element.h"
+#include "elements/element.h"
 #include <boost/numeric/odeint.hpp>
 
 using namespace std;

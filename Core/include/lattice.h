@@ -12,8 +12,8 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/tuple/tuple.hpp>
 
-#include "element.h"
-#include "rf_element.h"
+#include "elements/element.h"
+#include "elements/rf_element.h"
 #include "right_hand_side.h" // provides rhs::State typedef
 
 namespace integrator{

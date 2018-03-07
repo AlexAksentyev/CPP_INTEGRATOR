@@ -1,12 +1,16 @@
 
 #include "operator_plus.h"
 #include <iostream>
+#include "elements/element.h"
+#include "particle.h"
 
 using namespace std;
+using namespace integrator;
+using namespace integrator::element;
 
-Lattice& Lattice::operator+=(const Lattice& another){
-  this->reserve(this->size() + another.size());
-  this->insert(this->end(), another.begin(), another.end());
+Lattice& Lattice::operator+=(Lattice& another){
+  seq_.reserve(seq_.size() + another.size());
+  seq_.insert(seq_.end(), another.begin(), another.end());
   length_ += another.length_;
   return (*this);
 }
@@ -14,16 +18,19 @@ Lattice& Lattice::operator+=(const Lattice& another){
 
 int main () {
 
-  Lattice first(1);
-  first = {new double(1), new double(6), new double(7), new double(8)};
-  Lattice second(1);
-  second = {new double(-4), new double(-5), new double(-2)};
+  Particle p;
 
-  second += first;
-
+  Lattice first(354); cout << first.length() << endl;
+  first = {new Element(p, 0, 1), new Element(p, 0, 2), new Element(p, 0, 3), new Element(p, 0, 4)};
+  Lattice second(216); cout << second.length() << endl;
+  second = {new Element(p, 0, -1), new Element(p, 0, -2), new Element(p, 0, -3)};
+  
   Lattice third(second);
+  third = first + second;
   cout << third << endl;
-  cout << "length: " << third.length() << endl;;
+
+  // cout << third << endl;
+  // cout << "length: " << third.length() << endl;;
   
   return 0;
 }
