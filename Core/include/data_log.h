@@ -65,7 +65,7 @@ namespace integrator {
 
       size_t size(){return system_state_.size();}
   
-      void write_to_file(std::string name, std::string dir = "../data"); // binary is in build, go out
+      void write_to_file(std::string name, std::string dir = "../data"); // binary is in bin, go out
       friend std::ostream& operator<<(std::ostream& out_stream, const DataLog& data_log){
 	using namespace std;
 	int num_rows = data_log.system_position_.size();
