@@ -11,6 +11,10 @@ out_dir = home_dir + "/REPOS/CPP_INTEGRATOR/Lattices/config"
 # generate initial state
 state = StateList(Sz=1, dK=(-1e-4, 1e-4, 5), x=(-1e-3, 2e-4, 4))
 state.write_to_file("state.conf", out_dir)
+print("Generated state:")
+print(state)
 # generate particle data
-deu = Particle()
-deu.write_to_file("particle.conf", out_dir)
+particle = Particle()
+particle.write_to_file("particle.conf", out_dir)
+print("Generated particle:")
+print(particle)
