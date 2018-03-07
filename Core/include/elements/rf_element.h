@@ -18,6 +18,7 @@ namespace integrator {
 
 
     class ERF : public Element {
+      virtual Element* do_clone() const {return new ERF(*this);}
       Particle& reference_particle_;
       double ampl_, phase_, w_freq_;
       double wave_number_;

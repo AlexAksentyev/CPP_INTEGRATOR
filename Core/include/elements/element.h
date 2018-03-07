@@ -47,8 +47,10 @@ namespace integrator {
 	: ElementPars(0, length, name), grad(grad) {}
     };
 
-    class Element {
+    class Element : boost::noncopyable{
 
+      virtual Element* do_clone() const = 0;
+      
       double curve_;
       double length_;
       std::string name_;
@@ -61,7 +63,10 @@ namespace integrator {
       VectorizedField E_field_prime_s_vectorized_;
       VectorizedField B_field_vectorized_;
 
+      Element(const Element& ); // make elements non-copyable
+
     public:
+      Element* clone() const {return do_clone();}
 
       Tilt tilt;
 
@@ -74,7 +79,7 @@ namespace integrator {
       Element(Particle& particle, ElementPars epars)
 	: Element(particle, epars.curve, epars.length, epars.name) {}
 
-      Element(const Element& ); // copy constructor
+      // Element(const Element& ); // copy constructor
 
       virtual bool is_RF() {return false;}
 
@@ -113,6 +118,8 @@ namespace integrator {
       // data logging is handled in the Lattice class' track_through
       virtual size_t track_through(rhs::State& ini_states);
     };
+
+    inline Element* new_clone(const Element& e) {return e.clone();}
 
     class Observer : public Element {
     public:

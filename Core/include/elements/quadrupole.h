@@ -18,6 +18,7 @@ namespace integrator {
     class MQuad : public Element {
 
       double grad_;
+      virtual Element* do_clone() const {return new MQuad(*this);}
   
     public:
   

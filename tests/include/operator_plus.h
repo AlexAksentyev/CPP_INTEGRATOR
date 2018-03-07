@@ -53,6 +53,7 @@ public:
     
     return (*this);
   }
+  // void append(data_type* element) {seq_.push_back(element);}
   Lattice& operator+=(Lattice& another);
 
   friend std::ostream& operator<<(std::ostream& out_stream, Lattice& lattice){
@@ -63,12 +64,19 @@ public:
     }
     return out_stream;
   }
+
+  friend Lattice& operator<<(Lattice& lhs, Lattice& rhs){
+    lhs.seq_.transfer(lhs.end(), *rhs.seq_.release());
+    return lhs;
+  }
 };
 
-inline Lattice operator+(Lattice lhs, Lattice& rhs){
-  lhs += rhs;
-  return lhs;
-}
+Lattice& operator<<(Lattice& lhs, Lattice& rhs);
+
+// inline Lattice operator+(Lattice lhs, Lattice& rhs){
+//   lhs += rhs;
+//   return lhs;
+// }
 
 
 #endif // OPERATOR_PLUS_H

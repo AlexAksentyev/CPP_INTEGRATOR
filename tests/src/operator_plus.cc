@@ -1,7 +1,7 @@
 
 #include "operator_plus.h"
 #include <iostream>
-#include "elements/element.h"
+#include "elements/quadrupole.h"
 #include "particle.h"
 
 using namespace std;
@@ -15,19 +15,21 @@ Lattice& Lattice::operator+=(Lattice& another){
   return (*this);
 }
 
-
 int main () {
 
   Particle p;
 
   Lattice first(354); cout << first.length() << endl;
-  first = {new Element(p, 0, 1), new Element(p, 0, 2), new Element(p, 0, 3), new Element(p, 0, 4)};
+  first = {new MQuad(p, 1, 0), new MQuad(p, 2, 0), new MQuad(p, 3, 0), new MQuad(p, 4, 0)};
   Lattice second(216); cout << second.length() << endl;
-  second = {new Element(p, 0, -1), new Element(p, 0, -2), new Element(p, 0, -3)};
+  second = {new MQuad(p, -1, 0), new MQuad(p, -2, 0), new MQuad(p, -3, 0)};
+
+  cout  << "first lattice: \n" <<  first << endl;
   
   Lattice third(second);
-  third = first + second;
-  cout << third << endl;
+  cout << "third lattice: \n" << third << endl;
+  third += first;
+  cout << "third + first latice: \n" << third << endl;
 
   // cout << third << endl;
   // cout << "length: " << third.length() << endl;;

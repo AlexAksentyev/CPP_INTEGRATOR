@@ -52,7 +52,12 @@ namespace integrator{
 	rf_metadata_(lattice.rf_metadata_), state_(lattice.state_){}
 
     Lattice& operator=(std::initializer_list<element::Element*>);
-    Lattice& operator+=(Lattice& other); // TODO: I want const here
+    friend Lattice& operator<<(Lattice& lhs, Lattice& rhs){
+      lhs.sequence_.transfer(lhs.end(), *rhs.sequence_.release());
+      lhs.length_ += rhs.length_;
+      return lhs;
+    }
+    Lattice& operator+=(Lattice&); // TODO: I want const here
     element::Element& operator[](size_type n) {return sequence_[n];}
 
     Lattice& replicate(size_t repeat_factor); 
@@ -84,10 +89,9 @@ namespace integrator{
     // data_log::DataLog passed here doesn't go to element::track_through,
     // and only logs the state after passing through the element
     std::pair<size_t, size_t> track_through(rhs::State&, data_log::DataLog&, size_t number_of_turns);
-
   };
 
-  inline Lattice operator+(Lattice lhs,  Lattice& rhs){
+  inline Lattice operator+(Lattice lhs, Lattice& rhs){
     lhs += rhs;
     return lhs;
   }
