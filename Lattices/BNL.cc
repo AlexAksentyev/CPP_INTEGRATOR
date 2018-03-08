@@ -92,6 +92,7 @@ int main(int argc, char** argv) {
 	   new Drift(p, bpm_len, "BPM"),
 	   new Drift(p, od_len, "OD1"),
 	   new MQuad(p, qfa2_pars)};
+  cout << "SS1H2 size: "<< SS1H2.element_count() << endl;
   Lattice ARC1("ARC1");
   ARC1 = {new MQuad(p, qfa1_pars),
   	  new Drift(p, od_len, "OD1"),
@@ -102,6 +103,7 @@ int main(int argc, char** argv) {
   	  new Drift(p, bpm_len, "BPM"),
   	  new Drift(p, od_len, "OD1"),
   	  new MQuad(p, qda1_pars),
+	  //
   	  new MQuad(p, qda1_pars),
   	  new Drift(p, od_len, "OD1"),
   	  new MSext(p, sdp_pars),
@@ -112,6 +114,7 @@ int main(int argc, char** argv) {
   	  new Drift(p, od_len, "OD1"),
   	  new MQuad(p, qfa1_pars)};
   ARC1 = ARC1.replicate(8);
+  cout << "ARC1 size: " << ARC1.element_count() << endl;
   Lattice SS2H1("SS2H1");
   SS2H1 = {new MQuad(p, qfa2_pars),
   	   new Drift(p, od_len, "OD1"),
@@ -142,6 +145,7 @@ int main(int argc, char** argv) {
   	   new Drift(p, bpm_len, "BPM"),
   	   new Drift(p, od_len, "OD1"),
   	   new MQuad(p, qda2_pars)};
+  cout << "SS2H1 size: "<< SS2H1.element_count() << endl;
   Lattice SS2H2("SS2H2");
   SS2H2 = {new MQuad(p, qda2_pars),
   	   new Drift(p, od_len, "OD1"),
@@ -172,8 +176,10 @@ int main(int argc, char** argv) {
   	   new Drift(p, bpm_len, "BPM"),
   	   new Drift(p, od_len, "OD1"),
   	   new MQuad(p, qfa2_pars)};
+  cout << "SS2H2 size: "<< SS2H2.element_count() << endl;
   Lattice ARC2(ARC1);
   ARC2.rename("ARC2");
+  cout << "ARC2 size: " << ARC2.element_count() << endl;
   Lattice SS1H1("SS1H1");
   SS1H1 = {new MQuad(p, qfa2_pars),
   	   new Drift(p, od_len, "OD1"),
@@ -205,10 +211,22 @@ int main(int argc, char** argv) {
   	   new Drift(p, od_len, "OD1"),
   	   new MQuad(p, qda2_pars)};
 
+  cout << "SS1H1 size: " << SS1H1.element_count() << endl;
   Lattice lattice("BNL");
-  lattice << SS1H2 << ARC1 << SS2H1 << SS2H2 << ARC2 << SS1H1;
-
-
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  lattice << SS1H2;
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  lattice << ARC1;
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  lattice << SS2H1;
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  lattice << SS2H2;
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  lattice << ARC2;
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  lattice << SS1H1;
+  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
+  
   RFPars rf_pars;
   rf_pars.E_field=15e7;
   lattice.insert_RF(0, p, rf_pars);
@@ -225,7 +243,7 @@ int main(int argc, char** argv) {
        << "\t turn: " << turn_eid.first << endl
        << "\t eid: " << turn_eid.second << endl;
 
-  cout << log.size() << endl;
+  cout << "Log #records: " log.size() << endl;
   ofstream out_file;
   out_file.open("../data/BNL.dat");
   out_file << scientific << setprecision(4) << log;
