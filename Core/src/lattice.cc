@@ -46,8 +46,9 @@ Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
 
 Lattice& Lattice::replicate(size_t repeat_factor){
   sequence_.reserve(this->element_count()*repeat_factor); // preallocate memory
+  Lattice copy(*this); // save the basic state
   for (size_t i=1; i<repeat_factor; i++){
-    sequence_.insert(this->end(), this->begin(), this->end());
+    sequence_.insert(this->end(), copy.begin(), copy.end());
   }
   length_ *= repeat_factor;
   return *this;
