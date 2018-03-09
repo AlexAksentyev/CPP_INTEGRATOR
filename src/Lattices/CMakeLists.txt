@@ -28,7 +28,8 @@ link_directories(${PROJ_ROOT_DIR}/lib)
 
 ## adding executables
 set(APP_SOURCES "${CMAKE_SOURCE_DIR}/FODO_lattice.cc"
-  "${CMAKE_SOURCE_DIR}/BNL.cc")
+  "${CMAKE_SOURCE_DIR}/BNL.cc"
+  "${CMAKE_SOURCE_DIR}/test_lattice.cc")
 
 foreach(app_src_filename ${APP_SOURCES})
   get_filename_component(app_name ${app_src_filename} NAME_WE)
