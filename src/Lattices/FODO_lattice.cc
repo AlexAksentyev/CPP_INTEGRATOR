@@ -43,7 +43,8 @@ int main(int argc, char** argv) {
   
    // creating the state ensemble
   string home_dir = getenv("HOME");
-  string config_dir = home_dir+"/REPOS/CPP_INTEGRATOR/Lattices/config";
+  string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
+  string config_dir = root_dir+"/config";
   //  string filename = config_dir + "/state.conf";
   rhs::State state = utilities::read_matrix<rhs::State>(config_dir + "/state.conf");
 
@@ -90,7 +91,9 @@ int main(int argc, char** argv) {
   RFPars rf_pars;
   rf_pars.E_field=15e7;
   
-  lattice.insert_RF(0, p, rf_pars);
+   lattice.insert_RF(0, p, rf_pars);
+
+  cout << "FODO element count: " << lattice.element_count() << endl;
 
   data_log::DataLog log;
   clock_t t;
@@ -105,7 +108,7 @@ int main(int argc, char** argv) {
 
   cout << log.size() << endl;
   ofstream out_file;
-  out_file.open("../data/FODO_lattice.dat");
+  out_file.open( root_dir+"/data/FODO_lattice.dat");
   out_file << scientific << setprecision(4) << log;
   out_file.close();
 
