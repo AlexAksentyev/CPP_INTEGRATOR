@@ -119,6 +119,6 @@ void RightHandSide::operator() (const State &state,
   //setting derivatives
   derivative.col(0) = xp; derivative.col(1) = yp; derivative.col(2) = I;
   derivative.col(3) = tp; derivative.col(4) = w_freq_*tp; derivative.col(5) = Hp;
-  derivative.col(6) = Pxp/P0c; derivative.col(7) = Pyp/P0c; derivative.col(8) = dK/particle_.kinetic_energy();
+  derivative.col(6) = Pxp/P0c; derivative.col(7) = Pyp/P0c; derivative.col(8) = dKp/particle_.kinetic_energy();
   derivative.col(9) = Sxp; derivative.col(10) = Syp; derivative.col(11) = Szp;
 }
