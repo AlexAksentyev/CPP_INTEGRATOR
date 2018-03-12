@@ -5,6 +5,7 @@
 #include <random>
 #include <math.h>
 #include <typeinfo>
+#include <time.h>
 
 using Gauss = std::normal_distribution<double>;
 
@@ -204,12 +205,17 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   //tracking proper
   Lattice::element_iterator element;
   int old_percent=-1, percent;
+  time_t t;
   for (turn=1; turn<=num_turns; turn++){
     for(element=this->begin(), eid=1;
 	element!=this->end();
 	++element, eid++){
-
+      t=clock();
       element->track_through(ini_state); // track through the current element
+      t=clock()-t;
+      cout << element->name() << " track_through " << (float)t/CLOCKS_PER_SEC << endl;
+
+      t=clock();
 
       go_on = !std::isnan(ini_state.norm()); // if the norm is nan, state contains nans,
       // therefore, stop tracking
@@ -220,6 +226,9 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       if (!go_on)
 	return pair<size_t, size_t>(turn, eid);
+
+      t=clock()-t;
+      cout << "\t rest: " << (float)t/CLOCKS_PER_SEC << endl;
     }
     percent = ((double)turn-1)/num_turns*100;
     if (percent/10 != old_percent/10){
