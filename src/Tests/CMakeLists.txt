@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 project(TEST)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os -fopenmp")
 
 set(PROJ_ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT_DIR}/bin/Tests")
@@ -27,7 +27,7 @@ endif(APPLE)
 link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
-set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/operator_plus.cc)
+set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/eigen_numpy_speed.cc)
 
 foreach(test_src_filename ${TEST_SOURCES})
   get_filename_component(test_name ${test_src_filename} NAME_WE)
