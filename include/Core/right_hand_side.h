@@ -10,10 +10,12 @@
 #ifndef RIGHT_HAND_SIDE_H
 #define RIGHT_HAND_SIDE_H
 
-#include <vector>
+//#include <vector>
 #include <Eigen/Dense>
 #include <string>
-#include <boost/bimap.hpp>
+//#include <boost/bimap.hpp>
+
+#include <Core/state.h>
 
 namespace integrator {
   class Particle;
@@ -22,14 +24,14 @@ namespace integrator {
 
   namespace rhs{
 
-    using imap_type = boost::bimap<boost::bimaps::set_of<std::string>, boost::bimaps::set_of<int>>;
-    static const std::vector<imap_type::value_type>v{{"x",  0},  {"y",     1},  {"s",   2},
-						     {"t",  3},  {"Theta", 4},  {"H",   5},
-					             {"px", 6},  {"py",    7},  {"dK",  8},
-					 	     {"Sx", 9},  {"Sy",   10},  {"Sz", 11}};
-    static const imap_type VMAP(v.begin(), v.end());
+    // using imap_type = boost::bimap<boost::bimaps::set_of<std::string>, boost::bimaps::set_of<int>>;
+    // static const std::vector<imap_type::value_type>v{{"x",  0},  {"y",     1},  {"s",   2},
+    // 						     {"t",  3},  {"Theta", 4},  {"H",   5},
+    // 					             {"px", 6},  {"py",    7},  {"dK",  8},
+    // 					 	     {"Sx", 9},  {"Sy",   10},  {"Sz", 11}};
+    // static const imap_type VMAP(v.begin(), v.end());
 
-    static const int VAR_NUM = 12;
+    // static const int VAR_NUM = 12;
 
     // variable names
     /*   x, y, s, */        // 0,  1,  2
@@ -37,7 +39,7 @@ namespace integrator {
     /*   px, py, dK, */     // 6,  7,  8
     /*   Sx, Sy, Sz */      // 9,  10, 11
 
-    using State = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
+    // using State = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 
     class RightHandSide{
       Particle& particle_;
@@ -49,7 +51,7 @@ namespace integrator {
       RightHandSide(Particle& reference_particle, element::Element& host_element);
       RightHandSide(const RightHandSide& to_copy, element::Element& new_host);
       RightHandSide(const RightHandSide& to_copy);
-      void operator() (const rhs::State &x , rhs::State &dxds, const double /* s*/);
+      void operator() (const State &x , State &dxds, const double /* s*/);
       void set_w_freq(double value) {w_freq_ = value;}
     };
   } // namespace RHS

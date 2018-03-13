@@ -4,13 +4,132 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <string>
-
+#include <vector>
+#include <math.h>
 
 namespace integrator {
   const double CLIGHT = 2.99792458e8; // m/s
   const double EZERO = 1.602176462e-19; // Coulomb
 
-  using VariableCol = Eigen::ArrayXd;
+  using VariableCol = std::vector<double>;//Eigen::ArrayXd;
+
+  VariableCol& operator+=(VariableCol& lhs, const VariableCol& rhs){
+    size_t n_lhs = lhs.size();
+    size_t n_rhs = rhs.size();
+    if (n_lhs != n_rhs)
+      std::cout << "LHS size != RHS size" << std::endl;
+
+    for (size_t i=0; i< n_lhs; i++)
+      lhs[i] += rhs[i];
+
+    return lhs;
+  }
+  inline VariableCol operator+(VariableCol lhs, const VariableCol& rhs){
+    lhs += rhs;
+    return lhs;
+  }
+
+  VariableCol& operator-=(VariableCol& lhs, const VariableCol& rhs){
+    size_t n_lhs = lhs.size();
+    size_t n_rhs = rhs.size();
+    if (n_lhs != n_rhs)
+      std::cout << "LHS size != RHS size" << std::endl;
+
+    for (size_t i=0; i< n_lhs; i++)
+      lhs[i] -= rhs[i];
+
+    return lhs;
+  }
+  inline VariableCol operator-(VariableCol lhs, const VariableCol& rhs){
+    lhs -= rhs;
+    return lhs;
+  }
+
+  VariableCol& operator*=(VariableCol& vec, double factor){
+    for (VariableCol::iterator it=vec.begin();
+	 it!=vec.end();
+	 ++it)
+      *it *= factor;
+
+    return vec;
+  }
+
+  inline VariableCol operator*(double factor, const VariableCol& vec){
+    VariableCol res(vec);
+    res *= factor;
+    return res;
+  }
+  inline VariableCol operator*(const VariableCol& vec, double factor){
+    VariableCol res(vec);
+    res *= factor;
+    return res;
+  }
+
+  VariableCol& operator/=(VariableCol& vec, double factor){
+    for (VariableCol::iterator it=vec.begin();
+	 it!=vec.end();
+	 ++it)
+      *it /= factor;
+
+    return vec;
+  }
+
+  inline VariableCol operator/(const VariableCol& vec, double factor){
+    VariableCol res(vec);
+    res /= factor;
+    return res;
+  }
+
+  VariableCol& operator/=(VariableCol& lhs, const VariableCol& rhs){
+    size_t n_lhs = lhs.size();
+    size_t n_rhs = rhs.size();
+    if (n_lhs != n_rhs)
+      std::cout << "LHS size != RHS size" << std::endl;
+
+    for (size_t i=0; i< n_lhs; i++)
+      lhs[i] /= rhs[i];
+
+    return lhs;
+  }
+
+  inline VariableCol operator/(VariableCol lhs, const VariableCol& rhs){
+    lhs /= rhs;
+    return lhs;
+  }
+
+  VariableCol& operator*=(VariableCol& lhs, const VariableCol& rhs){
+    size_t n_lhs = lhs.size();
+    size_t n_rhs = rhs.size();
+    if (n_lhs != n_rhs)
+      std::cout << "LHS size != RHS size" << std::endl;
+
+    for (size_t i=0; i< n_lhs; i++)
+      lhs[i] *= rhs[i];
+
+    return lhs;
+  }
+
+  inline VariableCol operator*(VariableCol lhs, const VariableCol& rhs){
+    lhs *= rhs;
+    return lhs;
+  }
+
+  VariableCol sqrt(VariableCol vec){
+    for(VariableCol::iterator it=vec.begin();
+	it!=vec.end();
+	++it)
+      *it = std::sqrt(*it);
+
+    return vec;
+  }
+
+  std::ostream& operator<<(std::ostream& out_stream, VariableCol& vec){
+    for (VariableCol::iterator it=vec.begin();
+	 it!=vec.end();
+	 ++it)
+      out_stream << *it << std::endl;
+    return out_stream;
+  }
 
   class Particle{
     double gamma_;

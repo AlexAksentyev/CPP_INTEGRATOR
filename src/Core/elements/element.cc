@@ -16,27 +16,30 @@ using namespace integrator::element;
 Element::Element(Particle& particle, double curve, double length, std::string name)
   : rhs_(particle, *this),
     curve_(curve), length_(length), name_(name),
-    E_field_base_(0,0,0), B_field_base_(0,0,0),
+    E_field_base_{0,0,0}, B_field_base_{0,0,0},
     tilt(){}
 
 Element::Element(const Element& to_copy)
   : rhs_(to_copy.rhs_, *this),
     curve_(to_copy.curve_), length_(to_copy.length_),
     name_(to_copy.name_),
-    E_field_base_(to_copy.E_field_base_),
-    B_field_base_(to_copy.B_field_base_),
     tilt(to_copy.tilt),
     E_field_vectorized_(to_copy.E_field_vectorized_),
-    B_field_vectorized_(to_copy.B_field_vectorized_){}
+    B_field_vectorized_(to_copy.B_field_vectorized_){
+  for (size_t i=0; i<3; i++){
+    E_field_base_[i] = to.copy.E_field_base_[i];
+    B_field_base_[i] = to.copy.B_field_base_[i];
+  }
+}
 
 void Element::vectorize_fields(State state_matrix){
   // when the initial state ensemble is known, run
   // this function before tracking proper
-  int state_num = state_matrix.rows();
+  int state_num = state_matrix.count();
   
-  E_field_vectorized_ = E_field_base_.replicate(1, state_num);
-  E_field_prime_s_vectorized_ = VectorizedField::Zero(3, state_num);
-  B_field_vectorized_ = B_field_base_.replicate(1, state_num);
+  E_field_vectorized_.set(E_field_base_, state_num);
+  E_field_prime_s_vectorized_ = VectorizedField::Zero(state_num);
+  B_field_vectorized_.set(B_field_base_, state_num);
 }
 
 void Element::print_fields(){

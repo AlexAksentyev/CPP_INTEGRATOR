@@ -29,17 +29,16 @@ void RightHandSide::operator() (const State &state,
 				State &derivative,
 				const double /* s*/){
 
-  int state_num = state.rows();
+  int state_num = state.count();
   double kappa = host_.curve();
-  VariableCol I = VariableCol::Ones(state_num);
-  // VariableCol x = state.col(0);
-  VariableCol hs = I + (VariableCol)state.col(0)*kappa; // hs = 1 + kappa*x
+  VariableCol I = VariableCol(state_num, 1);
+  VariableCol hs = I + state.var(0)*kappa; // hs = 1 + kappa*x
 
   double P0c = particle_.Pc();
-  VariableCol Px = state.col(6)*P0c;
-  VariableCol Py = state.col(7)*P0c;
+  VariableCol Px = state.var("Px")*P0c;
+  VariableCol Py = state.var(7)*P0c;
 
-  VariableCol dK = state.col(8);
+  VariableCol dK = state.var(8);
   VariableCol kin_energy = particle_.kinetic_energy(dK);
   VariableCol Pc = particle_.Pc(dK);
   VariableCol Ps = sqrt(Pc*Pc - Px*Px - Py*Py);
@@ -56,11 +55,11 @@ void RightHandSide::operator() (const State &state,
   VectorizedField E_field_prime_s = host_.EField_prime_s(state);
   VectorizedField B_field = host_.BField(state);
 
-  VariableCol Ex = E_field.row(0), Ey = E_field.row(1), Es = E_field.row(2);
-  VariableCol Esp = E_field_prime_s.row(2);
-  VariableCol Bx = B_field.row(0), By = B_field.row(1), Bs = B_field.row(2);
+  VariableCol Ex = E_field.x(), Ey = E_field.y(), Es = E_field.z();
+  VariableCol Esp = E_field_prime_s.z();
+  VariableCol Bx = B_field.x(), By = B_field.y(), Bs = B_field.z();
 
-  VariableCol s = state.col(2);
+  VariableCol s = state.var(2);
   VariableCol dKp = (Ex*xp + Ey*yp + Es + Esp*s)*1e-6;
   // this formula is for static fields (cf Andrey's thesis p 25)
   // for dynamically varying fields (like RF) add the term:
@@ -97,9 +96,9 @@ void RightHandSide::operator() (const State &state,
   VariableCol sp2 = tp*( EZERO / (gamma*m0_kg*m0_kg * m0c2)) *
     G/(1 + gamma) * (Px*Bx +Py*By +Ps*Bs);
 
-  VariableCol Sx = state.col(9);
-  VariableCol Sy = state.col(10);
-  VariableCol Sz = state.col(11);
+  VariableCol Sx = state.var(9);
+  VariableCol Sy = state.var(10);
+  VariableCol Sz = state.var(11);
   
   VariableCol Sxp = kappa * Sz +
     t6 * ((Ps * Ex - Px * Es) * Sz  -
@@ -117,8 +116,8 @@ void RightHandSide::operator() (const State &state,
     (sp1*By+sp2*Py)*Sx;
   
   //setting derivatives
-  derivative.col(0) = xp; derivative.col(1) = yp; derivative.col(2) = I;
-  derivative.col(3) = tp; derivative.col(4) = w_freq_*tp; derivative.col(5) = Hp;
-  derivative.col(6) = Pxp/P0c; derivative.col(7) = Pyp/P0c; derivative.col(8) = dKp/particle_.kinetic_energy();
-  derivative.col(9) = Sxp; derivative.col(10) = Syp; derivative.col(11) = Szp;
+  derivative.var(0) = xp; derivative.var(1) = yp; derivative.var(2) = I;
+  derivative.var(3) = tp; derivative.var(4) = w_freq_*tp; derivative.var(5) = Hp;
+  derivative.var(6) = Pxp/P0c; derivative.var(7) = Pyp/P0c; derivative.var(8) = dKp/particle_.kinetic_energy();
+  derivative.var(9) = Sxp; derivative.var(10) = Syp; derivative.var(11) = Szp;
 }
