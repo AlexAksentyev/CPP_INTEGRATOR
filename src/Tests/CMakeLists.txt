@@ -10,7 +10,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT_DIR}/bin/Tests")
 # project headers
 include_directories("${PROJ_ROOT_DIR}/include")
 
-find_package(Boost 1.66.0 COMPONENTS REQUIRED system iostreams)
+set(BOOST_LIBRARYDIR "/usr/local/boost_1_66_0/stage/lib")
+find_package(Boost 1.66.0 COMPONENTS REQUIRED timer system iostreams)
 # external headers
 if(APPLE)
   set(CELLAR "/usr/local/Cellar")
@@ -21,13 +22,13 @@ if(APPLE)
 else(APPLE)
   include_directories("/usr/local/boost_1_66_0"
     "/usr/include/eigen3")
-  link_directories(/usr/local/boost_1_66_0/stage/lib)
+  link_directories("/usr/local/boost_1_66_0/stage/lib")
 endif(APPLE)
 
 link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
-set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/eigen_numpy_speed.cc)
+set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/odeint_parallel.cc)
 
 foreach(test_src_filename ${TEST_SOURCES})
   get_filename_component(test_name ${test_src_filename} NAME_WE)
