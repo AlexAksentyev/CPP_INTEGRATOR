@@ -11,6 +11,7 @@
  * http://www.boost.org/LICENSE_1_0.txt)
  */
 
+#include <stdlib.h>
 #include <iostream>
 #include <vector>
 #include <boost/random.hpp>
@@ -61,35 +62,35 @@ struct phase_chain
 
 int main( int argc , char **argv )
 {
-    //[phase_chain_init
-    size_t N = 531101;
-    state_type x( N );
-    boost::random::uniform_real_distribution<double> distribution( 0.0 , 2.0*pi );
-    boost::random::mt19937 engine( 0 );
-    generate( x.begin() , x.end() , boost::bind( distribution , engine ) );
-    //]
+  //[phase_chain_init
+  size_t N = atoi(argv[1]);
+  state_type x( N );
+  boost::random::uniform_real_distribution<double> distribution( 0.0 , 2.0*pi );
+  boost::random::mt19937 engine( 0 );
+  generate( x.begin() , x.end() , boost::bind( distribution , engine ) );
+  //]
 
-    //[phase_chain_stepper
-    typedef runge_kutta4<
-      state_type , double ,
-      state_type , double ,
-      openmp_range_algebra
-      > stepper_type;
-    //]
+  //[phase_chain_stepper
+  typedef runge_kutta4<
+    state_type , double ,
+    state_type , double ,
+    openmp_range_algebra
+    > stepper_type;
+  //]
 
-    //[phase_chain_scheduling
-    int chunk_size = N/omp_get_max_threads();
-    omp_set_schedule( omp_sched_static , chunk_size );
-    //]
+  //[phase_chain_scheduling
+  int chunk_size = N/omp_get_max_threads();
+  omp_set_schedule( omp_sched_static , chunk_size );
+  //]
 
-    cpu_timer timer;
-    //[phase_chain_integrate
-    integrate_n_steps( stepper_type() , phase_chain( 1.2 ) ,
-                       x , 0.0 , 0.01 , 100 );
-    //]
-    double run_time = static_cast<double>(timer.elapsed().wall) * 1.0e-9;
-    std::cerr << run_time << "s" << std::endl;
-    // copy(x.begin(), x.end(), ostream_iterator<double>(cout, "\n"));
+  cpu_timer timer;
+  //[phase_chain_integrate
+  integrate_n_steps( stepper_type() , phase_chain( 1.2 ) ,
+		     x , 0.0 , 0.01 , 100 );
+  //]
+  double run_time = static_cast<double>(timer.elapsed().wall) * 1.0e-9;
+  std::cerr << run_time << "s" << std::endl;
+  // copy(x.begin(), x.end(), ostream_iterator<double>(cout, "\n"));
 
-    return 0;
+  return 0;
 }
