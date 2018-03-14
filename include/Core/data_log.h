@@ -14,7 +14,8 @@
 #include <iomanip>
 #include <iostream>
 
-#include "Core/right_hand_side.h"
+//#include "Core/right_hand_side.h"
+#include <Core/state.h>
 
 namespace integrator {
   namespace data_log{
@@ -47,7 +48,7 @@ namespace integrator {
     };
 
     class DataLog{
-      std::vector<rhs::State> system_state_;
+      std::vector<State> system_state_;
       std::vector<double> system_position_;
       // std::vector<std::string> element_name_;
       std::vector<MetaData> state_metadata_;
@@ -57,9 +58,9 @@ namespace integrator {
 
       DataLog() : system_state_(), system_position_(), state_metadata_(), reference_pid_(0){}
   
-      void operator() (const rhs::State &state, double position);
-      //  void operator() (const rhs::State &state, double position, std::string element_name);
-      void operator() (const rhs::State &state, double position, const MetaData& );
+      void operator() (const State &state, double position);
+      //  void operator() (const State &state, double position, std::string element_name);
+      void operator() (const State &state, double position, const MetaData& );
   
       void set_reference(int pid){reference_pid_ = pid;}
 
@@ -69,15 +70,15 @@ namespace integrator {
       friend std::ostream& operator<<(std::ostream& out_stream, const DataLog& data_log){
 	using namespace std;
 	int num_rows = data_log.system_position_.size();
-	int num_states = data_log.system_state_[0].rows();
+	int num_states = data_log.system_state_[0].count();
 	// printing header 
 	out_stream << setw(COL_WIDTH) << "#turn" // # for gnuplot comment
 		   << setw(COL_WIDTH) << "name"
 		   << setw(COL_WIDTH) << "EID"
 		   << setw(COL_WIDTH) << "s_loc"
 		   << setw(COL_WIDTH) << "PID";
-	for (int j=0; j<rhs::VAR_NUM; j++) // variable names
-	  out_stream << setw(COL_WIDTH) << rhs::VMAP.right.at(j);
+	for (int j=0; j<VAR_NUM; j++) // variable names
+	  out_stream << setw(COL_WIDTH) << VMAP.right.at(j);
 	out_stream << endl;
 
 	for (int state_i=0; state_i<num_rows; state_i++){ // current ensemble state
@@ -86,7 +87,7 @@ namespace integrator {
 		       << setw(COL_WIDTH) << data_log.system_position_[state_i]
 		       << setw(COL_WIDTH) << pid;
 
-	    for (int var_j=0; var_j<rhs::VAR_NUM; var_j++) // state values
+	    for (int var_j=0; var_j<VAR_NUM; var_j++) // state values
 	      out_stream << setw(COL_WIDTH) << data_log.system_state_[state_i](pid, var_j);
 
 	    out_stream << endl;

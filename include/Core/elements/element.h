@@ -57,8 +57,8 @@ namespace integrator {
       rhs::RightHandSide rhs_;
 
     protected:
-      double E_field_base_[3];
-      double B_field_base_[3];
+      Vector3d E_field_base_;
+      Vector3d B_field_base_;
       VectorizedField E_field_vectorized_;
       VectorizedField E_field_prime_s_vectorized_;
       VectorizedField B_field_vectorized_;
