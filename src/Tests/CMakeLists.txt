@@ -27,7 +27,7 @@ endif(APPLE)
 link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
-set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/eigen_numpy_speed.cc)
+set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/stiff_system.cpp)
 
 foreach(test_src_filename ${TEST_SOURCES})
   get_filename_component(test_name ${test_src_filename} NAME_WE)
