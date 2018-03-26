@@ -1,3 +1,6 @@
+#ifndef READ_MATRIX_H
+#define READ_MATRIX_H
+
 #include <Eigen/Dense>
 
 #include <stdlib.h>
@@ -28,3 +31,5 @@ namespace utilities {
     return Eigen::Map<const Eigen::Matrix<typename M::Scalar, M::RowsAtCompileTime, M::ColsAtCompileTime, Eigen::RowMajor>>(values.data(), rows, values.size()/rows);
   }
 } // namespace utilities
+
+#endif // READ_MATRIX_H
