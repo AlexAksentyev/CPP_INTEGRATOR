@@ -10,8 +10,8 @@
 
 const static int VAR_NUM = 2;
 
-using State = boost::numeric::ublas::vector<double>;
-// std::vector<double>;
+using State = //boost::numeric::ublas::vector<double>;
+std::vector<double>;
 // Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 using VarCol = Eigen::ArrayXd;
 
@@ -86,7 +86,7 @@ int main(int argc, char** argv){
   double sq_sum = std::inner_product(run_times.begin(), run_times.end(), run_times.begin(), 0.0);
   double stdev = std::sqrt(sq_sum / run_times.size() - mean * mean);
 
-  cout << mean << " +- " << stdev << endl;
+  cout << mean - stdev << ", " << mean + stdev  << endl;
   
   return steps;
 
