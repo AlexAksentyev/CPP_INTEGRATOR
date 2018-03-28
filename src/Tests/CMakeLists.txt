@@ -27,7 +27,7 @@ endif(APPLE)
 link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
-set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/odeint_eigen_test.cc)
+set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/varcol_const_iterator_test.cc)
 
 foreach(test_src_filename ${TEST_SOURCES})
   get_filename_component(test_name ${test_src_filename} NAME_WE)
