@@ -14,7 +14,8 @@
 
 #include "Core/elements/element.h"
 #include "Core/elements/rf_element.h"
-#include "Core/right_hand_side.h" // provides rhs::State typedef
+// #include "Core/right_hand_side.h" // provides rhs::State typedef
+#include <Core/state.h> 
 
 namespace integrator{
   struct RFMeta {
@@ -97,7 +98,7 @@ namespace integrator{
 
     // data_log::DataLog passed here doesn't go to element::track_through,
     // and only logs the state after passing through the element
-    std::pair<size_t, size_t> track_through(rhs::State&, data_log::DataLog&, size_t number_of_turns);
+    std::pair<size_t, size_t> track_through(State&, data_log::DataLog&, size_t number_of_turns);
   };
 
   inline Lattice operator+(Lattice lhs, Lattice& rhs){

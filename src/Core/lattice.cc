@@ -3,7 +3,7 @@
 
 #include "Core/lattice.h"
 #include <random>
-#include <math.h>
+// #include <math.h>
 #include <typeinfo>
 #include <time.h>
 
@@ -12,7 +12,7 @@ using Gauss = std::normal_distribution<double>;
 using namespace std;
 using namespace integrator;
 using namespace integrator::data_log;
-using namespace integrator::rhs;
+using namespace integrator;
 using namespace integrator::element;
 
 Lattice::Lattice(string name)
@@ -217,8 +217,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       t=clock();
 
-      go_on = !std::isnan(ini_state.norm()); // if the norm is nan, state contains nans,
-      // therefore, stop tracking
+      go_on = !ini_state.has_NaN(); // if state has NaNs, stop tracking
 
       current_s += element->length(); // current position s of the beam along the optical axis
       metadata.overwrite(turn, element->name(), eid); // overwrite metadata for current turn, element

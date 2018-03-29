@@ -24,7 +24,7 @@ namespace integrator {
       MSext(Particle& particle, GradFieldPars gfpars)
 	: MSext(particle, gfpars.length, gfpars.grad, gfpars.name) {}
 
-      VectorizedField BField(rhs::State state);
+      VectorizedField BField(State state);
     };
   } // element namespace
 } // namespace integrator

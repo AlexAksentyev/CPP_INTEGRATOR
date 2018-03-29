@@ -40,11 +40,11 @@ namespace integrator {
       double w_freq(){return w_freq_;}
     
       bool is_RF(){return true;}
-      VectorizedField EField(rhs::State state);
-      VectorizedField EField_prime_s(rhs::State state);
+      VectorizedField EField(State state);
+      VectorizedField EField_prime_s(State state);
   
-      void front_kick(rhs::State& state);
-      void rear_kick(rhs::State& state);
+      void front_kick(State& state);
+      void rear_kick(State& state);
 
       friend std::ostream& operator<<(std::ostream& out_stream, const ERF& element){
 	using namespace std;
@@ -62,8 +62,8 @@ namespace integrator {
       // implements advance()
       // version 1 logs intermediate states (before rear kick)
       // version 2 leaves logging to Lattice (hence logging after rear kick)
-      size_t track_through(rhs::State& ini_states, data_log::DataLog& observer); 
-      size_t track_through(rhs::State& ini_states);
+      size_t track_through(State& ini_states, data_log::DataLog& observer); 
+      size_t track_through(State& ini_states);
     };
   }// element namespace
 } // namespace integrator

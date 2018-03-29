@@ -2,7 +2,7 @@
 #include "Core/particle.h"
 #include <math.h>
 
-using namespace integrator::rhs;
+using namespace integrator;
 using namespace integrator::element;
 
 WFStraight::WFStraight(Particle& reference_particle,
@@ -18,12 +18,12 @@ WFStraight::WFStraight(Particle& reference_particle,
 }
 
 void WFStraight::front_kick(State& state){
-  for(int i=0; i<state.rows(); i++)
+  for(int i=0; i<state.count(); i++)
     state(i, 8) -= kick_voltage_*1e-6/ref_kinetic_energy_; // changes dK of state
 }
 
 void WFStraight::rear_kick(State& state){
- for(int i=0; i<state.rows(); i++)
+ for(int i=0; i<state.count(); i++)
     state(i, 8) += kick_voltage_*1e-6/ref_kinetic_energy_; // changes dK of state
 }
 
@@ -59,18 +59,18 @@ double WFCylindrical::kick_voltage(double x){
 }
 
 VectorizedField WFCylindrical::EField(State state){
-  for(int j=0; j<state.rows(); j++)
+  for(int j=0; j<state.count(); j++)
     E_field_vectorized_(0, j) = E_field_base_(0)/(1 + curve()*state(j, 0)); // E0/(1 + crv*x)
 
   return tilt.transform*E_field_vectorized_;
 }
 
 void WFCylindrical::front_kick(State& state){
-  for(int i=0; i<state.rows(); i++)
+  for(int i=0; i<state.count(); i++)
     state(i, 8) -= kick_voltage(state(i, 0))*1e-6/ref_kinetic_energy_; // changes dK of state
 }
 
 void WFCylindrical::rear_kick(State& state){
-  for(int i=0; i<state.rows(); i++)
+  for(int i=0; i<state.count(); i++)
     state(i, 8) += kick_voltage(state(i, 0))*1e-6/ref_kinetic_energy_; // changes dK of state
 }

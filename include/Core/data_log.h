@@ -48,7 +48,7 @@ namespace integrator {
     };
 
     class DataLog{
-      std::vector<State> system_state_;
+      std::vector<integrator::State> system_state_;
       std::vector<double> system_position_;
       // std::vector<std::string> element_name_;
       std::vector<MetaData> state_metadata_;
@@ -68,32 +68,7 @@ namespace integrator {
   
       void write_to_file(std::string name, std::string dir = "../data"); // binary is in bin, go out
       friend std::ostream& operator<<(std::ostream& out_stream, const DataLog& data_log){
-	using namespace std;
-	int num_rows = data_log.system_position_.size();
-	int num_states = data_log.system_state_[0].count();
-	// printing header 
-	out_stream << setw(COL_WIDTH) << "#turn" // # for gnuplot comment
-		   << setw(COL_WIDTH) << "name"
-		   << setw(COL_WIDTH) << "EID"
-		   << setw(COL_WIDTH) << "s_loc"
-		   << setw(COL_WIDTH) << "PID";
-	for (int j=0; j<VAR_NUM; j++) // variable names
-	  out_stream << setw(COL_WIDTH) << VMAP.right.at(j);
-	out_stream << endl;
-
-	for (int state_i=0; state_i<num_rows; state_i++){ // current ensemble state
-	  for(int pid=0; pid<num_states; pid++){ // particle pid
-	    out_stream << setw(COL_WIDTH) << data_log.state_metadata_[state_i]
-		       << setw(COL_WIDTH) << data_log.system_position_[state_i]
-		       << setw(COL_WIDTH) << pid;
-
-	    for (int var_j=0; var_j<VAR_NUM; var_j++) // state values
-	      out_stream << setw(COL_WIDTH) << data_log.system_state_[state_i](pid, var_j);
-
-	    out_stream << endl;
-	  }
-	  out_stream << "#\n";
-	}
+	// TO FINISH
 	return out_stream;
       }
     

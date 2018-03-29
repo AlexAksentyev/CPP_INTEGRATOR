@@ -82,12 +82,10 @@ void Element::print(){
        << "name: " << name_  << endl;
 }
 
-size_t Element::track_through(State& ini_states, DataLog& observer){
+size_t Element::track_through(integrator::State& ini_states, DataLog& observer){
   this->vectorize_fields(ini_states); // remove this later when have class Lattice
   using namespace boost::numeric::odeint;
-  runge_kutta_dopri5<State, double,
-		     State, double,
-		     vector_space_algebra> stepper;
+  runge_kutta_dopri5<integrator::State> stepper;
   double delta_s = length_/100;
   front_kick(ini_states);
   size_t num_steps = integrate_adaptive(stepper, this->rhs_, ini_states, 0., length_, delta_s, observer);
@@ -96,12 +94,10 @@ size_t Element::track_through(State& ini_states, DataLog& observer){
   return num_steps;
 }
 
-size_t Element::track_through(State& ini_states){
+size_t Element::track_through(integrator::State& ini_states){
   //  this->vectorize_fields(ini_states); // this is now done in Lattice::track_through
   using namespace boost::numeric::odeint;
-  runge_kutta_dopri5<State, double,
-		     State, double,
-		     vector_space_algebra> stepper;
+  runge_kutta_dopri5<integrator::State> stepper;
   double delta_s = length_/100;
   front_kick(ini_states);
   size_t num_steps=integrate_adaptive(stepper, this->rhs_, ini_states, 0., length_, delta_s);

@@ -1,10 +1,9 @@
-#include "Core/particle.h"
+#include <Core/particle.h>
 
 #include <vector>
 #include <fstream>
 
 using namespace std;
-// using namespace Eigen;
 using namespace integrator;
 
 Particle::Particle(double mass0, double gamma, double G)
@@ -105,20 +104,3 @@ Particle Particle::from_config(const std::string & path){
   particle_file.close();
   return Particle(values[0], values[2], values[3]); // take Mass, gamma, G
 }
-
-// Particle integrator::read_particle_csv(const string & path){
-//   cout << "Particle read_particle" << endl;
-//   string header, data;
-//   vector<double> values;
-//   ifstream particle_file;
-//   particle_file.open(path);
-//   getline(particle_file, header);
-//   cout << header << endl;
-//   getline(particle_file, data);
-//   stringstream lineStream(data);
-//   string cell;
-//   while (getline(lineStream, cell, ',')) {
-//     values.push_back(stod(cell));
-//   }
-//   return Particle(values[0], values[1], values[2]);
-// }

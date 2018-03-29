@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
   string config_dir = root_dir+"/config";
   cout << "Reading state config" << endl;
-  rhs::State state = utilities::read_matrix<rhs::State>(config_dir + "/state.conf");
+  State state(config_dir + "/state.conf");
 
   // defining the particle
   cout << "Reading particle config" << endl;

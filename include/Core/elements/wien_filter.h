@@ -30,8 +30,8 @@ namespace integrator {
 		     wfpars.E_field, wfpars.B_field,
 		     wfpars.name) {}
 
-      void front_kick(rhs::State& state);
-      void rear_kick(rhs::State& state);
+      void front_kick(State& state);
+      void rear_kick(State& state);
     };
 
     class WFCylindrical : public Element {
@@ -52,9 +52,9 @@ namespace integrator {
 		     wfpars.E_field, wfpars.B_field,
 		     wfpars.name) {}
 
-      VectorizedField EField(rhs::State state);
-      void front_kick(rhs::State& state);
-      void rear_kick(rhs::State& state);
+      VectorizedField EField(State state);
+      void front_kick(State& state);
+      void rear_kick(State& state);
     };
   } // element namespace
 } //namespace integrator

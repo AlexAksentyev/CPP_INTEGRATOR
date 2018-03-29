@@ -3,7 +3,7 @@
 // TODO:
 //    * data output is performed only inside odeint,
 //      but in python code I output values after odeint + rear_kick
-//    * copy constructor
+//      (lattice takes care of that anyway, though)
 
 #ifndef ELEMENT_H
 #define ELEMENT_H
@@ -57,8 +57,8 @@ namespace integrator {
       rhs::RightHandSide rhs_;
 
     protected:
-      Vector3d E_field_base_;
-      Vector3d B_field_base_;
+      Eigen::Vector3d E_field_base_;
+      Eigen::Vector3d B_field_base_;
       VectorizedField E_field_vectorized_;
       VectorizedField E_field_prime_s_vectorized_;
       VectorizedField B_field_vectorized_;
@@ -70,7 +70,7 @@ namespace integrator {
 
       Tilt tilt;
 
-      void vectorize_fields(rhs::State state_matrix); // public for now, might move
+      void vectorize_fields(State state_matrix); // public for now, might move
 
       Element(Particle& particle,
 	      double curve, double length,
@@ -92,12 +92,12 @@ namespace integrator {
       void print_fields(); // for testing purposes
       void print_vectorized_fields(); // testing
 
-      virtual VectorizedField EField(rhs::State state_matrix);
-      virtual VectorizedField EField_prime_s(rhs::State state_matrix);
-      virtual VectorizedField BField(rhs::State state_matrix);
+      virtual VectorizedField EField(State state_matrix);
+      virtual VectorizedField EField_prime_s(State state_matrix);
+      virtual VectorizedField BField(State state_matrix);
 
-      virtual void front_kick(rhs::State& state_matrix);
-      virtual void rear_kick(rhs::State& state_matrix);
+      virtual void front_kick(State& state_matrix);
+      virtual void rear_kick(State& state_matrix);
 
       void print();
       friend std::ostream& operator<<(std::ostream& out_stream, const Element& element){
@@ -113,10 +113,10 @@ namespace integrator {
       }
 
       // tracking with intermediate values output
-      virtual size_t track_through(rhs::State& ini_states, data_log::DataLog& observer);
+      virtual size_t track_through(State& ini_states, data_log::DataLog& observer);
       // tracking w/o intermediate values output;
       // data logging is handled in the Lattice class' track_through
-      virtual size_t track_through(rhs::State& ini_states);
+      virtual size_t track_through(State& ini_states);
     };
 
     inline Element* new_clone(const Element& e) {return e.clone();}
@@ -126,8 +126,8 @@ namespace integrator {
       Observer(Particle& particle, std::string name="Observer")
 	: Element(particle, 0, 0, name){}
 
-      size_t track_through(rhs::State& ini_states, data_log::DataLog& observer) {
-	observer(ini_states, ini_states(0, 2));
+      size_t track_through(State& ini_states, data_log::DataLog& observer) {
+	observer(ini_states, ini_states[2]);
 	return 0;
       }
     };

@@ -34,7 +34,7 @@ namespace integrator {
       MQuad(const MQuad& to_copy)
 	: Element(to_copy), grad_(to_copy.grad_) {}
 
-      VectorizedField BField(rhs::State state_matrix);
+      VectorizedField BField(State state_matrix);
 
       void print();
     };
