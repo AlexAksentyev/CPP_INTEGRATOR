@@ -2,7 +2,7 @@
 #define READ_MATRIX_H
 
 #include <Eigen/Dense>
-
+#include <iostream>
 #include <stdlib.h>
 #include <string>
 #include <vector>
