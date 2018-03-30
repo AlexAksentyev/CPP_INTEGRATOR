@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.9)
 project(LATTICE)
 
 set(CMAKE_CXX_STANDARD 11)
-#set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os -DNDEBUG -fopenmp -march=native")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O2 -DNDEBUG -march=native -ftree-vectorize")
+
+if (APPLE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Rpass-analysis=loop-vectorize")
+else(APPLE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopt-info-vec-optimized")
+endif(APPLE)
 
 set(PROJ_ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJ_ROOT_DIR}/bin/Lattices)
@@ -27,8 +33,8 @@ endif(APPLE)
 link_directories(${PROJ_ROOT_DIR}/lib)
 
 ## adding executables
-set(APP_SOURCES #"${CMAKE_SOURCE_DIR}/FODO_lattice.cc"
-  # "${CMAKE_SOURCE_DIR}/BNL.cc"
+set(APP_SOURCES "${CMAKE_SOURCE_DIR}/FODO_lattice.cc"
+  "${CMAKE_SOURCE_DIR}/BNL.cc"
   "${CMAKE_SOURCE_DIR}/test_lattice.cc"
   )
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <vector>
 
+#include <Core/state.h>
 #include <Core/right_hand_side.h>
 #include "Core/particle.h"
 #include <Core/lattice.h>
@@ -19,8 +20,6 @@
 
 #include <iomanip>
 #include <time.h>
-
-#include "Utilities/read_matrix.h" // read State information from .conf file
 
 using namespace integrator;
 
@@ -46,7 +45,7 @@ int main(int argc, char** argv) {
   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
   string config_dir = root_dir+"/config";
   cout << "Reading state config" << endl;
-  State state(config_dir + "/state.conf");
+  State state = State::from_config(config_dir + "/state.conf");
 
   // defining the particle
   cout << "Reading particle config" << endl;

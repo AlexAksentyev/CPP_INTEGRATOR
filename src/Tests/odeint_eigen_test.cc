@@ -72,9 +72,9 @@ public:
     // der.set(0, xp); der.set(1, yp);
 
     double w2 = w_*w_;
-    for (int i=0; i<state.size(); i+=State::VAR_NUM){
-      der[i] = state[i+1]; // y
-      der[i+1] = w2*state[i] + cos(w_*.95*t); // w^2*x
+    for (int i=0; i<state.count(); i++){
+      der(i, 0) = state(i, 1); // y
+      der(i, 1) = w2*state(i, 0) + cos(w_*.95*t); // w^2*x
     }
     
   }
