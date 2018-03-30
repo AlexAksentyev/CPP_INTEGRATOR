@@ -1,4 +1,5 @@
 #include <Core/particle.h>
+#include <Core/state.h>
 
 #include <vector>
 #include <fstream>
@@ -67,7 +68,7 @@ double Particle::beta(double relative_dK){
 VariableCol Particle::beta(VariableCol relative_dK){
   VariableCol I = VariableCol(relative_dK.size(), 1); //VariableCol::Ones(relative_dK.rows());
   VariableCol g = gamma(relative_dK);
-  return sqrt(g*g - I)/g;
+  return VariableCol::sqrt(g*g - I)/g;
 }
 
 double Particle::Pc(double relative_dK){
@@ -80,7 +81,7 @@ VariableCol Particle::Pc(VariableCol relative_dK){
   VariableCol I = VariableCol(relative_dK.size(), 1); //VariableCol::Ones(relative_dK.rows());
   VariableCol kin_nrg = kinetic_energy(relative_dK);
   VariableCol tot_nrg = mass0_*I + kin_nrg;
-  return sqrt(tot_nrg*tot_nrg - mass0_*mass0_*I);
+  return VariableCol::sqrt(tot_nrg*tot_nrg - mass0_*mass0_*I);
 }
 
 double Particle::revolution_freq(double lattice_length){

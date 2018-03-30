@@ -91,6 +91,7 @@ State::State(OldState old_state){
 
 State State::from_config(const std::string path){
   OldState old_state = utilities::read_matrix<OldState>(path);
+  std::cout << "old state made "<< std::endl;
   return State(old_state);
 }
 

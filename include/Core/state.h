@@ -114,13 +114,13 @@ namespace integrator {
     using value_type = double;
     using data_container = std::vector<value_type>;
     using size_type = data_container::size_type;
-    using OldState = Eigen::Matrix<double, Eigen::Dynamic, 2>; // *!
+    using OldState = Eigen::Matrix<double, Eigen::Dynamic, 12>; // *!
 
     data_container data_;
     size_type state_num_;
     
   public:
-    const static size_type VAR_NUM = 2; // *!
+    const static size_type VAR_NUM = 12; // *!
     
     using iterator = data_container::iterator;
     using const_iterator = data_container::const_iterator;
