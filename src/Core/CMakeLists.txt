@@ -4,7 +4,7 @@ project(${LIB_NAME} VERSION 1.0.1 DESCRIPTION "Integrator core")
 
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O2 -DNDEBUG -march=native -ftree-vectorize")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O2 -DNDEBUG -march=native -fno-tree-vectorize")
 
 if (APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Rpass-analysis=loop-vectorize")
