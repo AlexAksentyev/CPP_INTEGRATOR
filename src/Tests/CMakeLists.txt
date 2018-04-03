@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 project(TEST)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3 -Os -fopenmp")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O2 -DNDEBUG -march=native")
 
 set(PROJ_ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT_DIR}/bin/Tests")
@@ -27,7 +27,7 @@ endif(APPLE)
 link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
-set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/stiff_system.cpp)
+set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/odeint_eigen_test.cc)
 
 foreach(test_src_filename ${TEST_SOURCES})
   get_filename_component(test_name ${test_src_filename} NAME_WE)
