@@ -20,7 +20,7 @@ int main(int argc, char** argv){
   MQuad qf(p, 25e-2, 8.6);
   RightHandSide rhs(p, qf);
 
-  size_t num_state = 200;
+  size_t num_state = 2000;
 
   State x0(num_state, VAR_NUM), der(num_state, VAR_NUM);
   x0 = State::Zero(num_state, VAR_NUM);
