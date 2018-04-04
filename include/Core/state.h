@@ -15,6 +15,8 @@
 
 #include <boost/numeric/odeint.hpp> // required for is_resizeable
 
+#include <boost/tuple/tuple.hpp>
+
 
 namespace integrator {
 
@@ -114,9 +116,11 @@ namespace integrator {
     using value_type = double;
     using data_container = std::vector<value_type>;
     using size_type = data_container::size_type;
+    using SpinTriple = boost::tuple<value_type,value_type,value_type>;
 
     data_container data_;
     size_type state_num_;
+    std::vector<SpinTriple> spin_0_;
     
   public:
     const static size_type VAR_NUM = 12; // *!
@@ -180,6 +184,8 @@ namespace integrator {
       int v_id = VMAP.left.at(name);
       set(v_id, data);
     }
+
+    void correct_spin();
 
     const value_type& operator()(int state_id, int var_id) const {
       return *(data_.begin() + (var_id + state_id*VAR_NUM));

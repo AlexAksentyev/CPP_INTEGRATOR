@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
   // lattice.tilt(tilts);
   boost::tuple<double, double> x_shift (0, 1e-9);
   boost::tuple<double, double> y_shift (0, 1e-9);
-  lattice.shift(x_shift, y_shift);
+  //  lattice.shift(x_shift, y_shift);
 
   data_log::DataLog log;
   clock_t t;
@@ -261,10 +261,11 @@ int main(int argc, char** argv) {
   out_file.close();
 
   cout << "plotting ... \n";
-  log.plot("Sx", "s", 0, "points");
-  log.plot("Sy", "s", 0, "points");
-  log.plot("x", "s", 0, "points");
-  log.plot("y", "s", 0, "points");
+  log.plot("Sx", "Sz", 0, "linespoints");
+  log.plot("Sz", "s", 0, "points");
+  log.plot("Sy", "s", 0, "linespoints");
+  // log.plot("x", "s", 0, "linespoints");
+  // log.plot("y", "s", 0, "linespoints");
   
   return 0;
 }

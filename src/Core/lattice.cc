@@ -232,7 +232,6 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
       element->track_through(ini_state); // track through the current element
       // t=clock()-t;
       // cout << element->name() << " track_through " << (float)t/CLOCKS_PER_SEC << endl;
-
       // t=clock();
 
       go_on = !ini_state.has_NaN(); // if state has NaNs, stop tracking
@@ -246,6 +245,9 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       // t=clock()-t;
       // cout << "\t rest: " << (float)t/CLOCKS_PER_SEC << endl;
+
+      // do the spin corrections:  enforcement of the FS condition &
+      ini_state.correct_spin(); // condition |spin| = 1
     } // loop over elements
     percent = ((double)turn-1)/num_turns*100;
     if (percent/10 != old_percent/10){
