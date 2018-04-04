@@ -207,6 +207,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   int old_percent=-1, percent;
   time_t t;
   for (turn=1; turn<=num_turns; turn++){
+    current_s = 0;
     for(element=this->begin(), eid=1;
 	element!=this->end();
 	++element, eid++){
@@ -228,12 +229,12 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       // t=clock()-t;
       // cout << "\t rest: " << (float)t/CLOCKS_PER_SEC << endl;
-    }
+    } // loop over elements
     percent = ((double)turn-1)/num_turns*100;
     if (percent/10 != old_percent/10){
       cout << "Complete: "<< percent << "%" << endl;
       old_percent = percent;
     }
-  }
+  } // loop over turns
   return pair<size_t, size_t>(turn-1, eid-1);
 }
