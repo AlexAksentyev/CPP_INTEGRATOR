@@ -233,13 +233,20 @@ int main(int argc, char** argv) {
   cout << "BNL lattice element count: "<< lattice.element_count() << endl;
   cout << "BNL lattice length: "<< lattice.length() << endl;
 
+  vector<boost::tuple<char, double, double>> tilts;
+  boost::tuple<char, double, double> tilt1('s', .0057, 0);
+  tilts.push_back(tilt1);
+  lattice.tilt(tilts);
+  
   data_log::DataLog log;
   clock_t t;
   cout << "Starting tracking" << endl;
   t=clock();
   pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
   t = clock() - t;
-  printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+  float secs = ((float)t)/CLOCKS_PER_SEC;
+  printf ("It took me %d clicks (%f seconds).\n", t, secs);
+  printf("Or, %f secs/turn.\n", secs/num_turns);
 
   cout << "exited at:\n"
        << "\t turn: " << turn_eid.first << endl
@@ -253,6 +260,7 @@ int main(int argc, char** argv) {
 
   cout << "plotting ... \n";
   log.plot("Sx", "s", 0, "points");
+  log.plot("Sy", "s", 0, "points");
   
   return 0;
 }
