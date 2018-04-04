@@ -120,13 +120,13 @@ namespace integrator {
     
   public:
     const static size_type VAR_NUM = 12; // *!
-    using OldState = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>; // *!
+    using MatrixState = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>; // *!
     
     using iterator = data_container::iterator;
     using const_iterator = data_container::const_iterator;
 
     State(): state_num_(0) {}
-    State(OldState old_state);
+    State(MatrixState old_state);
     static State from_config(const std::string path);
     State(const State& other): state_num_(other.state_num_), data_(other.data_) {}
 

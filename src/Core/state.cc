@@ -76,7 +76,7 @@ VariableCol VariableCol::sqrt(VariableCol vec){
   return vec;
 }
 
-State::State(OldState old_state){
+State::State(MatrixState old_state){
   size_type col_num = old_state.cols();
   if (col_num != State::VAR_NUM){
     std::cout << "Incorrect column count in matrix!" << std::endl;
@@ -90,7 +90,7 @@ State::State(OldState old_state){
 }
 
 State State::from_config(const std::string path){
-  OldState old_state = utilities::read_matrix<OldState>(path);
+  MatrixState old_state = utilities::read_matrix<MatrixState>(path);
   std::cout << "old state made "<< std::endl;
   return State(old_state);
 }
