@@ -17,13 +17,13 @@ Element::Element(Particle& particle, double curve, double length, std::string na
   : rhs_(particle, *this),
     curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
-    tilt(){}
+    tilt_(){}
 
 Element::Element(const Element& to_copy)
   : rhs_(to_copy.rhs_, *this),
     curve_(to_copy.curve_), length_(to_copy.length_),
     name_(to_copy.name_),
-    tilt(to_copy.tilt),
+    tilt_(to_copy.tilt_),
     E_field_base_(to_copy.E_field_base_),
     B_field_base_(to_copy.B_field_base_),
     E_field_vectorized_(to_copy.E_field_vectorized_),
@@ -60,13 +60,13 @@ void Element::print_vectorized_fields(){
 }
 
 VectorizedField Element::EField(State state_matrix){
-  return tilt.transform*E_field_vectorized_;
+  return E_field_vectorized_;
 }
 VectorizedField Element::EField_prime_s(State state_matrix){
-  return tilt.transform*E_field_prime_s_vectorized_;
+  return E_field_prime_s_vectorized_;
 }
 VectorizedField Element::BField(State state_matrix){
-  return tilt.transform*B_field_vectorized_;
+  return B_field_vectorized_;
 }
 
 void Element::front_kick(State& state_matrix){
@@ -105,3 +105,29 @@ size_t Element::track_through(integrator::State& ini_states){
 
   return num_steps;
 }
+
+
+void TiltableElement::tilt(std::vector<std::pair<char, double>> axis_degangle,
+	  bool append){
+  tilt_(axis_degangle, append);
+
+  double By = B_field_base_[1];
+  double dBx = By*tilt_.tan_angle_s();
+  double v = ref_beta_*CLIGHT;
+
+  delta_E_field_ << dBx, 0, By*tilt_.tan_angle_x();
+  delta_E_field_ << 0, -v*dBx, 0;
+}
+
+VectorizedField TiltableElement::BField(State state){
+  return Element::BField(state) + delta_B_field_.replicate(1, state.count());
+}
+
+VectorizedField TiltableElement::Ey_comp(State state){
+  return delta_E_field_.replicate(1, state.count());
+}
+
+VectorizedField TiltableElement::EField(State state){
+  return Element::EField(state) + Ey_comp(state);
+}
+

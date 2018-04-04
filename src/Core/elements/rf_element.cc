@@ -23,14 +23,14 @@ VectorizedField ERF::EField(State state){
   for (int i=0; i<state.count(); i++)
     E_field_vectorized_(2, i) = ampl_*cos(wave_number_*state(i, 2) + phase_);
 
-  return tilt.transform*E_field_vectorized_;
+  return E_field_vectorized_;
 }
 
 VectorizedField ERF::EField_prime_s(State state){
   for (int i=0; i<state.count(); i++)
     E_field_prime_s_vectorized_(2, i) = -wave_number_*ampl_*sin(wave_number_*state(i, 2) + phase_);
 
-  return tilt.transform*E_field_prime_s_vectorized_;
+  return E_field_prime_s_vectorized_;
 }
 
 void ERF::front_kick(State& state){

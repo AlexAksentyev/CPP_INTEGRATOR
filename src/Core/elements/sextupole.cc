@@ -10,5 +10,5 @@ VectorizedField MSext::BField(State state){
     B_field_vectorized_(1, j) = .5*grad_*(x*x - y*y);
     B_field_vectorized_(2, j) = 0;
   }
-  return tilt.transform*B_field_vectorized_;
+  return B_field_vectorized_;
 }

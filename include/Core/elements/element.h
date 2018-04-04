@@ -63,12 +63,12 @@ namespace integrator {
       VectorizedField E_field_prime_s_vectorized_;
       VectorizedField B_field_vectorized_;
 
+      Tilt tilt_;
+
       Element(const Element& ); // make elements non-copyable
 
     public:
       Element* clone() const {return do_clone();}
-
-      Tilt tilt;
 
       void vectorize_fields(State state_matrix); // public for now, might move
 
@@ -79,7 +79,10 @@ namespace integrator {
       Element(Particle& particle, ElementPars epars)
 	: Element(particle, epars.curve, epars.length, epars.name) {}
 
-      // Element(const Element& ); // copy constructor
+      virtual void tilt(std::vector<std::pair<char, double>> axis_degangle,
+			bool append=false) {tilt_(axis_degangle, append);}
+
+      void clear_tilt(){tilt_.clear();}
 
       virtual bool is_RF() {return false;}
 
@@ -130,7 +133,35 @@ namespace integrator {
 	observer(ini_states, ini_states[2]);
 	return 0;
       }
-    };
+    }; // class Element
+
+    class TiltableElement : public Element {
+      Eigen::Vector3d delta_E_field_;
+      Eigen::Vector3d delta_B_field_;
+      double ref_beta_;
+
+    public:
+      TiltableElement(Particle& particle,
+	      double curve, double length,
+		      std::string name="TiltElement")
+	: Element(particle, curve, length, name),
+	  delta_E_field_(0,0,0), delta_B_field_(0,0,0),
+	  ref_beta_(particle.beta()) {}
+
+      TiltableElement(Particle& particle, ElementPars epars)
+	: Element(particle, epars.curve, epars.length, epars.name),
+	  delta_E_field_(0,0,0), delta_B_field_(0,0,0),
+	  ref_beta_(particle.beta()) {}
+
+      virtual void tilt(std::vector<std::pair<char, double>> axis_degangle,
+			bool append=false);
+
+      virtual VectorizedField BField(State);
+      virtual VectorizedField Ey_comp(State);
+      virtual VectorizedField EField(State);
+
+      
+    }; //class TiltableElement
   } // element namespace
 } //namespace integrator
 

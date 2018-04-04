@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.9)
 project(TEST)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-march=native -O2 -ftree-vectorize")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-march=native -O2")
 
-if (APPLE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Rpass-analysis=loop-vectorize")
-else(APPLE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopt-info-vec-optimized")
-endif(APPLE)
+# if (APPLE)
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Rpass-analysis=loop-vectorize")
+# else(APPLE)
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopt-info-vec-optimized")
+# endif(APPLE)
 
 set(PROJ_ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT_DIR}/bin/Tests")
@@ -35,7 +35,7 @@ link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
 set(TEST_SOURCES
-  ${CMAKE_SOURCE_DIR}/odeint_eigen_test.cc
+  ${CMAKE_SOURCE_DIR}/eigen_field.cc
   #${CMAKE_SOURCE_DIR}/small_test.cc
   # ${PROJ_ROOT_DIR}/src/Core/state.cc
   )

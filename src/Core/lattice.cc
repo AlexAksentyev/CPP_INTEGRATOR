@@ -184,7 +184,7 @@ void Lattice::clear_tilt(){
   for (Lattice::element_iterator element=this->begin();
        element!=this->end();
        ++element)
-    element->tilt.clear();
+    element->clear_tilt();
   state_ = 0;
 }
 

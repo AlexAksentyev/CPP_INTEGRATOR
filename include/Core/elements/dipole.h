@@ -19,7 +19,7 @@ namespace integrator {
     };
 
   
-    class MDipole : public Element {
+    class MDipole : public TiltableElement {
       virtual Element* do_clone() const {return new MDipole(*this);}
     public:
       MDipole(Particle& reference_particle,

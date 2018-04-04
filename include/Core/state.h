@@ -148,7 +148,9 @@ namespace integrator {
     size_type size() const {return data_.size();}
 
     bool has_NaN(){
-      State::iterator it = std::find_if(this->begin(), this->end(), [](double d) { return std::isnan(d); });
+      State::iterator it = std::find_if(this->begin(), this->end(),
+					[](double d) { return std::isnan(d); }
+					);
       return !(it == this->end());
     }
 

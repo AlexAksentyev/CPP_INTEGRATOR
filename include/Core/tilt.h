@@ -13,11 +13,20 @@ using TiltAngleVector = std::vector<std::pair<char, double>>;
   
     TiltAngleVector tilt_angle_;
     Eigen::Vector3d axis(char name);
+
+    // added for custom tilt
+    double rad_angle_x_, rad_angle_s_;
+    double tan_angle_x_, tan_angle_s_;
   
   public:
     Eigen::Affine3d transform;
 
-    Tilt() : transform(Eigen::Matrix3d::Identity(3, 3)){}
+    Tilt() : transform(Eigen::Matrix3d::Identity(3, 3)),
+	     rad_angle_x_(0), rad_angle_s_(0),
+	     tan_angle_x_(0), tan_angle_s_(0) {}
+
+    double tan_angle_x(){return tan_angle_x_;}
+    double tan_angle_s(){return tan_angle_s_;}
 
     void operator() (std::vector<std::pair<char, double>> axis_degangle,
 		     bool append=false);
