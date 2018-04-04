@@ -64,6 +64,7 @@ namespace integrator {
       VectorizedField B_field_vectorized_;
 
       Tilt tilt_;
+      Shift shift_;
 
       Element(const Element& ); // make elements non-copyable
 
@@ -82,7 +83,14 @@ namespace integrator {
       virtual void tilt(std::vector<std::pair<char, double>> axis_degangle,
 			bool append=false) {tilt_(axis_degangle, append);}
 
-      void clear_tilt(){tilt_.clear();}
+      virtual void shift(double x_shift=0, double y_shift=0, bool append=false){
+	if (append)
+	  shift_ += Shift(x_shift, y_shift);
+	else
+	  shift_ = Shift(x_shift, y_shift);
+      }
+
+      void clear(){tilt_.clear(); shift_.clear();}
 
       virtual bool is_RF() {return false;}
 

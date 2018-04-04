@@ -34,7 +34,31 @@ using TiltAngleVector = std::vector<std::pair<char, double>>;
     void print();
     void clear();
   
-  };
+  }; // class Tilt
+
+  class Shift {
+    double x_, y_;
+
+  public:
+    Shift(double x=0, double y=0) : x_(x), y_(y) {}
+
+    double x(){return x_;}
+    double y(){return y_;}
+    
+    Shift& operator+=(const Shift& rhs) {
+      x_ += rhs.x_;
+      y_ += rhs.y_;
+      return *this;
+    }
+
+    void clear();
+    
+  }; // class Shift
+
+  inline Shift operator+(Shift lhs, const Shift& rhs){
+    lhs += rhs;
+    return lhs;
+  }
 } // namespace integrator
 
 #endif // TILT_H

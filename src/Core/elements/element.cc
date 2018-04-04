@@ -17,13 +17,13 @@ Element::Element(Particle& particle, double curve, double length, std::string na
   : rhs_(particle, *this),
     curve_(curve), length_(length), name_(name),
     E_field_base_(0,0,0), B_field_base_(0,0,0),
-    tilt_(){}
+    tilt_(), shift_(){}
 
 Element::Element(const Element& to_copy)
   : rhs_(to_copy.rhs_, *this),
     curve_(to_copy.curve_), length_(to_copy.length_),
     name_(to_copy.name_),
-    tilt_(to_copy.tilt_),
+    tilt_(to_copy.tilt_), shift_(),
     E_field_base_(to_copy.E_field_base_),
     B_field_base_(to_copy.B_field_base_),
     E_field_vectorized_(to_copy.E_field_vectorized_),

@@ -94,7 +94,12 @@ namespace integrator{
   
     void tilt(std::vector<boost::tuple<char, double, double>> axis_mean_sigma,
 	      bool append=false);
-    void clear_tilt(); // reset the lattice to the original state
+    
+    void shift(boost::tuple<double, double> x=boost::tuple<double, double>(0,0),
+	        boost::tuple<double, double> y=boost::tuple<double, double>(0,0),
+	        bool append=false);
+
+    void clear(); // reset the lattice to the original state
 
     // data_log::DataLog passed here doesn't go to element::track_through,
     // and only logs the state after passing through the element

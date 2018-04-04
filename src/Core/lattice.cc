@@ -180,11 +180,28 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
   state_ += 1;
 }
 
-void Lattice::clear_tilt(){
+void Lattice::shift(boost::tuple<double, double> x, boost::tuple<double, double> y, bool append){
+  default_random_engine generator;
+  Gauss standard_gauss(0, 1);
+
+  double x_shift, y_shift;
+  for (Lattice::element_iterator element=this->begin();
+       element!=this->end();
+       ++element){ // for this element
+
+    x_shift = standard_gauss(generator)*x.get<1>() + x.get<0>(); // r*sigma + mean
+    y_shift = standard_gauss(generator)*y.get<1>() + y.get<0>();
+
+    element->shift(x_shift, y_shift, append);
+  }
+  state_ += 1;
+}
+
+void Lattice::clear(){
   for (Lattice::element_iterator element=this->begin();
        element!=this->end();
        ++element)
-    element->clear_tilt();
+    element->clear();
   state_ = 0;
 }
 

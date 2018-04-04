@@ -81,3 +81,7 @@ void Tilt::clear() {
   tilt_angle_.clear();
   transform.setIdentity();
 }
+
+void Shift::clear() {
+  x_ = 0; y_ = 0;
+}

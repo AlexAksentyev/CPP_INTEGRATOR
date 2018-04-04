@@ -232,10 +232,13 @@ int main(int argc, char** argv) {
   cout << "BNL lattice element count: "<< lattice.element_count() << endl;
   cout << "BNL lattice length: "<< lattice.length() << endl;
 
-  vector<boost::tuple<char, double, double>> tilts;
-  boost::tuple<char, double, double> tilt1('s', .0057, 0);
-  tilts.push_back(tilt1);
-  lattice.tilt(tilts);
+  // vector<boost::tuple<char, double, double>> tilts;
+  // boost::tuple<char, double, double> tilt1('s', .0057, 0);
+  // tilts.push_back(tilt1);
+  // lattice.tilt(tilts);
+  boost::tuple<double, double> x_shift (0, 1e-9);
+  boost::tuple<double, double> y_shift (0, 1e-9);
+  lattice.shift(x_shift, y_shift);
 
   data_log::DataLog log;
   clock_t t;
@@ -260,6 +263,8 @@ int main(int argc, char** argv) {
   cout << "plotting ... \n";
   log.plot("Sx", "s", 0, "points");
   log.plot("Sy", "s", 0, "points");
+  log.plot("x", "s", 0, "points");
+  log.plot("y", "s", 0, "points");
   
   return 0;
 }
