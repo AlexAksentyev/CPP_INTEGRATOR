@@ -14,7 +14,6 @@
 #include <iomanip>
 #include <iostream>
 
-//#include "Core/right_hand_side.h"
 #include <Core/state.h>
 
 namespace integrator {
@@ -50,7 +49,6 @@ namespace integrator {
     class DataLog{
       std::vector<integrator::State> system_state_;
       std::vector<double> system_position_;
-      // std::vector<std::string> element_name_;
       std::vector<MetaData> state_metadata_;
       int reference_pid_;
 
@@ -66,7 +64,7 @@ namespace integrator {
 
       size_t size(){return system_state_.size();}
   
-      void write_to_file(std::string name, std::string dir = "../data"); // binary is in bin, go out
+      // void write_to_file(std::string name, std::string dir = "../data"); // binary is in bin, go out
       friend std::ostream& operator<<(std::ostream& out_stream, const DataLog& data_log){
 	// TO FINISH
 	return out_stream;

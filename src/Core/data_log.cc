@@ -14,7 +14,6 @@
 #include "gnuplot-iostream.h"
 #include <boost/tuple/tuple.hpp>
 
-// #include "Core/right_hand_side.h"
 #include <Core/state.h>
 
 using namespace std;
