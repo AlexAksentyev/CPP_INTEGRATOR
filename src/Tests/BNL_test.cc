@@ -23,6 +23,14 @@ int main(int argc, char** argv) {
   double tilt_sig = atof(argv[2]);
   int num_turns = atoi(argv[3]);
 
+  vector<boost::tuple<char, double, double>> tilts;
+  boost::tuple<char, double, double> tilt1('s', tilt_mean, tilt_sig);
+  tilts.push_back(tilt1);
+  lattice.tilt(tilts);
+  // boost::tuple<double, double> x_shift (0, 1e-9);
+  // boost::tuple<double, double> y_shift (0, 1e-9);
+  //  lattice.shift(x_shift, y_shift);
+
   State state = State::from_config(config_dir + "/state.conf");
   data_log::DataLog log;
   pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
