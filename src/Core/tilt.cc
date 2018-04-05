@@ -1,6 +1,9 @@
 
+// TODO:
+//      * append functionality in operator()
 
-#include "Core/tilt.h"
+#include <Core/tilt.h>
+#include <math.h>
 
 
 using namespace Eigen;
@@ -18,13 +21,21 @@ Vector3d Tilt::axis(char name){
 }
 
 void Tilt::operator() (vector<pair<char, double>> axis_degangle,
-		       bool append){
+		       bool append){ // append functionality is not properly implemented yet (assume False)
 
   Affine3d result;
-  if(append)
+  if(append){
     result = transform;
-  else
+  }
+  else {
     result.setIdentity();
+    tilt_angle_.clear();
+    // for custom tilt
+    rad_angle_x_ = 0;
+    rad_angle_s_ = 0;
+    tan_angle_x_ = 0;
+    tan_angle_s_ = 0;
+  }
 
   Vector3d unit_axis;
   double radangle;
@@ -32,14 +43,23 @@ void Tilt::operator() (vector<pair<char, double>> axis_degangle,
 	it = axis_degangle.begin();
       it != axis_degangle.end();
       ++it){
-    unit_axis = axis((*it).first);
-    radangle = M_PI/180*(*it).second;
+    unit_axis = axis(it->first);
+    radangle = M_PI/180*it->second;
     Affine3d t(AngleAxisd(radangle, unit_axis));
     result = t*result;
+
+    // custom tilt
+    switch (toupper(it->first)){
+    case 'X' : rad_angle_x_ += radangle;
+    case 'S' : rad_angle_s_ += radangle;
+    }
+
+    tan_angle_x_ = std::tan(rad_angle_x_);
+    tan_angle_s_ = std::tan(rad_angle_s_);
   }
 
   transform = result;
-  tilt_angle_ = axis_degangle;
+  tilt_angle_.insert(tilt_angle_.end(), axis_degangle.begin(), axis_degangle.end());
 }
 
 void Tilt::print(){
@@ -60,4 +80,8 @@ void Tilt::print(){
 void Tilt::clear() {
   tilt_angle_.clear();
   transform.setIdentity();
+}
+
+void Shift::clear() {
+  x_ = 0; y_ = 0;
 }

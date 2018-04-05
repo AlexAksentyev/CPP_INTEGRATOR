@@ -3,7 +3,7 @@
 // TODO:
 //    * data output is performed only inside odeint,
 //      but in python code I output values after odeint + rear_kick
-//    * copy constructor
+//      (lattice takes care of that anyway, though)
 
 #ifndef ELEMENT_H
 #define ELEMENT_H
@@ -63,14 +63,15 @@ namespace integrator {
       VectorizedField E_field_prime_s_vectorized_;
       VectorizedField B_field_vectorized_;
 
+      Tilt tilt_;
+      Shift shift_;
+
       Element(const Element& ); // make elements non-copyable
 
     public:
       Element* clone() const {return do_clone();}
 
-      Tilt tilt;
-
-      void vectorize_fields(rhs::State state_matrix); // public for now, might move
+      void vectorize_fields(State state_matrix); // public for now, might move
 
       Element(Particle& particle,
 	      double curve, double length,
@@ -79,7 +80,17 @@ namespace integrator {
       Element(Particle& particle, ElementPars epars)
 	: Element(particle, epars.curve, epars.length, epars.name) {}
 
-      // Element(const Element& ); // copy constructor
+      virtual void tilt(std::vector<std::pair<char, double>> axis_degangle,
+			bool append=false) {tilt_(axis_degangle, append);}
+
+      virtual void shift(double x_shift=0, double y_shift=0, bool append=false){
+	if (append)
+	  shift_ += Shift(x_shift, y_shift);
+	else
+	  shift_ = Shift(x_shift, y_shift);
+      }
+
+      void clear(){tilt_.clear(); shift_.clear();}
 
       virtual bool is_RF() {return false;}
 
@@ -92,12 +103,12 @@ namespace integrator {
       void print_fields(); // for testing purposes
       void print_vectorized_fields(); // testing
 
-      virtual VectorizedField EField(rhs::State state_matrix);
-      virtual VectorizedField EField_prime_s(rhs::State state_matrix);
-      virtual VectorizedField BField(rhs::State state_matrix);
+      virtual VectorizedField EField(State state_matrix);
+      virtual VectorizedField EField_prime_s(State state_matrix);
+      virtual VectorizedField BField(State state_matrix);
 
-      virtual void front_kick(rhs::State& state_matrix);
-      virtual void rear_kick(rhs::State& state_matrix);
+      virtual void front_kick(State& state_matrix);
+      virtual void rear_kick(State& state_matrix);
 
       void print();
       friend std::ostream& operator<<(std::ostream& out_stream, const Element& element){
@@ -113,10 +124,10 @@ namespace integrator {
       }
 
       // tracking with intermediate values output
-      virtual size_t track_through(rhs::State& ini_states, data_log::DataLog& observer);
+      virtual size_t track_through(State& ini_states, data_log::DataLog& observer);
       // tracking w/o intermediate values output;
       // data logging is handled in the Lattice class' track_through
-      virtual size_t track_through(rhs::State& ini_states);
+      virtual size_t track_through(State& ini_states);
     };
 
     inline Element* new_clone(const Element& e) {return e.clone();}
@@ -126,11 +137,39 @@ namespace integrator {
       Observer(Particle& particle, std::string name="Observer")
 	: Element(particle, 0, 0, name){}
 
-      size_t track_through(rhs::State& ini_states, data_log::DataLog& observer) {
-	observer(ini_states, ini_states(0, 2));
+      size_t track_through(State& ini_states, data_log::DataLog& observer) {
+	observer(ini_states, ini_states[2]);
 	return 0;
       }
-    };
+    }; // class Element
+
+    class TiltableElement : public Element {
+      Eigen::Vector3d delta_E_field_;
+      Eigen::Vector3d delta_B_field_;
+      double ref_beta_;
+
+    public:
+      TiltableElement(Particle& particle,
+	      double curve, double length,
+		      std::string name="TiltElement")
+	: Element(particle, curve, length, name),
+	  delta_E_field_(0,0,0), delta_B_field_(0,0,0),
+	  ref_beta_(particle.beta()) {}
+
+      TiltableElement(Particle& particle, ElementPars epars)
+	: Element(particle, epars.curve, epars.length, epars.name),
+	  delta_E_field_(0,0,0), delta_B_field_(0,0,0),
+	  ref_beta_(particle.beta()) {}
+
+      virtual void tilt(std::vector<std::pair<char, double>> axis_degangle,
+			bool append=false);
+
+      virtual VectorizedField BField(State);
+      virtual VectorizedField Ey_comp(State);
+      virtual VectorizedField EField(State);
+
+      
+    }; //class TiltableElement
   } // element namespace
 } //namespace integrator
 

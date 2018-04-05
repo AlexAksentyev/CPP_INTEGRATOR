@@ -3,7 +3,7 @@
 
 #include "Core/lattice.h"
 #include <random>
-#include <math.h>
+// #include <math.h>
 #include <typeinfo>
 #include <time.h>
 
@@ -12,7 +12,7 @@ using Gauss = std::normal_distribution<double>;
 using namespace std;
 using namespace integrator;
 using namespace integrator::data_log;
-using namespace integrator::rhs;
+using namespace integrator;
 using namespace integrator::element;
 
 Lattice::Lattice(string name)
@@ -29,7 +29,7 @@ Lattice& Lattice::operator=(initializer_list<Element*> element_sequence){
 
 }
 
-Lattice& Lattice::operator+=(Lattice& other){ // TODO: I want const here
+Lattice& Lattice::operator+=(const Lattice& other){
   cout << "Inside operator+=" << endl;
   // checking for RF in other
   if (other.rf_metadata_.index != -1){
@@ -180,11 +180,28 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
   state_ += 1;
 }
 
-void Lattice::clear_tilt(){
+void Lattice::shift(boost::tuple<double, double> x, boost::tuple<double, double> y, bool append){
+  default_random_engine generator;
+  Gauss standard_gauss(0, 1);
+
+  double x_shift, y_shift;
+  for (Lattice::element_iterator element=this->begin();
+       element!=this->end();
+       ++element){ // for this element
+
+    x_shift = standard_gauss(generator)*x.get<1>() + x.get<0>(); // r*sigma + mean
+    y_shift = standard_gauss(generator)*y.get<1>() + y.get<0>();
+
+    element->shift(x_shift, y_shift, append);
+  }
+  state_ += 1;
+}
+
+void Lattice::clear(){
   for (Lattice::element_iterator element=this->begin();
        element!=this->end();
        ++element)
-    element->tilt.clear();
+    element->clear();
   state_ = 0;
 }
 
@@ -207,6 +224,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   int old_percent=-1, percent;
   time_t t;
   for (turn=1; turn<=num_turns; turn++){
+    current_s = 0;
     for(element=this->begin(), eid=1;
 	element!=this->end();
 	++element, eid++){
@@ -214,11 +232,9 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
       element->track_through(ini_state); // track through the current element
       // t=clock()-t;
       // cout << element->name() << " track_through " << (float)t/CLOCKS_PER_SEC << endl;
-
       // t=clock();
 
-      go_on = !std::isnan(ini_state.norm()); // if the norm is nan, state contains nans,
-      // therefore, stop tracking
+      go_on = !ini_state.has_NaN(); // if state has NaNs, stop tracking
 
       current_s += element->length(); // current position s of the beam along the optical axis
       metadata.overwrite(turn, element->name(), eid); // overwrite metadata for current turn, element
@@ -229,12 +245,16 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
 
       // t=clock()-t;
       // cout << "\t rest: " << (float)t/CLOCKS_PER_SEC << endl;
-    }
+
+      // do the spin corrections:  enforcement of the FS condition &
+      ini_state.correct_spin(); // condition |spin| = 1
+    } // loop over elements
+    
     percent = ((double)turn-1)/num_turns*100;
     if (percent/10 != old_percent/10){
       cout << "Complete: "<< percent << "%" << endl;
       old_percent = percent;
     }
-  }
+  } // loop over turns
   return pair<size_t, size_t>(turn-1, eid-1);
 }

@@ -14,11 +14,11 @@
 #include "gnuplot-iostream.h"
 #include <boost/tuple/tuple.hpp>
 
-#include "Core/right_hand_side.h"
+#include <Core/state.h>
 
 using namespace std;
 using namespace integrator::data_log;
-using namespace integrator::rhs;
+using namespace integrator;
 
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);
@@ -30,42 +30,6 @@ void DataLog::operator() (const State &state, double position, const MetaData& m
   system_state_.push_back(state);
   system_position_.push_back(position);
   state_metadata_.push_back(metadata);
-}
-
-void DataLog::write_to_file(string name, string dir){
-  int num_rows = system_position_.size();
-  int num_states = system_state_[0].rows();
-  
-  ofstream file_handle;
-  file_handle.open((dir+"/"+name+".dat").c_str());
-
-  file_handle << right << scientific << setprecision(VAL_PREC); // setting output format
-
-  // printing header 
-  file_handle << setw(COL_WIDTH) << "#turn" // # for gnuplot comment
-	      << setw(COL_WIDTH) << "name"
-	      << setw(COL_WIDTH) << "EID"
-	      << setw(COL_WIDTH) << "s_loc"
-	      << setw(COL_WIDTH) << "PID";
-  for (int j=0; j<VAR_NUM; j++) // variable names
-    file_handle << setw(COL_WIDTH) << VMAP.right.at(j);
-  file_handle << endl;
-
-  for (int state_i=0; state_i<num_rows; state_i++){ // current ensemble state
-    for(int pid=0; pid<num_states; pid++){ // particle pid
-      file_handle << setw(COL_WIDTH) << state_metadata_[state_i]
-		  << setw(COL_WIDTH) << system_position_[state_i]
-		  << setw(COL_WIDTH) << pid;
-
-      for (int var_j=0; var_j<VAR_NUM; var_j++) // state values
-	file_handle << setw(COL_WIDTH) << system_state_[state_i](pid, var_j);
-
-      file_handle << endl;
-    }
-    file_handle << "#\n";
-  }
-
-  file_handle.close();
 }
 
 void DataLog::plot(string var_y_name, string var_x_name, int pid, std::string line_type){

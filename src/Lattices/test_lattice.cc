@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <Core/right_hand_side.h>
-#include "Core/particle.h"
+#include <Core/particle.h>
 #include <Core/lattice.h>
 
 #include <Core/elements/drift_space.h>
@@ -19,8 +19,6 @@
 
 #include <iomanip>
 #include <time.h>
-
-#include "Utilities/read_matrix.h" // read State information from .conf file
 
 using namespace integrator;
 
@@ -46,7 +44,7 @@ int main(int argc, char** argv) {
   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
   string config_dir = root_dir+"/config";
   cout << "Reading state config" << endl;
-  rhs::State state = utilities::read_matrix<rhs::State>(config_dir + "/state.conf");
+  State state = State::from_config(config_dir + "/state.conf");
 
   // defining the particle
   cout << "Reading particle config" << endl;
@@ -78,18 +76,18 @@ int main(int argc, char** argv) {
   t = clock() - t;
   printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 
-  cout << "exited at:\n"
-       << "\t turn: " << turn_eid.first << endl
-       << "\t eid: " << turn_eid.second << endl;
+  // cout << "exited at:\n"
+  //      << "\t turn: " << turn_eid.first << endl
+  //      << "\t eid: " << turn_eid.second << endl;
 
-  cout << "Log #records: " << log.size() << endl;
-  ofstream out_file;
-  out_file.open(root_dir + "/data/test.dat");
-  out_file << scientific << setprecision(4) << log;
-  out_file.close();
+  // cout << "Log #records: " << log.size() << endl;
+  // ofstream out_file;
+  // out_file.open(root_dir + "/data/test.dat");
+  // out_file << scientific << setprecision(4) << log;
+  // out_file.close();
 
-  cout << "plotting ... \n";
-  log.plot("dK", "s", 1, "points");
+  // cout << "plotting ... \n";
+  // log.plot("dK", "s", 1, "points");
 
   
   return 0;

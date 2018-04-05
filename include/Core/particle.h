@@ -4,13 +4,13 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <string>
-
+#include <vector>
+#include <math.h>
+#include <Core/state.h>
 
 namespace integrator {
   const double CLIGHT = 2.99792458e8; // m/s
   const double EZERO = 1.602176462e-19; // Coulomb
-
-  using VariableCol = Eigen::ArrayXd;
 
   class Particle{
     double gamma_;
@@ -48,8 +48,6 @@ namespace integrator {
 
     static Particle from_config(const std::string & path);
   };  // class particle
-
-  // Particle read_particle_csv(const std::string & path);
 } // namespace integrator
 
-#endif
+#endif //PARTICLE_H

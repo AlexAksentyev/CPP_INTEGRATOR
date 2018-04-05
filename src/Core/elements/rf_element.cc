@@ -5,7 +5,7 @@
 #include <iomanip>
 
 using namespace integrator::data_log;
-using namespace integrator::rhs;
+using namespace integrator;
 using namespace integrator::element;
 
 ERF::ERF(Particle& reference_particle,
@@ -20,26 +20,26 @@ ERF::ERF(Particle& reference_particle,
     kick_voltage_(ampl_*length){}
 
 VectorizedField ERF::EField(State state){
-  for (int i=0; i<state.rows(); i++)
+  for (int i=0; i<state.count(); i++)
     E_field_vectorized_(2, i) = ampl_*cos(wave_number_*state(i, 2) + phase_);
 
-  return tilt.transform*E_field_vectorized_;
+  return E_field_vectorized_;
 }
 
 VectorizedField ERF::EField_prime_s(State state){
-  for (int i=0; i<state.rows(); i++)
+  for (int i=0; i<state.count(); i++)
     E_field_prime_s_vectorized_(2, i) = -wave_number_*ampl_*sin(wave_number_*state(i, 2) + phase_);
 
-  return tilt.transform*E_field_prime_s_vectorized_;
+  return E_field_prime_s_vectorized_;
 }
 
 void ERF::front_kick(State& state){
-  for (int i=0; i<state.rows(); i++)
+  for (int i=0; i<state.count(); i++)
     state(i, 8) -= kick_voltage_*1e-6/reference_particle_.kinetic_energy();
 }
 
 void ERF::rear_kick(State& state){
-  for (int i=0; i<state.rows(); i++)
+  for (int i=0; i<state.count(); i++)
     state(i, 8) += kick_voltage_*1e-6/reference_particle_.kinetic_energy();
 }
 
@@ -47,7 +47,7 @@ size_t ERF::track_through(State& ini_states, DataLog& observer){// implements ad
   //  this->vectorize_fields(ini_states); // handled by Lattice
   front_kick(ini_states);
   double angle, beta;
-  for(int i=0; i<ini_states.rows(); i++){
+  for(int i=0; i<ini_states.count(); i++){
     angle = w_freq_*ini_states(i, 3) + phase_;
     ini_states(i, 8) += kick_voltage_*cos(angle)*1e-6/reference_particle_.kinetic_energy(); // update dK
     ini_states(i, 2) += length(); // update s
@@ -63,7 +63,7 @@ size_t ERF::track_through(State& ini_states){// implements advance()
   //  this->vectorize_fields(ini_states); // handled by Lattice
   front_kick(ini_states);
   double angle, beta;
-  for(int i=0; i<ini_states.rows(); i++){
+  for(int i=0; i<ini_states.count(); i++){
     angle = w_freq_*ini_states(i, 3) + phase_;
     ini_states(i, 8) += kick_voltage_*cos(angle)*1e-6/reference_particle_.kinetic_energy(); // update dK
     ini_states(i, 2) += length(); // update s

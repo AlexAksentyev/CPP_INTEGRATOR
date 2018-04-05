@@ -4,8 +4,9 @@
 #include <stdlib.h>
 #include <vector>
 
+#include <Core/state.h>
 #include <Core/right_hand_side.h>
-#include "Core/particle.h"
+#include <Core/particle.h>
 #include <Core/lattice.h>
 
 #include <Core/elements/drift_space.h>
@@ -20,38 +21,21 @@
 #include <iomanip>
 #include <time.h>
 
-#include "Utilities/read_matrix.h" // read State information from .conf file
-
 using namespace integrator;
 
-void print_lattice_elements(Lattice& lattice){
-  using namespace std;
-  // print lattice element names
-  for (Lattice::element_iterator element=lattice.begin();
-       element!=lattice.end();
-       ++element)
-    cout << element->name() << endl;
-}
+// void print_lattice_elements(Lattice& lattice){
+//   using namespace std;
+//   // print lattice element names
+//   for (Lattice::element_iterator element=lattice.begin();
+//        element!=lattice.end();
+//        ++element)
+//     cout << element->name() << endl;
+// }
 
-int main(int argc, char** argv) {
+Lattice& make_lattice(Particle& p, std::string name) {
   using namespace std;
-  using namespace boost;
+  // using namespace boost;
   using namespace element;
-
-  // parse input arguments
-  size_t num_turns = atoi(argv[1]);
-  
-   // creating the state ensemble
-  string home_dir = getenv("HOME");
-  string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
-  string config_dir = root_dir+"/config";
-  cout << "Reading state config" << endl;
-  rhs::State state = utilities::read_matrix<rhs::State>(config_dir + "/state.conf");
-
-  // defining the particle
-  cout << "Reading particle config" << endl;
-  Particle p = Particle::from_config(config_dir + "/particle.conf");
-  p.print();
   
   // creating a lattice
   GradFieldPars qda1_pars(5e-2, -10.23, "QDA1"), qda2_pars(5e-2, -8.6, "QDA2");
@@ -93,7 +77,6 @@ int main(int argc, char** argv) {
 	   new Drift(p, bpm_len, "BPM"),
 	   new Drift(p, od_len, "OD1"),
 	   new MQuad(p, qfa2_pars)};
-  cout << "SS1H2 size: "<< SS1H2.element_count() << endl;
   Lattice ARC1("ARC1");
   ARC1 = {new MQuad(p, qfa1_pars),
   	  new Drift(p, od_len, "OD1"),
@@ -115,7 +98,6 @@ int main(int argc, char** argv) {
   	  new Drift(p, od_len, "OD1"),
   	  new MQuad(p, qfa1_pars)};
   ARC1 = ARC1.replicate(8);
-  cout << "ARC1 size: " << ARC1.element_count() << endl;
   Lattice SS2H1("SS2H1");
   SS2H1 = {new MQuad(p, qfa2_pars),
   	   new Drift(p, od_len, "OD1"),
@@ -146,7 +128,6 @@ int main(int argc, char** argv) {
   	   new Drift(p, bpm_len, "BPM"),
   	   new Drift(p, od_len, "OD1"),
   	   new MQuad(p, qda2_pars)};
-  cout << "SS2H1 size: "<< SS2H1.element_count() << endl;
   Lattice SS2H2("SS2H2");
   SS2H2 = {new MQuad(p, qda2_pars),
   	   new Drift(p, od_len, "OD1"),
@@ -177,10 +158,8 @@ int main(int argc, char** argv) {
   	   new Drift(p, bpm_len, "BPM"),
   	   new Drift(p, od_len, "OD1"),
   	   new MQuad(p, qfa2_pars)};
-  cout << "SS2H2 size: "<< SS2H2.element_count() << endl;
   Lattice ARC2(ARC1);
   ARC2.rename("ARC2");
-  cout << "ARC2 size: " << ARC2.element_count() << endl;
   Lattice SS1H1("SS1H1");
   SS1H1 = {new MQuad(p, qfa2_pars),
   	   new Drift(p, od_len, "OD1"),
@@ -212,33 +191,40 @@ int main(int argc, char** argv) {
   	   new Drift(p, od_len, "OD1"),
   	   new MQuad(p, qda2_pars)};
 
-  cout << "SS1H1 size: " << SS1H1.element_count() << endl;
-  Lattice lattice("BNL");
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  lattice << SS1H2;
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  lattice << ARC1;
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  lattice << SS2H1;
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  lattice << SS2H2;
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  lattice << ARC2;
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  lattice << SS1H1;
+  Lattice lattice(name);
+  lattice << SS1H2 << ARC1
+	  << SS2H1 << SS2H2
+	  << ARC2 << SS1H1;
   
   RFPars rf_pars;
   rf_pars.E_field=15e7;
   lattice.insert_RF(0, p, rf_pars);
-  cout << "BNL lattice element count: "<< lattice.element_count() << endl;
-  cout << "BNL lattice length: "<< lattice.length() << endl;
+  return lattice;
+}
 
-  vector<boost::tuple<char, double, double>> tilts;
-  boost::tuple<char, double, double> tilt1('s', .0057, 0);
-  tilts.push_back(tilt1);
-  lattice.tilt(tilts);
-  
+int main (int argc, char** argv){
+  using namespace std;
+  using namespace boost;
+
+  Lattice lattice = make_lattice(Particle::from_config(config_dir + "/particle.conf"), "BNL");
+
+  // vector<boost::tuple<char, double, double>> tilts;
+  // boost::tuple<char, double, double> tilt1('s', .0057, 0);
+  // tilts.push_back(tilt1);
+  // lattice.tilt(tilts);
+  boost::tuple<double, double> x_shift (0, 1e-9);
+  boost::tuple<double, double> y_shift (0, 1e-9);
+  //  lattice.shift(x_shift, y_shift);
+
+  // creating the state ensemble
+  string home_dir = getenv("HOME");
+  string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
+  string config_dir = root_dir+"/config";
+  cout << "Reading state config" << endl;
+  State state = State::from_config(config_dir + "/state.conf");
+
   data_log::DataLog log;
+  size_t num_turns = atoi(argv[1]);
   clock_t t;
   cout << "Starting tracking" << endl;
   t=clock();
@@ -259,8 +245,11 @@ int main(int argc, char** argv) {
   out_file.close();
 
   cout << "plotting ... \n";
-  log.plot("Sx", "s", 0, "points");
-  log.plot("Sy", "s", 0, "points");
+  log.plot("Sx", "Sz", 0, "linespoints");
+  log.plot("Sz", "s", 0, "points");
+  log.plot("Sy", "s", 0, "linespoints");
+  // log.plot("x", "s", 0, "linespoints");
+  // log.plot("y", "s", 0, "linespoints");
   
   return 0;
 }

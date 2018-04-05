@@ -14,7 +14,7 @@ namespace integrator {
 	: length(length), h_gap(h_gap), E_field(E_field), B_field(B_field), name(name) {}
     };
   
-    class WFStraight : public Element {
+    class WFStraight : public TiltableElement {
       virtual Element* do_clone() const {return new WFStraight(*this);}
       double ref_kinetic_energy_;
       double kick_voltage_;
@@ -30,11 +30,11 @@ namespace integrator {
 		     wfpars.E_field, wfpars.B_field,
 		     wfpars.name) {}
 
-      void front_kick(rhs::State& state);
-      void rear_kick(rhs::State& state);
+      void front_kick(State& state);
+      void rear_kick(State& state);
     };
 
-    class WFCylindrical : public Element {
+    class WFCylindrical : public TiltableElement {
       virtual Element* do_clone() const {return new WFCylindrical(*this);}
       static double curv_comp(Particle& reference_particle, double E_hor, double B_vert); // required for constructor
       double ref_kinetic_energy_;
@@ -52,9 +52,9 @@ namespace integrator {
 		     wfpars.E_field, wfpars.B_field,
 		     wfpars.name) {}
 
-      VectorizedField EField(rhs::State state);
-      void front_kick(rhs::State& state);
-      void rear_kick(rhs::State& state);
+      VectorizedField EField(State state);
+      void front_kick(State& state);
+      void rear_kick(State& state);
     };
   } // element namespace
 } //namespace integrator

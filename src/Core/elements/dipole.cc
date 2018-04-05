@@ -7,7 +7,7 @@ using namespace integrator::element;
 MDipole::MDipole(Particle& reference_particle,
 		 double length, double B_vert,
 		 std::string name)
-  : Element(reference_particle, B_vert*CLIGHT/reference_particle.Pc()*1e-6, length, name){
+  : TiltableElement(reference_particle, B_vert*CLIGHT/reference_particle.Pc()*1e-6, length, name){
 
   B_field_base_(1) = B_vert;
 }

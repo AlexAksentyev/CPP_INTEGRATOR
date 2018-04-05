@@ -4,7 +4,13 @@ project(${LIB_NAME} VERSION 1.0.1 DESCRIPTION "Integrator core")
 
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O2 -DNDEBUG -ftree-vectorize -fopt-info-vec-optimized -march=native")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O2 -DNDEBUG -march=native")
+
+# if (APPLE)
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Rpass-analysis=loop-vectorize")
+# else(APPLE)
+#   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopt-info-vec-optimized")
+# endif(APPLE)
 
 set(PROJ_ROOT_DIR "$ENV{HOME}/REPOS/CPP_INTEGRATOR")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJ_ROOT_DIR}/lib)
@@ -38,6 +44,7 @@ set(LIB_SOURCES
   "${SRC_DIR}/elements/wien_filter.cc"
   "${SRC_DIR}/elements/rf_element.cc"
   # other
+  "${SRC_DIR}/state.cc"
   "${SRC_DIR}/particle.cc" 
   "${SRC_DIR}/data_log.cc"
   "${SRC_DIR}/lattice.cc"
