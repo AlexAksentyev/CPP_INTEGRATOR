@@ -35,14 +35,12 @@ link_directories(${PROJ_ROOT_DIR}/lib)
 
 # adding executables
 set(TEST_SOURCES
-  ${CMAKE_SOURCE_DIR}/eigen_field.cc
-  #${CMAKE_SOURCE_DIR}/small_test.cc
-  # ${PROJ_ROOT_DIR}/src/Core/state.cc
+  ${CMAKE_SOURCE_DIR}/BNL_test.cc
   )
 
 foreach(test_src_filename ${TEST_SOURCES})
   get_filename_component(test_name ${test_src_filename} NAME_WE)
-  add_executable( ${test_name} ${test_src_filename})# ${PROJ_ROOT_DIR}/src/Core/state.cc)
+  add_executable( ${test_name} ${test_src_filename} ${PROJ_ROOT_DIR}/src/Lattices/BNL.cc)
   target_link_libraries( ${test_name} TrackerCore ${Boost_LIBRARIES})
   # set_target_properties(${test_name} PROPERTIES COMPILE_FLAGS "-save-temps") 
 endforeach(test_src_filename ${TEST_SOURCES})

@@ -1,13 +1,15 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <vector>
+// #include <fstream>
+// #include <iostream>
+// #include <string>
+// #include <stdlib.h>
+// #include <vector>
 
-#include <Core/state.h>
-#include <Core/right_hand_side.h>
-#include <Core/particle.h>
-#include <Core/lattice.h>
+// #include <Core/state.h>
+// #include <Core/right_hand_side.h>
+// #include <Core/particle.h>
+// #include <Core/lattice.h>
+
+#include <Lattices/BNL.h>
 
 #include <Core/elements/drift_space.h>
 #include <Core/elements/dipole.h>
@@ -16,15 +18,16 @@
 #include <Core/elements/wien_filter.h>
 #include <Core/elements/rf_element.h>
 
-#include <boost/tuple/tuple.hpp>
+// #include <boost/tuple/tuple.hpp>
 
-#include <iomanip>
-#include <time.h>
+// #include <iomanip>
+// #include <time.h>
 
-using namespace integrator;
+// using namespace lattice;
 
-Lattice make_lattice(Particle& p, std::string name) {
-  using namespace std;
+integrator::Lattice lattice::compose(integrator::Particle& p, std::string name) {
+  // using namespace std;
+  using namespace integrator;
   using namespace element;
   
   // creating a lattice
@@ -192,55 +195,55 @@ Lattice make_lattice(Particle& p, std::string name) {
   return lattice;
 }
 
-int main (int argc, char** argv){
-  using namespace std;
-  using namespace boost;
+// int main (int argc, char** argv){
+//   using namespace std;
+//   using namespace boost;
 
-  string home_dir = getenv("HOME");
-  string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
-  string config_dir = root_dir+"/config";
+//   string home_dir = getenv("HOME");
+//   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
+//   string config_dir = root_dir+"/config";
 
-  Particle p = Particle::from_config(config_dir + "/particle.conf");
-  Lattice lattice = make_lattice(p, "BNL");
+//   Particle p = Particle::from_config(config_dir + "/particle.conf");
+//   Lattice lattice = make_lattice(p, "BNL");
 
-  vector<boost::tuple<char, double, double>> tilts;
-  boost::tuple<char, double, double> tilt1('s', 3.6, 0);
-  tilts.push_back(tilt1);
-  lattice.tilt(tilts);
-  // boost::tuple<double, double> x_shift (0, 1e-9);
-  // boost::tuple<double, double> y_shift (0, 1e-9);
-  //  lattice.shift(x_shift, y_shift);
+//   vector<boost::tuple<char, double, double>> tilts;
+//   boost::tuple<char, double, double> tilt1('s', 3.6, 0);
+//   tilts.push_back(tilt1);
+//   lattice.tilt(tilts);
+//   // boost::tuple<double, double> x_shift (0, 1e-9);
+//   // boost::tuple<double, double> y_shift (0, 1e-9);
+//   //  lattice.shift(x_shift, y_shift);
 
-  // creating the state ensemble
-  State state = State::from_config(config_dir + "/state.conf");
+//   // creating the state ensemble
+//   State state = State::from_config(config_dir + "/state.conf");
 
-  data_log::DataLog log;
-  size_t num_turns = atoi(argv[1]);
-  clock_t t;
-  cout << "Starting tracking" << endl;
-  t=clock();
-  pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
-  t = clock() - t;
-  float secs = ((float)t)/CLOCKS_PER_SEC;
-  printf ("It took me %d clicks (%f seconds).\n", t, secs);
-  printf("Or, %f secs/turn.\n", secs/num_turns);
+//   data_log::DataLog log;
+//   size_t num_turns = atoi(argv[1]);
+//   clock_t t;
+//   cout << "Starting tracking" << endl;
+//   t=clock();
+//   pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
+//   t = clock() - t;
+//   float secs = ((float)t)/CLOCKS_PER_SEC;
+//   printf ("It took me %d clicks (%f seconds).\n", t, secs);
+//   printf("Or, %f secs/turn.\n", secs/num_turns);
 
-  cout << "exited at:\n"
-       << "\t turn: " << turn_eid.first << endl
-       << "\t eid: " << turn_eid.second << endl;
+//   cout << "exited at:\n"
+//        << "\t turn: " << turn_eid.first << endl
+//        << "\t eid: " << turn_eid.second << endl;
 
-  cout << "Log #records: " << log.size() << endl;
-  ofstream out_file;
-  out_file.open(root_dir + "/data/BNL.dat");
-  out_file << scientific << setprecision(4) << log;
-  out_file.close();
+//   cout << "Log #records: " << log.size() << endl;
+//   ofstream out_file;
+//   out_file.open(root_dir + "/data/BNL.dat");
+//   out_file << scientific << setprecision(4) << log;
+//   out_file.close();
 
-  cout << "plotting ... \n";
-  log.plot("Sz", "Sx", 0, "points");
-  log.plot("Sz", "Sy", 0, "points");
-  log.plot("Sy", "s", 0, "points");
-  // log.plot("x", "s", 0, "linespoints");
-  // log.plot("y", "s", 0, "linespoints");
+//   cout << "plotting ... \n";
+//   log.plot("Sz", "Sx", 0, "points");
+//   log.plot("Sz", "Sy", 0, "points");
+//   log.plot("Sy", "s", 0, "points");
+//   // log.plot("x", "s", 0, "linespoints");
+//   // log.plot("y", "s", 0, "linespoints");
   
-  return 0;
-}
+//   return 0;
+// }
