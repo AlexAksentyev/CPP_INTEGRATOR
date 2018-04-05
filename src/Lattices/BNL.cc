@@ -25,7 +25,6 @@ using namespace integrator;
 
 Lattice make_lattice(Particle& p, std::string name) {
   using namespace std;
-  // using namespace boost;
   using namespace element;
   
   // creating a lattice
