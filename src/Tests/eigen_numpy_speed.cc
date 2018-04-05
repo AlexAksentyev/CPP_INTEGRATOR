@@ -20,9 +20,9 @@ int main(int argc, char** argv){
 
   using namespace Eigen;
   using namespace std;
-  using namespace integrator;
-  using namespace integrator::element;
-  using namespace integrator::rhs;
+  using namespace core;
+  using namespace core::element;
+  using namespace core::rhs;
   using namespace boost::numeric::odeint;
   
   runge_kutta_dopri5<State, double,

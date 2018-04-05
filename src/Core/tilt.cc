@@ -8,7 +8,7 @@
 
 using namespace Eigen;
 using namespace std;
-using namespace integrator;
+using namespace integrator::core;
 
 Vector3d Tilt::axis(char name){
   switch(toupper(name)){

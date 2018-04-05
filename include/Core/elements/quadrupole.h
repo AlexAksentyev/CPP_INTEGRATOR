@@ -5,40 +5,42 @@
 #include "Core/elements/element.h"
 
 namespace integrator {
-  namespace element{
+  namespace core {
+    namespace element{
 
-    struct MQuadPars {
-      double length, grad;
-      std::string name;
+      struct MQuadPars {
+	double length, grad;
+	std::string name;
 
-      MQuadPars(double length, double grad, std::string name="MQuad")
-	: length(length), grad(grad), name(name) {}
-    };
+	MQuadPars(double length, double grad, std::string name="MQuad")
+	  : length(length), grad(grad), name(name) {}
+      };
   
-    class MQuad : public Element {
+      class MQuad : public Element {
 
-      double grad_;
-      virtual Element* do_clone() const {return new MQuad(*this);}
+	double grad_;
+	virtual Element* do_clone() const {return new MQuad(*this);}
   
-    public:
+      public:
   
-      MQuad(Particle& particle,
-	    double length, double gradient,
-	    std::string name="MQuad")
-	: Element(particle, 0, length, name), grad_(gradient) {}
-      MQuad(Particle& particle, MQuadPars mqpars)
-	: MQuad(particle, mqpars.length, mqpars.grad, mqpars.name) {}
-      MQuad(Particle& particle, GradFieldPars gfpars)
-	: MQuad(particle, gfpars.length, gfpars.grad, gfpars.name) {}
+	MQuad(Particle& particle,
+	      double length, double gradient,
+	      std::string name="MQuad")
+	  : Element(particle, 0, length, name), grad_(gradient) {}
+	MQuad(Particle& particle, MQuadPars mqpars)
+	  : MQuad(particle, mqpars.length, mqpars.grad, mqpars.name) {}
+	MQuad(Particle& particle, GradFieldPars gfpars)
+	  : MQuad(particle, gfpars.length, gfpars.grad, gfpars.name) {}
 
-      MQuad(const MQuad& to_copy)
-	: Element(to_copy), grad_(to_copy.grad_) {}
+	MQuad(const MQuad& to_copy)
+	  : Element(to_copy), grad_(to_copy.grad_) {}
 
-      VectorizedField BField(State state_matrix);
+	VectorizedField BField(State state_matrix);
 
-      void print();
-    };
-  } // element namespace
+	void print();
+      };
+    } // element namespace
+  } // namespace core
 } // namespace integrator
 
 #endif // QUADRUPOLE_H

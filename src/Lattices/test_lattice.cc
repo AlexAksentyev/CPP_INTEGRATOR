@@ -20,7 +20,7 @@
 #include <iomanip>
 #include <time.h>
 
-using namespace integrator;
+using namespace core;
 
 void print_lattice_elements(Lattice& lattice){
   using namespace std;

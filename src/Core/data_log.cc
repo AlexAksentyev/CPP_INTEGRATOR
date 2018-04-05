@@ -17,8 +17,9 @@
 #include <Core/state.h>
 
 using namespace std;
-using namespace integrator::data_log;
-using namespace integrator;
+using namespace integrator::core;
+using namespace data_log;
+
 
 void DataLog::operator() (const State &state, double position){
   system_state_.push_back(state);

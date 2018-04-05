@@ -14,9 +14,9 @@ const static size_t VAR_NUM = 3;
 
 using VecField = Eigen::Matrix<double, 3, Eigen::Dynamic>;
 //using State = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
-using State = integrator::State;
+using State = core::State;
 // using VarCol = Eigen::ArrayXd;
-using VarCol = integrator::VariableCol;
+using VarCol = core::VariableCol;
 
 class RHS {
   double w_;

@@ -6,7 +6,7 @@
 int main () {
 
   using namespace std;
-  using namespace integrator;
+  using namespace core;
 
   string home_dir = getenv("HOME");
   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";

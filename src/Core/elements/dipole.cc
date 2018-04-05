@@ -1,6 +1,6 @@
 #include "Core/elements/dipole.h"
 
-using namespace integrator::element;
+using namespace integrator::core::element;
 
 // horizontally bending magnetic dipole
 // B = (0, By, 0)

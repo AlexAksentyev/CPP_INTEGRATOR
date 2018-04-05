@@ -11,9 +11,9 @@
 
 int main(int argc, char** argv){
 
-  using namespace integrator;
-  using namespace integrator::rhs;
-  using namespace integrator::element;
+  using namespace core;
+  using namespace core::rhs;
+  using namespace core::element;
 
   using namespace Eigen;
   using namespace std;

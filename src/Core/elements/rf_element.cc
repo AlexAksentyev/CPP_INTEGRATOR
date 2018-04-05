@@ -4,9 +4,9 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace integrator::data_log;
-using namespace integrator;
-using namespace integrator::element;
+using namespace integrator::core;
+using namespace data_log;
+using namespace element;
 
 ERF::ERF(Particle& reference_particle,
 	 double length, double acc_length,

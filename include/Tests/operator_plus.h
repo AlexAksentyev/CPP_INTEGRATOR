@@ -23,7 +23,7 @@
 //   double y(){return y_;}
 // };
 
-using data_type=integrator::element::Element;
+using data_type=core::element::Element;
 
 class Lattice {
 

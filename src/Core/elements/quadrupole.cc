@@ -1,8 +1,8 @@
 #include "Core/elements/quadrupole.h"
 
 using namespace std;
-using namespace integrator;
-using namespace integrator::element;
+using namespace integrator::core;
+using namespace element;
 
 VectorizedField MQuad::BField(State state){
 

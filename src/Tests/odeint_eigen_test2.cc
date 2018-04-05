@@ -9,7 +9,7 @@
 // #include <Eigen/src/Core/util/Macros.h>
 
 #include <Core/state.h>
-using namespace integrator;
+using namespace core;
 
 // const static int VAR_NUM = 2;
 
@@ -54,7 +54,7 @@ using namespace integrator;
 // using State = std::vector<double>;
 // // Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
 // using VarCol = Eigen::ArrayXd;
-using VarCol = integrator::VariableCol;
+using VarCol = core::VariableCol;
 
 class RHS {
 

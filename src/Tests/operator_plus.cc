@@ -5,8 +5,8 @@
 #include "Core/particle.h"
 
 using namespace std;
-using namespace integrator;
-using namespace integrator::element;
+using namespace core;
+using namespace core::element;
 
 Lattice& Lattice::operator+=(Lattice& another){
   seq_.reserve(seq_.size() + another.size());

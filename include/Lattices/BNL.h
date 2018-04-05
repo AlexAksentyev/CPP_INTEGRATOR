@@ -5,11 +5,12 @@
 #include <Core/particle.h>
 #include <string>
 
-namespace lattice {
+namespace integrator{
+  namespace lattice {
 
-  integrator::Lattice compose(integrator::Particle& particle, std::string name);
+    integrator::core::Lattice compose(integrator::core::Particle& particle, std::string name);
   
-} // namespace lattice
-
+  } // namespace lattice
+} //namespace integrator
 
 #endif // BNL_H

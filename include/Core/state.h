@@ -14,11 +14,10 @@
 #include <Utilities/read_matrix.h>
 
 #include <boost/numeric/odeint.hpp> // required for is_resizeable
-
 #include <boost/tuple/tuple.hpp>
 
-
 namespace integrator {
+  namespace core {
 
   class VariableCol {
 
@@ -214,11 +213,12 @@ namespace integrator {
       return out_stream;
     }
   }; // class State
+} // namespace core
 } // namespace integrator
 
 namespace boost { namespace numeric { namespace odeint {
       template<>
-      struct is_resizeable<integrator::State>
+      struct is_resizeable<integrator::core::State>
       {
 	typedef boost::true_type type;
 	static const bool value = type::value;

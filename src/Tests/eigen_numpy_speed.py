@@ -1,7 +1,7 @@
 import os, sys
 home_dir = os.getenv("HOME")
-py_integrator_root = home_dir + "/REPOS/INTEGRATOR"
-sys.path.append(py_integrator_root) # add INTEGRATOR repo to pythonpath
+py_core_root = home_dir + "/REPOS/INTEGRATOR"
+sys.path.append(py_core_root) # add INTEGRATOR repo to pythonpath
 
 import numpy as np
 from time import clock

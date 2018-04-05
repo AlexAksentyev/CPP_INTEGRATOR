@@ -4,7 +4,7 @@
 
 #include <Core/state.h>
 
-using namespace integrator;
+using namespace integrator::core;
 
 VariableCol& VariableCol::operator+=(const VariableCol& rhs){
   size_t n_lhs = this->size();

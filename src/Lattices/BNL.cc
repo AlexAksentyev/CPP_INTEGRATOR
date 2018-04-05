@@ -23,11 +23,10 @@
 // #include <iomanip>
 // #include <time.h>
 
-// using namespace lattice;
-
-integrator::Lattice lattice::compose(integrator::Particle& p, std::string name) {
+integrator::core::Lattice integrator::lattice::compose(integrator::core::Particle& p, std::string name) {
   // using namespace std;
-  using namespace integrator;
+  using namespace integrator::core;
+  // using namespace integrator::lattice;
   using namespace element;
   
   // creating a lattice

@@ -22,7 +22,7 @@
 
 #include "Utilities/read_matrix.h" // read State information from .conf file
 
-using namespace integrator;
+using namespace core;
 
 void print_lattice_elements(Lattice& lattice){
   using namespace std;

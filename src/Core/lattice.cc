@@ -10,10 +10,9 @@
 using Gauss = std::normal_distribution<double>;
 
 using namespace std;
-using namespace integrator;
-using namespace integrator::data_log;
-using namespace integrator;
-using namespace integrator::element;
+using namespace integrator::core;
+using namespace data_log;
+using namespace element;
 
 Lattice::Lattice(string name)
   : name_(name), length_(0), rf_metadata_(), state_(0){}

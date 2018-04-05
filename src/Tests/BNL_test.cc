@@ -11,6 +11,7 @@ int main(int argc, char** argv) {
   using namespace std;
   using namespace boost;
   using namespace integrator;
+  using namespace integrator::core;
 
   string home_dir = getenv("HOME");
   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";

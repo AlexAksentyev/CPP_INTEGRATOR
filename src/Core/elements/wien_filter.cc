@@ -2,8 +2,8 @@
 #include "Core/particle.h"
 #include <math.h>
 
-using namespace integrator;
-using namespace integrator::element;
+using namespace integrator::core;
+using namespace element;
 
 WFStraight::WFStraight(Particle& reference_particle,
 		       double length, double h_gap,
