@@ -40,7 +40,8 @@ namespace integrator{
     // for outputting data into a separate file
   public:
     
-    using element_iterator = ElementPtrVector::iterator;
+    using iterator = ElementPtrVector::iterator;
+    using const_iterator = ElementPtrVector::const_iterator;
     using size_type = ElementPtrVector::size_type;
     using element_carry = ElementPtrVector::auto_type;
     
@@ -56,10 +57,10 @@ namespace integrator{
       lhs.length_ += rhs.length_;
       return lhs;
     }
-    Lattice& operator+=(const Lattice&); // TODO: I want const here
+    Lattice& operator+=(const Lattice&);
     element::Element& operator[](size_type n) {return sequence_[n];}
     friend std::ostream& operator<<(std::ostream& out_stream, Lattice& lattice){
-      for(Lattice::element_iterator element=lattice.begin();
+      for(Lattice::iterator element=lattice.begin();
 	  element!=lattice.end();
 	  ++element){
 	std::cout << (*element) << std::endl;
@@ -70,8 +71,10 @@ namespace integrator{
     void rename(std::string new_name){name_ = new_name;}
     Lattice& replicate(size_t repeat_factor); 
 
-    element_iterator begin(){return sequence_.begin();}
-    element_iterator end(){return sequence_.end();}
+    iterator begin(){return sequence_.begin();}
+    iterator end(){return sequence_.end();}
+    const_iterator begin() const {return sequence_.begin();}
+    const_iterator end() const {return sequence_.end();}
 
     double length() {return length_;}
     size_type element_count() const {return sequence_.size();}

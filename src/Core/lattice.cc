@@ -72,7 +72,7 @@ bool Lattice::insert_element(Element* new_element, int index){
   // 	 << "please use insert_RF()" << endl;
   //   return false;
   // }
-  Lattice::element_iterator position = this->begin()+index;
+  Lattice::iterator position = this->begin()+index;
   // sanity check for segfault
   if (position < this->begin() || position > this->end()){
     cout << "Trying to insert outside lattice bounds" << endl;
@@ -86,7 +86,7 @@ bool Lattice::insert_element(Element* new_element, int index){
 }
 
 bool Lattice::replace_element(Element* new_element, int index){
-  Lattice::element_iterator old_element = this->begin()+index;
+  Lattice::iterator old_element = this->begin()+index;
   // if(new_element->is_RF() && !old_element->is_RF()){
   //   cout << "Trying to replace an RF element; \n"
   // 	 << "please use insert_RF()" << endl;
@@ -99,7 +99,7 @@ bool Lattice::replace_element(Element* new_element, int index){
 }
 
 bool Lattice::remove_element(int index) {
-  Lattice::element_iterator position = this->begin()+index;
+  Lattice::iterator position = this->begin()+index;
   // sanity check for segfault
   if (position < this->begin() || position > this->end()){
     cout << "Position out of bounds; no element removed" << endl;
@@ -160,7 +160,7 @@ void Lattice::tilt(vector<boost::tuple<char, double, double>> axis_mean_sigma,
   char axis;
   double mean, sigma, tiltangle;
   vector<pair<char, double>> axis_degangle;
-  for (Lattice::element_iterator element=this->begin();
+  for (Lattice::iterator element=this->begin();
        element!=this->end();
        ++element){ // for this element
     for(Triplet::iterator tilt=axis_mean_sigma.begin();
@@ -185,7 +185,7 @@ void Lattice::shift(boost::tuple<double, double> x, boost::tuple<double, double>
   Gauss standard_gauss(0, 1);
 
   double x_shift, y_shift;
-  for (Lattice::element_iterator element=this->begin();
+  for (Lattice::iterator element=this->begin();
        element!=this->end();
        ++element){ // for this element
 
@@ -198,7 +198,7 @@ void Lattice::shift(boost::tuple<double, double> x, boost::tuple<double, double>
 }
 
 void Lattice::clear(){
-  for (Lattice::element_iterator element=this->begin();
+  for (Lattice::iterator element=this->begin();
        element!=this->end();
        ++element)
     element->clear();
@@ -207,7 +207,7 @@ void Lattice::clear(){
 
 pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size_t num_turns){
   // adapting the element vectorized_fields to ini_state size
-  for(Lattice::element_iterator element=this->begin();
+  for(Lattice::iterator element=this->begin();
       element!=this->end();
       ++element){
     element->vectorize_fields(ini_state);
@@ -220,7 +220,7 @@ pair<size_t, size_t> Lattice::track_through(State& ini_state, DataLog& log, size
   MetaData metadata(0, "START", 0); // initial state meta data
   log(ini_state, current_s, metadata); // logging initial state
   //tracking proper
-  Lattice::element_iterator element;
+  Lattice::iterator element;
   int old_percent=-1, percent;
   time_t t;
   for (turn=1; turn<=num_turns; turn++){
