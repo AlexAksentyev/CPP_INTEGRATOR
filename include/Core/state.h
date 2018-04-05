@@ -123,8 +123,8 @@ namespace integrator {
     std::vector<SpinTriple> spin_0_;
     
   public:
-    const static size_type VAR_NUM = 12; // *!
-    using MatrixState = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>; // *!
+    const static size_type VAR_NUM = 12;
+    using MatrixState = Eigen::Matrix<double, Eigen::Dynamic, VAR_NUM>;
     
     using iterator = data_container::iterator;
     using const_iterator = data_container::const_iterator;

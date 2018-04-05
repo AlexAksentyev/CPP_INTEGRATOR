@@ -107,7 +107,6 @@ State::State(MatrixState old_state){
 
 State State::from_config(const std::string path){
   MatrixState old_state = utilities::read_matrix<MatrixState>(path);
-  std::cout << "old state made "<< std::endl;
   return State(old_state);
 }
 
@@ -121,36 +120,65 @@ void State::correct_spin() {
   // original Sx, Sz
   double Sx0 = spin_0_[0].get<0>();
   double Sz0 = spin_0_[0].get<2>();
+  
   // current Sx, Sz
-  double Sx = (*this)(0, 9);
+  double Sx = (*this)(0, 9), Sx_upd;
   double Sy;
   double Sz = (*this)(0, 11);
   double Sx2 = Sx*Sx;
   double Sz2 = Sz*Sz;
 
+   /******************************************/
+  // std::cout << "initial ref spin: "
+  // 	    << "(" << Sx0 << ","
+  // 	    << Sz0 << ")" << std::endl;
+  //   std::cout << "current ref spin: "
+  // 	    << "(" << Sx << ","
+  // 	    << Sz << ")" << std::endl;
+  /*******************************************/
+
+  // computing the rotation matrix
   double norm_Sxz = std::sqrt(Sx2 + Sz2);
   // correct the norm in case (Sx, Sz) == (0,0)
   norm_Sxz = norm_Sxz != 0? norm_Sxz : 1;
   // sin, cos for the deviation angle
-  double sin_phi = (Sz0*Sx - Sx0*Sz)/norm_Sxz;
-  double cos_psy = (Sx0*Sx + Sz0*Sz)/norm_Sxz;
+  double sin_phi = (Sz0*Sx - Sx0*Sz)/norm_Sxz; //don't divide by norm Sxz0 here
+  double cos_psy = (Sx0*Sx + Sz0*Sz)/norm_Sxz; // because assume S0 in the x-z plane, and |S0| = 1
   // this is to rotate in the OPPOSITE direction
   int sgn = (cos_psy > 0) - (cos_psy < 0);
   sin_phi *= sgn;
   cos_psy *= sgn;
-  
-  for(int i=0; i<count(); i++){
-    Sx = (*this)(i, 9);
-    Sy = (*this)(i, 10);
-    Sz = (*this)(i, 11);
-    sgn = (Sz > 0) - (Sz < 0);
-    Sx2 = Sx*Sx;
-    Sz2 = 1 - Sx2 - Sy*Sy;
 
+  /***********************************/
+  // std::cout << "sin_phi: " << sin_phi << std::endl;
+  // std::cout << "cos_psy: " << cos_psy << std::endl;
+  /**********************************/
+
+  // rotation and orthogonalization
+  for(int i=0; i<count(); i++){
     // rotate the vector as is
-    (*this)(i,  9) = cos_psy*Sx - sin_phi*Sz;
-    (*this)(i, 11) = sin_phi*Sx + cos_psy*Sz;
-    // then the orthogonalization correction
+    // copy the current values of Sx, Sz
+    Sx = (*this)(i, 9);
+    Sz = (*this)(i, 11);
+    /****************************************/
+    // std::cout << "(" << Sx << "," << Sz << ")" << std::endl;
+    /***************************************/
+    // rotate
+    Sx_upd = cos_psy*Sx - sin_phi*Sz; // this split into 2 lines
+    (*this)(i,  9) = Sx_upd; // to avoid a operator() call
+    Sz = sin_phi*Sx + cos_psy*Sz; // we need to rotate Sz to check for its sign AFTER rotation
+
+    /**********************/
+    // std::cout << "(" << Sx_upd << "," << Sz << ")" << std::endl;
+    // std::cout << "delta Sx: " << Sx_upd - Sx << std::endl;
+    /**********************/
+
+    // then for the updated Sx, Sz values.
+    // the orthogonalization correction
+    sgn = (Sz > 0) - (Sz < 0); // sign of the already ROTATED Sz
+    Sy = (*this)(i, 10);
+    Sx2 = Sx_upd*Sx_upd;
+    Sz2 = 1 - Sx2 - Sy*Sy;
     (*this)(i, 11) = Sz2 > 0? std::sqrt(Sz2)*sgn : 0; 
   }
 }
