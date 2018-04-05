@@ -25,7 +25,7 @@ using namespace integrator;
 void print_lattice_elements(Lattice& lattice){
   using namespace std;
   // print lattice element names
-  for (Lattice::element_iterator element=lattice.begin();
+  for (Lattice::iterator element=lattice.begin();
        element!=lattice.end();
        ++element)
     cout << element->name() << endl;

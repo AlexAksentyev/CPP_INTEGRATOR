@@ -23,16 +23,7 @@
 
 using namespace integrator;
 
-// void print_lattice_elements(Lattice& lattice){
-//   using namespace std;
-//   // print lattice element names
-//   for (Lattice::element_iterator element=lattice.begin();
-//        element!=lattice.end();
-//        ++element)
-//     cout << element->name() << endl;
-// }
-
-Lattice& make_lattice(Particle& p, std::string name) {
+Lattice make_lattice(Particle& p, std::string name) {
   using namespace std;
   // using namespace boost;
   using namespace element;
@@ -206,21 +197,22 @@ int main (int argc, char** argv){
   using namespace std;
   using namespace boost;
 
-  Lattice lattice = make_lattice(Particle::from_config(config_dir + "/particle.conf"), "BNL");
-
-  // vector<boost::tuple<char, double, double>> tilts;
-  // boost::tuple<char, double, double> tilt1('s', .0057, 0);
-  // tilts.push_back(tilt1);
-  // lattice.tilt(tilts);
-  boost::tuple<double, double> x_shift (0, 1e-9);
-  boost::tuple<double, double> y_shift (0, 1e-9);
-  //  lattice.shift(x_shift, y_shift);
-
-  // creating the state ensemble
   string home_dir = getenv("HOME");
   string root_dir = home_dir + "/REPOS/CPP_INTEGRATOR";
   string config_dir = root_dir+"/config";
-  cout << "Reading state config" << endl;
+
+  Particle p = Particle::from_config(config_dir + "/particle.conf");
+  Lattice lattice = make_lattice(p, "BNL");
+
+  vector<boost::tuple<char, double, double>> tilts;
+  boost::tuple<char, double, double> tilt1('s', 3.6, 0);
+  tilts.push_back(tilt1);
+  lattice.tilt(tilts);
+  // boost::tuple<double, double> x_shift (0, 1e-9);
+  // boost::tuple<double, double> y_shift (0, 1e-9);
+  //  lattice.shift(x_shift, y_shift);
+
+  // creating the state ensemble
   State state = State::from_config(config_dir + "/state.conf");
 
   data_log::DataLog log;
@@ -245,9 +237,9 @@ int main (int argc, char** argv){
   out_file.close();
 
   cout << "plotting ... \n";
-  log.plot("Sx", "Sz", 0, "linespoints");
-  log.plot("Sz", "s", 0, "points");
-  log.plot("Sy", "s", 0, "linespoints");
+  log.plot("Sz", "Sx", 0, "points");
+  log.plot("Sz", "Sy", 0, "points");
+  log.plot("Sy", "s", 0, "points");
   // log.plot("x", "s", 0, "linespoints");
   // log.plot("y", "s", 0, "linespoints");
   
