@@ -68,7 +68,7 @@ namespace integrator {
 	out_stream << *it << std::endl;
       return out_stream;
     }
-  };
+  }; // class VariableCol
 
   inline VariableCol operator+(VariableCol lhs, const VariableCol& rhs){
     lhs += rhs;
@@ -129,6 +129,7 @@ namespace integrator {
     using const_iterator = data_container::const_iterator;
 
     State(): state_num_(0) {}
+    State(size_type n): state_num_(n/VAR_NUM), data_(n) {}
     State(MatrixState old_state);
     static State from_config(const std::string path);
     State(const State& other): state_num_(other.state_num_), data_(other.data_) {}
@@ -186,6 +187,8 @@ namespace integrator {
 
     void correct_spin();
 
+    double norm_delta(double Sx, double Sz); // for testing purposes
+
     const value_type& operator()(int state_id, int var_id) const {
       return *(data_.begin() + (var_id + state_id*VAR_NUM));
     }
@@ -196,6 +199,8 @@ namespace integrator {
     value_type& operator[](int index) {return data_[index];}
     const value_type& operator[](int index) const {return data_[index];}
 
+    State& operator/=(const State& rhs);
+    
     friend std::ostream& operator<<(std::ostream& out_stream, State& state_vec){
       size_t counter = 0, pid=0;
       out_stream << std::fixed << pid;
@@ -213,7 +218,13 @@ namespace integrator {
       return out_stream;
     }
   }; // class State
-} // namespace core
+    
+    inline State operator/(State lhs, const State& rhs){
+      lhs /= rhs;
+      return lhs;
+    }
+    State abs(State);
+  } // namespace core
 } // namespace integrator
 
 namespace boost { namespace numeric { namespace odeint {
@@ -225,5 +236,16 @@ namespace boost { namespace numeric { namespace odeint {
       };
 
     } } }
+
+class state_algebra : public boost::numeric::odeint::range_algebra {
+    public:
+        template< typename S >
+        static double norm_inf( const S &s ){
+	  using std::max_element;
+	  using integrator::core::abs;
+	  integrator::core::State abs_s = abs(s);
+	  return  *max( abs_s.begin(), abs_s.end() );
+        }
+}; // class state_algebra
 
 #endif //STATE_H

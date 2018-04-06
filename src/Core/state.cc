@@ -3,6 +3,7 @@
 
 
 #include <Core/state.h>
+#include <iomanip>
 
 using namespace integrator::core;
 
@@ -110,6 +111,30 @@ State State::from_config(const std::string path){
   return State(old_state);
 }
 
+State& State::operator/=(const State& rhs){
+  size_t n_lhs = this->size();
+  size_t n_rhs = rhs.size();
+  if (n_lhs != n_rhs)
+    std::cout << "LHS size != RHS size" << std::endl;
+
+  std::transform(this->begin(), this->end(), rhs.begin(), this->begin(), std::divides<value_type>());
+
+  return *this;
+}
+
+State integrator::core::abs(State state){
+  std::for_each(state.begin(), state.end(), static_cast<double (*)(double)>(std::abs));
+  return state;
+}
+
+double State::norm_delta(double Sx, double Sz){ // to be removed
+  double Sx0 = spin_0_[0].get<0>();
+  double Sz0 = spin_0_[0].get<2>();
+  double dSx = Sx - Sx0;
+  double dSz = Sz - Sz0;
+  return std::sqrt(dSx*dSx + dSz*dSz);
+}
+
 void State::correct_spin() {
   // rotation in the x-s plane is done in such a way, that
   // the spin of the reference particle is kept along its
@@ -129,10 +154,10 @@ void State::correct_spin() {
   double Sz2 = Sz*Sz;
 
    /******************************************/
-  // std::cout << "initial ref spin: "
+  // std::cout << std::scientific << "initial ref spin: "
   // 	    << "(" << Sx0 << ","
   // 	    << Sz0 << ")" << std::endl;
-  //   std::cout << "current ref spin: "
+  // std::cout << std::scientific << "current ref spin: "
   // 	    << "(" << Sx << ","
   // 	    << Sz << ")" << std::endl;
   /*******************************************/
@@ -150,8 +175,9 @@ void State::correct_spin() {
   cos_psy *= sgn;
 
   /***********************************/
-  // std::cout << "sin_phi: " << sin_phi << std::endl;
-  // std::cout << "cos_psy: " << cos_psy << std::endl;
+  // std::cout << std::scientific << "norm Sxz: " << norm_Sxz << std::endl;
+  // std::cout << std::scientific << "sin_phi: " << sin_phi << std::endl;
+  // std::cout << std::scientific << "cos_psy: " << cos_psy << std::endl;
   /**********************************/
 
   // rotation and orthogonalization
@@ -161,7 +187,8 @@ void State::correct_spin() {
     Sx = (*this)(i, 9);
     Sz = (*this)(i, 11);
     /****************************************/
-    // std::cout << "(" << Sx << "," << Sz << ")" << std::endl;
+    // std::cout << std::scientific << "spin before rotation: " << "(" << Sx << "," << Sz << ")" << std::endl;
+    // std::cout << std::scientific << "norm delta: " << norm_delta(Sx, Sz) << std::endl;
     /***************************************/
     // rotate
     Sx_upd = cos_psy*Sx - sin_phi*Sz; // this split into 2 lines
@@ -169,8 +196,8 @@ void State::correct_spin() {
     Sz = sin_phi*Sx + cos_psy*Sz; // we need to rotate Sz to check for its sign AFTER rotation
 
     /**********************/
-    // std::cout << "(" << Sx_upd << "," << Sz << ")" << std::endl;
-    // std::cout << "delta Sx: " << Sx_upd - Sx << std::endl;
+    // std::cout << std::scientific << "spin after rotation: " << "(" << Sx_upd << "," << Sz << ")" << std::endl;
+    // std::cout << std::scientific << "norm delta: " << norm_delta(Sx_upd, Sz) << std::endl;
     /**********************/
 
     // then for the updated Sx, Sz values.

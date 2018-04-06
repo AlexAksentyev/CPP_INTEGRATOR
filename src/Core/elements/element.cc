@@ -2,11 +2,12 @@
 //    * remove vectorization from track_through when implemented Lattice class
 
 
-#include "Core/elements/element.h"
+#include <Core/elements/element.h>
+#include <Core/state.h> // provides state_algebra
+
 #include <iostream>
 #include <iomanip>
 #include <boost/numeric/odeint.hpp>
-#include "boost/numeric/odeint/external/eigen/eigen.hpp"
 
 using namespace std;
 using namespace integrator::core;
@@ -86,7 +87,7 @@ void Element::print(){
 size_t Element::track_through(core::State& ini_states, DataLog& observer){
   this->vectorize_fields(ini_states); // remove this later when have class Lattice
   using namespace boost::numeric::odeint;
-  runge_kutta_dopri5<core::State> stepper;
+  runge_kutta_dopri5<State> stepper;
   double delta_s = length_/100;
   front_kick(ini_states);
   size_t num_steps = integrate_adaptive(stepper, this->rhs_, ini_states, 0., length_, delta_s, observer);
@@ -98,10 +99,10 @@ size_t Element::track_through(core::State& ini_states, DataLog& observer){
 size_t Element::track_through(core::State& ini_states){
   //  this->vectorize_fields(ini_states); // this is now done in Lattice::track_through
   using namespace boost::numeric::odeint;
-  runge_kutta_dopri5<core::State> stepper;
+  using stepper_type = runge_kutta_dopri5<State, double, State, double, state_algebra>;
   double delta_s = length_/100;
   front_kick(ini_states);
-  size_t num_steps=integrate_adaptive(stepper, this->rhs_, ini_states, 0., length_, delta_s);
+  size_t num_steps=integrate_adaptive(make_controlled(1e-10, 1e-6, stepper_type()), this->rhs_, ini_states, 0., length_, delta_s);
   rear_kick(ini_states);
 
   return num_steps;
