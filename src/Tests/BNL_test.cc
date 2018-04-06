@@ -1,6 +1,7 @@
 #include <Lattices/BNL.h>
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <stdlib.h>
 
@@ -38,10 +39,16 @@ int main(int argc, char** argv) {
 
   cout << "plotting ... \n";
   log.plot("Sz", "Sx", 0, "points");
-  log.plot("Sz", "Sy", 0, "points");
-  log.plot("Sy", "s", 0, "points");
+  log.plot("Sx", "s", 0, "points");
+  log.plot("Sz", "s", 0, "points");
   // log.plot("x", "s", 0, "linespoints");
   // log.plot("y", "s", 0, "linespoints");
+
+    ofstream out_file;
+    out_file.open(root_dir + "/data/BNL.dat");
+    out_file << scientific << setprecision(4) << log;
+    out_file.close();
+
   
   return 0;
 }
