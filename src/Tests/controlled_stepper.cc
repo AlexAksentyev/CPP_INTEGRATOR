@@ -25,7 +25,7 @@ public:
   static const size_type VAR_NUM = 4;
   
   state_type() {}
-  state_type(size_type n): data_(n) {};
+  state_type(size_type n, double val=0): data_(n, val) {};
   state_type(const state_type& other) : data_(other.data_) {}
   template<class InputIterator>
   state_type(InputIterator first, InputIterator last) : data_(first, last) {}
@@ -40,6 +40,17 @@ public:
 
   void resize(size_type n) {data_.resize(n);}
   void resize (size_type n, const double& val) {data_.resize(n, val);}
+
+  state_type var(int var_id) const {
+    state_type res(count(), 0);
+    for (size_type i=0; i<count(); i++)
+      res[i] = (*this)(i, var_id);
+
+    return res;
+  }
+
+  double& operator[](int index) {return data_[index];}
+  const double& operator[](int index) const {return data_[index];}
 
   const double& operator() (int state_id, int var_id) const {
     return *(begin() + (var_id + state_id * VAR_NUM));
@@ -128,6 +139,14 @@ public:
     }
 };
 
+std::ostream& operator<<(std::ostream& out, std::vector<double> data){
+  using namespace std;
+  out << scientific << right;
+  for(auto it=data.begin(); it!=data.end(); ++it)
+    out << setw(15) << *it;
+  
+  return out;
+}
 
 struct logger
 {
@@ -152,33 +171,32 @@ int main(int argc, char** argv) {
   harm_osc ho(.15);
 
   default_random_engine generator;
-  Gauss standard_gauss(0, .01);
+  double sd = atof(argv[1]);
+  Gauss standard_gauss(0, sd);
   
   vector<double> v;
-  int ens_n = atoi(argv[1]);
+  int ens_n = atoi(argv[2]);
   for(int i=0; i<state_type::VAR_NUM*ens_n; i++)
     v.push_back(standard_gauss(generator));
   state_type x(v.begin(), v.end());
   vector<state_type> x_vec;
   vector<double> t_vec;
 
-  double len = atof(argv[2]);
+  double len = atof(argv[3]);
 
+  state_type vx = x.var(0);
   cout << x << endl;
+  cout << vx << endl;
 
   size_t num_stp = integrate_adaptive( make_controlled< error_stepper_type >( 1.0e-10 , 1.0e-6 ) ,
 				       ho , x , 0.0 , len, 0.01, logger(x_vec, t_vec) );
 
-  // cout << num_stp << endl;
+  cout << num_stp << endl;
 
-  // ofstream data;
-  // data.open("/home/alexa/REPOS/CPP_INTEGRATOR/data/controlled_test.dat");
-  // for (int i=0; i<num_stp; i++)
-  //   data << t_vec[i] << "\t"
-  // 	 << x_vec[i][0] << "\t"
-  // 	 << x_vec[i][1] << ","
-  // 	 << x_vec[i][2] << ","
-  // 	 << x_vec[i][3] << endl;
+  ofstream data_file;
+  data_file.open("/home/alexa/REPOS/CPP_INTEGRATOR/data/controlled_test.dat");
+  for (int i=0; i<num_stp; i++)
+    data_file << x_vec[i] << endl;
 
   return 0;
 }
