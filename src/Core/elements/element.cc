@@ -99,8 +99,8 @@ size_t Element::track_through(core::State& ini_states, DataLog& observer){
 size_t Element::track_through(core::State& ini_states){
   //  this->vectorize_fields(ini_states); // this is now done in Lattice::track_through
   using namespace boost::numeric::odeint;
-  using stepper_type = runge_kutta_dopri5<State, double, State, double, state_algebra>;
-  double delta_s = 1e-2;
+  using stepper_type = runge_kutta_fehlberg78<State, double, State, double, state_algebra>;
+  double delta_s = length_;
   front_kick(ini_states);
   size_t num_steps=integrate_adaptive(stepper_type(), // make_controlled(1e-10, 1e-6, stepper_type()),
 				      this->rhs_, ini_states, 0., length_, delta_s);

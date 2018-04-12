@@ -179,15 +179,15 @@ namespace integrator {
       for(i=var_id, j=0; i<data_.size(); i += VAR_NUM, j++)
   	data_[i] = data[j];
     }
-
     void set(std::string name, VariableCol data){
       int v_id = VMAP.left.at(name);
       set(v_id, data);
     }
 
     void correct_spin();
-
     double norm_delta(double Sx, double Sz); // for testing purposes
+    static State sqrt(State vec);
+    static double norm(State vec);
 
     const value_type& operator()(int state_id, int var_id) const {
       return *(data_.begin() + (var_id + state_id*VAR_NUM));
@@ -200,6 +200,8 @@ namespace integrator {
     const value_type& operator[](int index) const {return data_[index];}
 
     State& operator/=(const State& rhs);
+    State& operator-=(const State& rhs);
+    State& operator*=(const State& rhs);
     
     friend std::ostream& operator<<(std::ostream& out_stream, State& state_vec){
       size_t counter = 0, pid=0;
@@ -218,9 +220,17 @@ namespace integrator {
       return out_stream;
     }
   }; // class State
-    
+
     inline State operator/(State lhs, const State& rhs){
       lhs /= rhs;
+      return lhs;
+    }
+    inline State operator-(State lhs, const State& rhs){
+      lhs -= rhs;
+      return lhs;
+    }
+    inline State operator*(State lhs, const State& rhs){
+      lhs -= rhs;
       return lhs;
     }
     State abs(State);

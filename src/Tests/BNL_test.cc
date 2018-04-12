@@ -7,6 +7,9 @@
 
 #include <boost/tuple/tuple.hpp>
 
+#include <time.h>
+#include <iomanip>
+
 int main(int argc, char** argv) {
 
   using namespace std;
@@ -35,7 +38,14 @@ int main(int argc, char** argv) {
 
   State state = State::from_config(config_dir + "/state.conf");
   data_log::DataLog log;
+  clock_t t;
+  t = clock();
   pair<size_t, size_t> turn_eid = lattice.track_through(state, log, num_turns);
+  double dt = (double)(clock()-t)/CLOCKS_PER_SEC;
+  cout << scientific << setprecision(3);
+  cout << "Tracking took: " << dt/num_turns << " per turn \n"
+       << " for " << state.count() << " states" << endl;
+  cout << "That is, " << dt/num_turns/lattice.element_count() << " secs per element" << endl;
 
   cout << "plotting ... \n";
   log.plot("Sz", "Sx", 0, "points");
