@@ -36,7 +36,8 @@ link_directories(${PROJ_ROOT_DIR}/lib)
 # adding executables
 set(TEST_SOURCES
 #  ${CMAKE_SOURCE_DIR}/controlled_stepper.cc
-  ${CMAKE_SOURCE_DIR}/kepler_orbit.cc
+${CMAKE_SOURCE_DIR}/kepler_orbit.cc
+  ${CMAKE_SOURCE_DIR}/state.cc
   )
 
 foreach(test_src_filename ${TEST_SOURCES})
